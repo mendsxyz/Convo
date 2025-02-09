@@ -4,50 +4,91 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>...</title>
+  <meta name="google-signin-client_id" content="754387532769-2vrnrga8vunfjk7hbislp168u36hjsr2.apps.googleusercontent.com">
+  <title>CT - All your reads in one place</title>
+  <!-- stylesheets -->
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="icons/icon.css" type="text/css" media="all" />
+  <link rel="stylesheet" href="css/main.css" type="text/css" media="all" />
+  <!-- scripts --->
+  <script src="https://apis.google.com/js/api:client.js"></script>
 </head>
 
 <body>
   <header>
     <div class="site-id">
       <img src="" alt="">
-      <span></span>
+      <span>CT</span>
     </div>
-    <div class="sidebar-toggle">
+
+    <nav class="bottombar lg-xl-xxl" hidden>
+      <div class="bottombar-link">
+        <span class="ms-rounded"></span>
+        <span>Settings</span>
+      </div>
+
+      <div class="bottombar-link">
+        <span class="ms-rounded"></span>
+        <span>Account</span>
+      </div>
+
+      <div class="bottombar-link">
+        <span class="ms-rounded"></span>
+        <span>Help</span>
+      </div>
+
+      <div class="bottombar-link">
+        <span class="ms-rounded"></span>
+        <span>Sign Out</span>
+      </div>
+    </nav>
+
+    <div class="bottombar-toggle">
       <span></span>
       <span></span>
     </div>
   </header>
 
-  <nav class="sidebar xs-sm-md">
-    <div class="sidebar-top-id">
-      <img src="" alt="">
-      <span></span>
+  <nav class="bottombar xs-sm-md">
+    <div id="gSignInWrapper">
+      <div id="signInBtn" class="customGPlusSignIn">
+        <img src="img/google-logo.png" class="icon">
+        <span class="buttonText">Sign-in with Google</span>
+      </div>
     </div>
-    <div class="sidebar-link">
-      <span class="ms-rounded"></span>
-      <span></span>
+
+    <div class="bottombar-link">
+      <span class="ms-rounded">settings</span>
+      <span>Settings</span>
     </div>
-    <div class="sidebar-link">
-      <span class="ms-rounded"></span>
-      <span></span>
+
+    <div class="bottombar-link">
+      <span class="ms-rounded">account_circle</span>
+      <span>Account</span>
+    </div>
+
+    <div class="bottombar-link">
+      <span class="ms-rounded">help</span>
+      <span>Help</span>
+    </div>
+
+    <div class="bottombar-link">
+      <span class="ms-rounded">logout</span>
+      <span>Sign Out</span>
     </div>
   </nav>
-  
-  <nav class="sidebar lg-xl-xxl">
-    <div class="sidebar-link">
-      <span class="ms-rounded"></span>
-      <span></span>
+
+  <main>
+    <div class="hero-image">
+      <div id="startReadingBtn">
+        <span class="ms-rounded">book_5</span>
+        <span>Start reading</span>
+      </div>
     </div>
-    <div class="sidebar-link">
-      <span class="ms-rounded"></span>
-      <span></span>
-    </div>
-    <div class="sidebar-link">
-      <span class="ms-rounded"></span>
-      <span></span>
-    </div>
-  </nav>
+  </main>
+
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="js/main.js"></script>
 </body>
 
 </html>
