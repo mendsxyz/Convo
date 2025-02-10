@@ -4,9 +4,9 @@ const main = document.querySelector("main");
 // Nav toggle
 const bottomBar = document.querySelector("nav.bottombar.xs-sm-md");
 const bb_toggle = document.querySelector(".bottombar-toggle");
-const sr_btn = document.querySelector("#startReadingBtn");
+const cta_btn = document.querySelector("#ctaBtn");
 
-if (!bottomBar || !bb_toggle || !sr_btn) {
+if (!bottomBar || !bb_toggle || !cta_btn) {
   console.error("One or more elements not found in the DOM.");
 } else {
   bb_toggle.addEventListener("click", () => {
@@ -16,7 +16,7 @@ if (!bottomBar || !bb_toggle || !sr_btn) {
     }
   });
 
-  sr_btn.addEventListener("click", () => {
+  cta_btn.addEventListener("click", () => {
     bottomBar.classList.toggle("active");
     main.addEventListener("click", (e) => {
       if (main.contains(e.target)) {
