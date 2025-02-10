@@ -4,13 +4,32 @@ const main = document.querySelector("main");
 // Nav toggle
 const bottomBar = document.querySelector("nav.bottombar.xs-sm-md");
 const bb_toggle = document.querySelector(".bottombar-toggle");
-bb_toggle.addEventListener("click", () => {
-  bottomBar.classList.toggle("active");
-  main.addEventListener("click", menuOpenOk_touchBg);
-});
-function menuOpenOk_touchBg(e) {
-  if (main.contains(e.target)) {
-    bottomBar.classList.remove("active");
+const sr_btn = document.querySelector("#startReadingBtn");
+
+if (!bottomBar || !bb_toggle || !sr_btn) {
+  console.error("One or more elements not found in the DOM.");
+} else {
+  bb_toggle.addEventListener("click", () => {
+    bottomBar.classList.toggle("active");
+    if (bottomBar.classList.contains("active")) {
+      main.addEventListener("click", menuOpenOk_touchBg);
+    }
+  });
+
+  sr_btn.addEventListener("click", () => {
+    bottomBar.classList.toggle("active");
+    main.addEventListener("click", (e) => {
+      if (main.contains(e.target)) {
+        main.addEventListener("click", menuOpenOk_touchBg);
+      }
+    });
+  });
+
+  function menuOpenOk_touchBg(e) {
+    if (main.contains(e.target)) {
+      bottomBar.classList.remove("active");
+      main.removeEventListener("click", menuOpenOk_touchBg);
+    }
   }
 }
 
