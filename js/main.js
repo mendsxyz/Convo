@@ -42,7 +42,7 @@ let startApp = function() {
     auth2 = gapi.auth2.init({
       client_id: "754387532769-2vrnrga8vunfjk7hbislp168u36hjsr2.apps.googleusercontent.com",
       cookiepolicy: "single_host_origin",
-      scope: "profile email https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/drive.readonly"
+      // additional scopes
     });
     attachSignin(document.querySelector("#signInBtn"));
   });
