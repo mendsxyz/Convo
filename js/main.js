@@ -42,6 +42,50 @@ let startApp = function() {
     auth2 = gapi.auth2.init({
       client_id: "754387532769-2vrnrga8vunfjk7hbislp168u36hjsr2.apps.googleusercontent.com",
       cookiepolicy: "single_host_origin",
+      scope: "profile email", // Add required scopes
+    });
+    attachSignin(document.querySelector("#signInBtn"));
+  });
+};
+
+function attachSignin(element) {
+  console.log("Attaching sign-in handler to:", element.id);
+  auth2.attachClickHandler(element, {},
+    function(googleUser) {
+      console.log("Sign-in successful:", googleUser);
+      document.querySelector(".name").innerText = "Signed in: " +
+      googleUser.getBasicProfile().getName();
+    },
+    function(error) {
+      console.error("Sign-in error:", error);
+      alert(JSON.stringify(error, undefined, 2));
+    }
+  );
+}
+
+const signOutBtn = document.querySelector("#signOutBtn");
+signOutBtn.addEventListener("click", signOut);
+
+function signOut() {
+  var auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    console.log('User signed out.');
+    document.querySelector(".name").innerText = "Signed out";
+  });
+}
+
+startApp();
+
+/*
+// Google sign in function
+let googleUser = {};
+
+let startApp = function() {
+  gapi.load("auth2", function() {
+    // Retrieve the singleton for the GoogleAuth library and set up the client.
+    auth2 = gapi.auth2.init({
+      client_id: "754387532769-2vrnrga8vunfjk7hbislp168u36hjsr2.apps.googleusercontent.com",
+      cookiepolicy: "single_host_origin",
       // additional scopes
     });
     attachSignin(document.querySelector("#signInBtn"));
@@ -82,3 +126,4 @@ function signOut() {
 }
 
 startApp();
+*/
