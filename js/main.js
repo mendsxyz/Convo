@@ -53,8 +53,7 @@ function attachSignin(element) {
   console.log("Attaching sign-in handler to:", element.id);
   auth2.attachClickHandler(element, {},
     function(googleUser) {
-      let profile = googleUser.getBasicProfile();
-      document.querySelector("#name").innerText = profile.getName();
+      document.querySelector("#name").innerText = googleUser.getBasicProfile().getName();
     },
     function(error) {
       console.error("Sign-in error:", error);
