@@ -55,9 +55,6 @@ function attachSignin(element) {
     function(googleUser) {
       let profile = googleUser.getBasicProfile();
       document.querySelector("#name").innerText = profile.getName();
-
-      /*const userAvatar = null;
-      const userEmail = null;*/
     },
     function(error) {
       console.error("Sign-in error:", error);
@@ -70,7 +67,7 @@ function signOut() {
   let auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(function() {
     console.log('User signed out.');
-    document.querySelector("#userName").innerText = "--";
+    document.querySelector("#name").innerText = "--";
   });
 }
 
