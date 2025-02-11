@@ -48,10 +48,6 @@ let startApp = function() {
   });
 };
 
-document.querySelector("#signInBtn").addEventListener("click", function() {
-  attachSignin(this);
-});
-
 function attachSignin(element) {
   console.log("Attaching sign-in handler to:", element.id);
   auth2.attachClickHandler(element, {},
@@ -62,7 +58,7 @@ function attachSignin(element) {
     },
     function(error) {
       console.error("Sign-in error:", error);
-      alert(JSON.stringify(error, undefined, 2));
+      console.log(JSON.stringify(error, undefined, 2));
     }
   );
 }
