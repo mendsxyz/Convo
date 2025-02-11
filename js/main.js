@@ -1,7 +1,9 @@
 // Main
+
 const main = document.querySelector("main");
 
 // Nav toggle
+
 const bottomBar = document.querySelector("nav.bottombar.xs-sm-md");
 const bb_toggle = document.querySelector(".bottombar-toggle");
 const cta_btn = document.querySelector("#ctaBtn");
@@ -32,6 +34,17 @@ if (!bottomBar || !bb_toggle || !cta_btn) {
     }
   }
 }
+
+// Auth
+
+const auth = {};
+
+const authForm = document.querySelector("#authForm");
+authForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  
+  alert("yes")
+});
 
 // UI actions
 

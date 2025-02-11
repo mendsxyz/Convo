@@ -10,9 +10,6 @@
   <link rel="shortcut icon" href="img/Convo-favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="icons/icon.css" type="text/css" media="all" />
   <link rel="stylesheet" href="css/main.css" type="text/css" media="all" />
-  <!-- scripts --->
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <script src="https://apis.google.com/js/api:client.js"></script>
 </head>
 
 <body>
@@ -22,39 +19,35 @@
       <span id="name" style="background: red">user</span>
     </div>
 
-    <nav class="top-nav lg-xl-xxl" hidden>
-      <div class="top-nav-link settingsBtn">
-        <span class="ms-rounded"></span>
-        <span>Settings</span>
-      </div>
-
-      <div class="top-nav-link accountBtn">
-        <span class="ms-rounded"></span>
-        <span>Account</span>
-      </div>
-
-      <div class="top-nav-link helpBtn">
-        <span class="ms-rounded"></span>
-        <span>Help</span>
-      </div>
-
-      <div class="top-nav-link signOutBtn">
-        <span class="ms-rounded"></span>
-        <span>Sign Out</span>
-      </div>
-    </nav>
-
     <div class="bottombar-toggle">
       <span class="ms-rounded">menu</span>
     </div>
   </header>
 
   <nav class="bottombar xs-sm-md">
-    <div id="gSignInWrapper">
-      <div id="signInBtn" class="customGPlusSignIn">
-        <img src="img/google-logo.png" class="icon">
-        <span class="buttonText">Sign-in with Google</span>
-      </div>
+    <div class="authForm-wrapper active">
+      <form id="authForm">
+        <label for="userEmail">
+          <span class="ms-rounded">account_circle</span>
+          <span>Sign In</span>
+        </label>
+        
+        <div class="data-info">
+          <span>You'll get signed up for a new account if you don't have one already</span>
+        </div>
+        
+        <div class="input">
+          <input type="email" name="userEmail" id="userEmail" placeholder="Email address">
+        </div>
+        
+        <div class="input">
+          <input type="password" name="userPassword" id="userPassword" placeholder="Password">
+        </div>
+        
+        <div class="input">
+          <input type="submit" value="Sign In">
+        </div>
+      </form>
     </div>
 
     <div class="bottombar-link settingsBtn">
@@ -79,7 +72,7 @@
   </nav>
 
   <main>
-    <div class="popup"></div>
+    <div class="modal"></div>
 
     <div class="hero">
       <div class="overlay">
@@ -95,47 +88,7 @@
       </div>
     </div>
   </main>
-
-  <script>
-    // Google sign in function
-    let googleUser = {};
-
-    let startApp = function() {
-      gapi.load("auth2", function() {
-        // Client setup
-        auth2 = gapi.auth2.init({
-          client_id: "754387532769-2vrnrga8vunfjk7hbislp168u36hjsr2.apps.googleusercontent.com",
-          cookiepolicy: "single_host_origin",
-          scope: "profile email"
-        });
-        attachSignin(document.querySelector("#signInBtn"));
-      });
-    };
-
-    function attachSignin(element) {
-      console.log("Attaching sign-in handler to:", element.id);
-      auth2.attachClickHandler(element, {},
-        function(googleUser) {
-          let profile = googleUser.getBasicProfile();
-          document.querySelector("#name").innerText = "Signed in: " + profile.getName();
-        },
-        function(error) {
-          console.error("Sign-in error:", error);
-          console.log(JSON.stringify(error, undefined, 2));
-        }
-      );
-    }
-
-    function signOut() {
-      let auth2 = gapi.auth2.getAuthInstance();
-      auth2.signOut().then(function() {
-        alert.log('User signed out.');
-        document.querySelector("#name").innerText = "--";
-      });
-    }
-    
-    startApp();
-  </script>
+  
   <script src="js/main.js"></script>
 </body>
 

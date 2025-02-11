@@ -96,6 +96,7 @@ nav.xs-sm-md {
   position: fixed;
   left: 0;
   bottom: -100%;
+  overflow-y: auto;
   transition: .6s ease;
   z-index: 9;
 }
@@ -115,23 +116,56 @@ html:has(nav.xs-sm-md.active) main::after {
   left: 0;
 }
 
-#signInBtn, #ctaBtn {
-  background: var(--light);
-  color: var(--dark);
+.authForm-wrapper {
   width: 100%;
-  padding: 10px 1em;
+}
+
+.authForm-wrapper form {
+  width: 100%;
+  display: grid;
+  grid-auto-flow: row;
+  gap: 10px;
+}
+
+.authForm-wrapper form label {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: left;
-  gap: 1em;
-  border: 1.8px solid #000000;
-  border-radius: 10px;
-  overflow: hidden;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-#signInBtn .icon {
-  width: 1.4em;
-  height: auto;
+.authForm-wrapper form .data-info {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: left;
+  gap: 10px
+}
+
+.authForm-wrapper form .data-info span {
+  font-size: 14px;
+}
+
+.authForm-wrapper form input {
+  font-size: 16px;
+  width: 100%;
+  padding: 15px 5%;
+  border: 1.8px solid var(--dark);
+  border-radius: 10px;
+}
+
+.authForm-wrapper form input[type="submit"] {
+  background: var(--primary);
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+html:has(.authForm-wrapper.active) .bottombar-link {
+  display: none;
 }
 
 .bottombar-link {
@@ -186,4 +220,18 @@ main {
   font-size: 18px;
   font-weight: 300;
   line-height: 1.4;
+}
+
+#ctaBtn {
+  background: var(--light);
+  color: var(--dark);
+  width: 100%;
+  padding: 10px 1em;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 1em;
+  border: 1.8px solid #000000;
+  border-radius: 10px;
+  overflow: hidden;
 }
