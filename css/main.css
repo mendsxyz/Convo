@@ -54,13 +54,14 @@ header {
 }
 
 header .site-id {
-  display: grid;
-  grid-auto-flow: column;
+  display: flex;
+  align-items: center;
+  justify-content: left;
   gap: 10px;
 }
 
 header .site-id img {
-  width: 1em;
+  width: 1.5em;
   height: auto;
 }
 
