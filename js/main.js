@@ -35,6 +35,7 @@ if (!bottomBar || !bb_toggle || !cta_btn) {
 
 // Google sign in function
 let googleUser = {};
+const signInBtn = document.querySelector("#signInBtn");
 
 let startApp = function() {
   gapi.load("auth2", function() {
@@ -44,7 +45,7 @@ let startApp = function() {
       cookiepolicy: "single_host_origin",
       scope: "profile email", // Add required scopes
     });
-    attachSignin(document.querySelector("#signInBtn"));
+    attachSignin(signInBtn);
   });
 };
 
@@ -55,6 +56,7 @@ function attachSignin(element) {
       console.log("Sign-in successful:", googleUser);
       document.querySelector("#name").innerText = "Signed in: " +
       googleUser.getBasicProfile().getName();
+      signInBtn.setAttribute("hidden", "true");
     },
     function(error) {
       console.error("Sign-in error:", error);
