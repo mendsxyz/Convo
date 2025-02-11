@@ -58,8 +58,8 @@ function attachSignin(element) {
       const userName = document.querySelector("#gUserName");
       userName.innerText = profile.getName();
 
-      const userAvatar = null;
-      const userEmail = null;
+      /*const userAvatar = null;
+      const userEmail = null;*/
     },
     function(error) {
       console.error("Sign-in error:", error);
