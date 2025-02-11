@@ -39,16 +39,19 @@ let auth2; // Declare auth2 globally
 
 // Wait for the DOM to load before initializing the app
 document.addEventListener("DOMContentLoaded", function() {
+  console.log("DOM fully loaded");
   const signInBtn = document.querySelector("#signInBtn");
   const signOutBtn = document.querySelector("#signOutBtn");
 
   if (signInBtn) {
+    console.log("Sign-in button found");
     startApp();
   } else {
     console.error("Sign-in button not found");
   }
 
   if (signOutBtn) {
+    console.log("Sign-out button found");
     signOutBtn.addEventListener("click", signOut);
   } else {
     console.error("Sign-out button not found");
@@ -56,18 +59,21 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 let startApp = function() {
+  console.log("Initializing Google Auth");
   gapi.load("auth2", function() {
-    // Initialize the Google Auth library
+    console.log("gapi.auth2 loaded");
     auth2 = gapi.auth2.init({
       client_id: "754387532769-2vrnrga8vunfjk7hbislp168u36hjsr2.apps.googleusercontent.com",
       cookiepolicy: "single_host_origin",
       scope: "profile email"
     }).then(function() {
-      console.log("Google Auth initialized");
+      console.log("Google Auth initialized successfully");
       attachSignin(document.querySelector("#signInBtn"));
     }, function(error) {
-      console.error("Google Auth initialization error:", error);
+      console.error("Google Auth initialization failed:", error);
     });
+  }, function(error) {
+    console.error("Failed to load gapi.auth2:", error);
   });
 };
 
