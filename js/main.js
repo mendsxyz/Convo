@@ -50,10 +50,10 @@ let startApp = function() {
 
 function onSignIn(googleUser) {
   let profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId());
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail());
+  alert('ID: ' + profile.getId()
+  + 'Name: ' + profile.getName()
+  + 'Image URL: ' + profile.getImageUrl()
+  + 'Email: ' + profile.getEmail());
 }
 
 function attachSignin(element) {
