@@ -44,7 +44,7 @@ const UI = {
 
 UI.settingsBtn.forEach(btn => {
   btn.addEventListener("click", () => {
-    alert("200")
+    alert("200");
   });
 });
 
