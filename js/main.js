@@ -57,7 +57,7 @@ function attachSignin(element) {
   auth2.attachClickHandler(element, {},
     function(googleUser) {
       console.log("Sign-in successful:", googleUser);
-      document.querySelector(".name").innerText = "Signed in: " +
+      document.querySelector("#name").innerText = "Signed in: " +
       googleUser.getBasicProfile().getName();
     },
     function(error) {
