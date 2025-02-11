@@ -54,9 +54,7 @@ function attachSignin(element) {
   auth2.attachClickHandler(element, {},
     function(googleUser) {
       let profile = googleUser.getBasicProfile();
-
-      const userName = document.querySelector("#userName");
-      userName.innerText = profile.getName();
+      document.querySelector("#name").innerText = profile.getName();
 
       /*const userAvatar = null;
       const userEmail = null;*/
