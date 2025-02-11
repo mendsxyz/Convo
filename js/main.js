@@ -49,18 +49,25 @@ let startApp = function() {
   });
 };
 
+startApp();
+
 function attachSignin(element) {
   console.log("Attaching sign-in handler to:", element.id);
   auth2.attachClickHandler(element, {},
     function(googleUser) {
-      alert("success")
-      //document.querySelector("#name").innerText = "Signed in " + googleUser.getBasicProfile().getName();
+      // WAS WORKING BUT NOT ANYMORE
+      document.querySelector("#name").innerText = "Signed in " + googleUser.getBasicProfile().getName();
     },
     function(error) {
       console.error("Sign-in error:", error);
       console.log(JSON.stringify(error, undefined, 2));
     }
   );
+}
+
+function onSignIn(googleUser) {
+  let profile = googleUser.getBasicProfile();
+  alert(profile.getName());
 }
 
 function signOut() {
@@ -89,5 +96,3 @@ UI.settingsBtn.forEach(btn => {
 UI.signOutBtn.forEach(btn => {
   btn.addEventListener("click", signOut);
 });
-
-startApp();
