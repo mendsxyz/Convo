@@ -39,11 +39,11 @@ const signInBtn = document.querySelector("#signInBtn");
 
 let startApp = function() {
   gapi.load("auth2", function() {
-    // Retrieve the singleton for the GoogleAuth library and set up the client.
+    // Client setup
     auth2 = gapi.auth2.init({
       client_id: "754387532769-2vrnrga8vunfjk7hbislp168u36hjsr2.apps.googleusercontent.com",
       cookiepolicy: "single_host_origin",
-      scope: "profile email", // Add required scopes
+      scope: "profile email"
     });
     attachSignin(signInBtn);
   });
@@ -53,10 +53,7 @@ function attachSignin(element) {
   console.log("Attaching sign-in handler to:", element.id);
   auth2.attachClickHandler(element, {},
     function(googleUser) {
-      console.log("Sign-in successful:", googleUser);
-      document.querySelector("#name").innerText = "Signed in: " +
-      googleUser.getBasicProfile().getName();
-      signInBtn.setAttribute("hidden", "true");
+      setActiveUser(googleUser);
     },
     function(error) {
       console.error("Sign-in error:", error);
@@ -65,67 +62,41 @@ function attachSignin(element) {
   );
 }
 
-const signOutBtn = document.querySelector("#signOutBtn");
-signOutBtn.addEventListener("click", signOut);
+function setActiveUser(googleUser) {
+  const profile = googleUser.getBasicProfile();
+  
+  const userName = document.querySelector("#gUserName");
+  userName.innerText = profile.getName();
+  
+  const userAvatar = null;
+  const userEmail = null;
+}
 
 function signOut() {
   let auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(function () {
     console.log('User signed out.');
-    document.querySelector(".name").innerText = "Signed out";
+    document.querySelector("#userName").innerText = "--";
   });
 }
 
 startApp();
 
-/*
-// Google sign in function
-let googleUser = {};
+// UI actions
 
-let startApp = function() {
-  gapi.load("auth2", function() {
-    // Retrieve the singleton for the GoogleAuth library and set up the client.
-    auth2 = gapi.auth2.init({
-      client_id: "754387532769-2vrnrga8vunfjk7hbislp168u36hjsr2.apps.googleusercontent.com",
-      cookiepolicy: "single_host_origin",
-      // additional scopes
-    });
-    attachSignin(document.querySelector("#signInBtn"));
-  });
-};
-
-function onSignIn(googleUser) {
-  let profile = googleUser.getBasicProfile();
-  alert('ID: ' + profile.getId()
-  + 'Name: ' + profile.getName()
-  + 'Image URL: ' + profile.getImageUrl()
-  + 'Email: ' + profile.getEmail());
+const UI = {
+  settingsBtn: document.querySelectorAll(".settingsBtn"),
+  accountBtn: document.querySelectorAll(".accountBtn"),
+  helpBtn: document.querySelectorAll(".helpBtn"),
+  signOutBtn: document.querySelectorAll(".signOutBtn")
 }
 
-function attachSignin(element) {
-  console.log(element.id);
-  auth2.attachClickHandler(element, {},
-  function(googleUser) {
-    document.querySelector(".name").innerText = "Signed in: " +
-    googleUser.getBasicProfile().getName();
-    
-    // Sign in successful
-    
-  },
-  function(error) {
-    alert(JSON.stringify(error, undefined, 2));
+UI.settingsBtn.forEach(btn => {
+  btn.addEventListener("click", () => {
+    alert("200")
   });
-}
+});
 
-const signOutBtn = document.querySelector("#signOutBtn");
-signOutBtn.addEventListener("click", signOut);
-
-function signOut() {
-  var auth2 = gapi.auth2.getAuthInstance();
-  auth2.signOut().then(function () {
-    console.log('User signed out.');
-  });
-}
-
-startApp();
-*/
+UI.signOutBtn.forEach(btn => {
+  btn.addEventListener("click", signOut);
+});
