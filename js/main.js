@@ -53,7 +53,13 @@ function attachSignin(element) {
   console.log("Attaching sign-in handler to:", element.id);
   auth2.attachClickHandler(element, {},
     function(googleUser) {
-      setActiveUser(googleUser);
+      const profile = googleUser.getBasicProfile();
+
+      const userName = document.querySelector("#gUserName");
+      userName.innerText = profile.getName();
+
+      const userAvatar = null;
+      const userEmail = null;
     },
     function(error) {
       console.error("Sign-in error:", error);
@@ -62,19 +68,9 @@ function attachSignin(element) {
   );
 }
 
-function setActiveUser(googleUser) {
-  const profile = googleUser.getBasicProfile();
-  
-  const userName = document.querySelector("#gUserName");
-  userName.innerText = profile.getName();
-  
-  const userAvatar = null;
-  const userEmail = null;
-}
-
 function signOut() {
   let auth2 = gapi.auth2.getAuthInstance();
-  auth2.signOut().then(function () {
+  auth2.signOut().then(function() {
     console.log('User signed out.');
     document.querySelector("#userName").innerText = "--";
   });
