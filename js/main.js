@@ -53,7 +53,7 @@ function attachSignin(element) {
   console.log("Attaching sign-in handler to:", element.id);
   auth2.attachClickHandler(element, {},
     function(googleUser) {
-      document.querySelector("#name").innerText = googleUser.getBasicProfile().getName();
+      document.querySelector("#name").innerText = "Signed in " + googleUser.getBasicProfile().getName();
     },
     function(error) {
       console.error("Sign-in error:", error);
@@ -69,8 +69,6 @@ function signOut() {
     document.querySelector("#name").innerText = "--";
   });
 }
-
-startApp();
 
 // UI actions
 
@@ -90,3 +88,5 @@ UI.settingsBtn.forEach(btn => {
 UI.signOutBtn.forEach(btn => {
   btn.addEventListener("click", signOut);
 });
+
+startApp();
