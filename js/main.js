@@ -35,6 +35,70 @@ if (!bottomBar || !bb_toggle || !cta_btn) {
 
 // Google sign in function
 let googleUser = {};
+let auth2; // Declare auth2 globally
+
+// Wait for the DOM to load before initializing the app
+document.addEventListener("DOMContentLoaded", function() {
+  const signInBtn = document.querySelector("#signInBtn");
+  const signOutBtn = document.querySelector("#signOutBtn");
+
+  if (signInBtn) {
+    startApp();
+  } else {
+    console.error("Sign-in button not found");
+  }
+
+  if (signOutBtn) {
+    signOutBtn.addEventListener("click", signOut);
+  } else {
+    console.error("Sign-out button not found");
+  }
+});
+
+let startApp = function() {
+  gapi.load("auth2", function() {
+    // Initialize the Google Auth library
+    auth2 = gapi.auth2.init({
+      client_id: "754387532769-2vrnrga8vunfjk7hbislp168u36hjsr2.apps.googleusercontent.com",
+      cookiepolicy: "single_host_origin",
+      scope: "profile email"
+    }).then(function() {
+      console.log("Google Auth initialized");
+      attachSignin(document.querySelector("#signInBtn"));
+    }, function(error) {
+      console.error("Google Auth initialization error:", error);
+    });
+  });
+};
+
+function attachSignin(element) {
+  console.log("Attaching sign-in handler to:", element.id);
+  auth2.attachClickHandler(element, {},
+    function(googleUser) {
+      console.log("Sign-in successful:", googleUser);
+      document.querySelector("#name").innerText = "Signed in: " + googleUser.getBasicProfile().getName();
+    },
+    function(error) {
+      console.error("Sign-in error:", error);
+      console.log(JSON.stringify(error, undefined, 2));
+      alert("Sign-in failed. Please check the console for details.");
+    }
+  );
+}
+
+function signOut() {
+  if (auth2) {
+    auth2.signOut().then(function() {
+      console.log('User signed out.');
+      document.querySelector("#name").innerText = "--";
+    });
+  } else {
+    console.error("Google Auth not initialized");
+  }
+}
+
+/* Google sign in function
+let googleUser = {};
 const signInBtn = document.querySelector("#signInBtn");
 
 let startApp = function() {
@@ -76,7 +140,7 @@ function signOut() {
     console.log('User signed out.');
     document.querySelector("#name").innerText = "--";
   });
-}
+}*/
 
 // UI actions
 
