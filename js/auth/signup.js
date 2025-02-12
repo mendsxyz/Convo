@@ -27,10 +27,10 @@ authSignupForm.addEventListener("submit", (e) => {
   const UI = {
     animation_wrapper: document.querySelector("#loader .animation-wrapper")
   }
-  const email = document.querySelector("#userEmail").value;
-  const password = document.querySelector("#userPassword").value;
+  const userEmail = document.querySelector("#userEmail").value;
+  const userPassword = document.querySelector("#userPassword").value;
 
-  createUserWithEmailAndPassword(auth, email, password)
+  createUserWithEmailAndPassword(auth, userEmail, userPassword)
     .then((userCredential) => {
       // Signed up
       const user = userCredential.user;
