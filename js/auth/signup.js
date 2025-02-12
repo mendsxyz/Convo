@@ -20,7 +20,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
-const states = JSON.parse(localStorage.getItem("states")) || [];
 
 const authSignupForm = document.querySelector("#authForm");
 authSignupForm.addEventListener("submit", (e) => {
@@ -55,23 +54,39 @@ authSignupForm.addEventListener("submit", (e) => {
         document.querySelector("#loader").classList.remove("active");
         clearTimeout(signupSuccess);
       }, 5000);
-      
+
       // Modal
-      
+
       // Show content, nav-links and other user info
       UI.nav.classList.remove("active");
       UI.hero.style.display = "none";
       UI.authform_wrapper.classList.remove("active");
-      
-      // Save state
-      const newState = {
-        email: userEmail.value,
-        state: "signedup"
+
+      // Retrieve existing states from localStorage or initialize an empty array
+      let states = JSON.parse(localStorage.getItem("states")) || [];
+
+      try {
+        // Ensure userEmail.value is defined
+        if (!userEmail || !userEmail.value) {
+          throw new Error("userEmail is not defined or has no value");
+        }
+
+        // Create new state object
+        const newState = {
+          email: userEmail.value,
+          state: "signedup"
+        };
+
+        // Add new state to the array
+        states.push(newState);
+
+        // Save updated states array back to localStorage
+        localStorage.setItem("states", JSON.stringify(states));
+
+        console.log("State saved successfully:", newState);
+      } catch (error) {
+        console.error("Error saving state:", error);
       }
-      
-      states.push(newState);
-      
-      localStorage.setItem("states", JSON.stringify(states));
     })
     .catch((error) => {
       const errorCode = error.code;
