@@ -20,6 +20,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+const states = JSON.parse(localStorage.getItem("states")) || [];
 
 const authSignupForm = document.querySelector("#authForm");
 authSignupForm.addEventListener("submit", (e) => {
@@ -62,7 +63,15 @@ authSignupForm.addEventListener("submit", (e) => {
       UI.hero.style.display = "none";
       UI.authform_wrapper.classList.remove("active");
       
-      window.location.href = "dashboard.html";
+      // Save state
+      const newState = {
+        email: userEmail.value,
+        state: "signedup"
+      }
+      
+      states.push(newState);
+      
+      localStorage.setItem("states", JSON.stringify(states));
     })
     .catch((error) => {
       const errorCode = error.code;
