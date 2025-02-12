@@ -68,14 +68,9 @@ authSignupForm.addEventListener("submit", (e) => {
       let states = JSON.parse(localStorage.getItem("states")) || [];
 
       try {
-        // Ensure userEmail.value is defined
-        if (!userEmail || !userEmail.value) {
-          throw new Error("userEmail is not defined or has no value");
-        }
-
         // Create new state object
         const newState = {
-          email: userEmail.value,
+          email: userEmail,
           state: "signedup"
         };
 
