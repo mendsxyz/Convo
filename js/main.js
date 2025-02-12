@@ -40,12 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
     loader: document.querySelector("#loader"),
     animation_wrapper: document.querySelector("#loader .animation-wrapper"),
     refresh: document.querySelector("#loader .refresh"),
-    hero: document.querySelector(".hero"),
-    auth_content: document.querySelector(".auth-content"),
+    header_state: document.querySelector("#userName"),
     authform_wrapper: document.querySelector(".authForm-wrapper"),
     nav_links: document.querySelectorAll(".nav-link"),
     nl_collapsibles: document.querySelectorAll(".nl-collapsible"),
-    current_username: document.querySelector(".current-userName")
+    current_username: document.querySelector(".current-userName"),
+    hero: document.querySelector(".hero"),
+    auth_content: document.querySelector(".auth-content")
   }
 
   // UI action load time and page refresh animation
@@ -88,9 +89,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const activeSession = states.find(state => state.state === "signedup");
   
   if (activeSession) {
-    document.querySelector("#userName").textContent = "Signed in";
-    
     // UI changes
+    UI.header_state.textContent = activeSession.email.replace("@gmail.com", "");
     UI.hero.style.display = "none";
     UI.auth_content.classList.add("active");
     UI.authform_wrapper.classList.remove("active");
