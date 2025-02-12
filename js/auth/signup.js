@@ -26,6 +26,8 @@ authSignupForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const UI = {
     animation_wrapper: document.querySelector("#loader .animation-wrapper"),
+    nav: document.querySelector("nav.auto"),
+    hero: document.querySelector(".hero"),
     authform_wrapper: document.querySelector(".authForm-wrapper")
   }
   const userEmail = document.querySelector("#userEmail").value;
