@@ -58,6 +58,8 @@ authSignupForm.addEventListener("submit", (e) => {
       // Modal
       
       // Show content, nav-links and other user info
+      UI.nav.classList.remove("active");
+      UI.hero.hidden = true;
       UI.authform_wrapper.classList.remove("active");
     })
     .catch((error) => {
