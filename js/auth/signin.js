@@ -24,6 +24,9 @@ const auth = getAuth();
 const authSignupForm = document.querySelector("#authForm");
 authSignupForm.addEventListener("submit", (e) => {
   e.preventDefault();
+  const UI = {
+    animation_wrapper: document.querySelector("#loader .animation-wrapper")
+  }
   const userEmail = document.querySelector("#userEmail").value;
   const userPassword = document.querySelector("#userPassword").value;
 
@@ -31,7 +34,28 @@ authSignupForm.addEventListener("submit", (e) => {
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
-      alert("Signed in");
+      
+      // Success loader
+      let signupSuccess;
+      document.querySelector("#loader").classList.add("active");
+
+      // Display message
+      let message = `
+        <span class="action-message title"></span>
+        <span class="action-message body-content" hidden></span>
+      `;
+      UI.animation_wrapper.insertAdjacentHTML("beforeend", message);
+
+      document.querySelector(".action-message.title").textContent = "Signed up successfully!";
+      document.querySelector(".action-message.body-content").textContent = "";
+
+      signupSuccess = setTimeout(() => {
+        document.querySelector("#loader").classList.remove("active");
+        clearTimeout(signupSuccess);
+      }, 5000);
+      
+      // Modal
+      // Show content, nav-links and other user info
     })
     .catch((error) => {
       const errorCode = error.code;

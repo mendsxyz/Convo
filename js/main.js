@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     UI.refresh.classList.add("popup");
     
     clearTimeout(refreshDone);
-  }, 4000);
+  }, 3000);
 
   // X and collapsible nav menu links
 

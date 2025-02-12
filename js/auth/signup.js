@@ -42,17 +42,17 @@ authSignupForm.addEventListener("submit", (e) => {
       // Display message
       let message = `
         <span class="action-message title"></span>
-        <span class="action-message body-content"></span>
+        <span class="action-message body-content" hidden></span>
       `;
       UI.animation_wrapper.insertAdjacentHTML("beforeend", message);
 
-      document.querySelector(".action-message.title").textContent = "Signed Up Successfully!";
+      document.querySelector(".action-message.title").textContent = "Signed up successfully!";
       document.querySelector(".action-message.body-content").textContent = "";
 
       signupSuccess = setTimeout(() => {
         document.querySelector("#loader").classList.remove("active");
         clearTimeout(signupSuccess);
-      }, 6000);
+      }, 5000);
       
       // Modal
       // Show content, nav-links and other user info
