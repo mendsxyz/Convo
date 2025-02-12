@@ -59,28 +59,22 @@ authSignupForm.addEventListener("submit", (e) => {
 
       // Modal
 
-      // Show content, nav-links and other user info
+      // UI changes
       UI.nav.classList.remove("active");
       UI.hero.style.display = "none";
       UI.authform_wrapper.classList.remove("active");
 
-      // Retrieve existing states from localStorage or initialize an empty array
       let states = JSON.parse(localStorage.getItem("states")) || [];
 
       try {
-        // Create new state object
         const newState = {
           email: userEmail,
           state: "signedup"
         };
 
-        // Add new state to the array
         states.push(newState);
 
-        // Save updated states array back to localStorage
         localStorage.setItem("states", JSON.stringify(states));
-
-        console.log("State saved successfully:", newState);
       } catch (error) {
         console.error("Error saving state:", error);
       }

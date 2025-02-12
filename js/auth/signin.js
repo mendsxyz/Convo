@@ -59,7 +59,7 @@ authSignupForm.addEventListener("submit", (e) => {
       
       // Modal
       
-      // Show content, nav-links and other user info
+      // UI changes
       UI.nav.classList.remove("active");
       UI.hero.style.display = "none";
       UI.authform_wrapper.classList.remove("active");

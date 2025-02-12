@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     refresh: document.querySelector("#loader .refresh"),
     hero: document.querySelector(".hero"),
     auth_content: document.querySelector(".auth-content"),
+    authform_wrapper: document.querySelector(".authForm-wrapper"),
     nav_links: document.querySelectorAll(".nav-link"),
     nl_collapsibles: document.querySelectorAll(".nl-collapsible")
   }
@@ -91,5 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // UI changes
     UI.hero.style.display = "none";
     UI.auth_content.style.display = "block";
+    UI.authform_wrapper.classList.remove("active");
   }
 });
