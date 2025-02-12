@@ -86,6 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const activeSession = states.find(state => state.state === "signedup");
   
   if (activeSession) {
-    alert("200")
+    document.querySelector("#userName").textContent = "Signed in";
   }
 });
