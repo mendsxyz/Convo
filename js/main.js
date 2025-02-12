@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // UI actions
 
   const UI = {
+    loader: document.querySelector("#loader"),
     animation_wrapper: document.querySelector("#loader .animation-wrapper"),
     refresh: document.querySelector("#loader .refresh"),
     nav_links: document.querySelectorAll(".nav-link"),
@@ -44,21 +45,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // UI action load time and page refresh animation
-
+  
+  // Page load or reload
+  
+  window.onload = () => {
+    let loadEnd;
+    UI.loader.classList.add("active");
+    loadEnd = setTimeout(() => {
+      UI.loader.classList.remove("active");
+      clearTimeout(loadEnd);
+    }, 6000);
+  }
+  
+  // When refresh icon stops rotating
+  
   let refreshDone;
   refreshDone = setTimeout(() => {
     UI.refresh.textContent = "check_circle";
     UI.refresh.classList.remove("rotate");
     UI.refresh.classList.add("popup");
-    
-    // Display message
-    
-    let message = `
-      <span class="action-message title">action_message_title</span>
-      <span class="action-message body-content">action_message_body_content</span>
-    `;
-    
-    UI.animation_wrapper.insertAdjacentHTML("beforeend", message);
     
     clearTimeout(refreshDone);
   }, 4000);

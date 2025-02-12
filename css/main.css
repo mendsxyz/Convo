@@ -218,6 +218,14 @@ main {
   position: fixed;
   top: 0;
   left: 0;
+  opacity: 0;
+  visibility: visible;
+  z-index: -1;
+}
+
+#loader.active {
+  opacity: 1;
+  visibility: visible;
   z-index: 10;
 }
 

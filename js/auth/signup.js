@@ -21,6 +21,31 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
+function displayLoader() {
+  const UI = {
+    animation_wrapper: document.querySelector("#loader .animation-wrapper")
+  }
+
+  // Loader
+  let signupSuccess;
+  document.querySelector("#loader").classList.add("active");
+
+  // Display message
+  let message = `
+    <span class="action-message title"></span>
+    <span class="action-message body-content"></span>
+  `;
+  UI.animation_wrapper.insertAdjacentHTML("beforeend", message);
+
+  document.querySelector(".action-message.title").textContent = "Signed Up Successfully!";
+  document.querySelector(".action-message.body-content").textContent = "";
+
+  signupSuccess = setTimeout(() => {
+    document.querySelector("#loader").classList.remove("active");
+    clearTimeout(signupSuccess);
+  }, 6000);
+}
+
 const authSignupForm = document.querySelector("#authForm");
 authSignupForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -30,27 +55,14 @@ authSignupForm.addEventListener("submit", (e) => {
   createUserWithEmailAndPassword(auth, userEmail, userPassword)
     .then((userCredential) => {
       // Signed up
-      
       const user = userCredential.user;
-      
-      // Loader
-      
-      let signupSuccess;
-      document.querySelector("#loader").classList.add("active");
-      document.querySelector(".action-message.title").textContent = "Signed Up Successfully!";
-      document.querySelector(".action-message.body-content").textContent = "";
-      
-      signupSuccess = setTimeout(() => {
-        document.querySelector("#loader").classList.remove("active");
-        clearTimeout(signupSuccess);
-      }, 6000);
+      displayLoader();
       
       // Modal
-      
       const modal = document.querySelector("#modal");
-      
+
       // Show content, nav-links and other user info
-      
+
     })
     .catch((error) => {
       const errorCode = error.code;
