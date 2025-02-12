@@ -267,7 +267,7 @@ main {
 
 @keyframes popup {
   to {
-    color: var(--success);
+    color: var(--dark);
     font-size: 50px;
   }
 }
