@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   if (activeSession) {
     // UI changes
-    UI.header_auth_state.textContent = activeSession.email.replace("\@.*/", "");
+    UI.header_auth_state.textContent = activeSession.email.replace(/@.*/, "");
     UI.nav_links.forEach(link => {
       if (link.classList.contains("signOutBtn")) {
         localStorage.removeItem("states");

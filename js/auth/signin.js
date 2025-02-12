@@ -66,7 +66,7 @@ authSignupForm.addEventListener("submit", (e) => {
       // Modal
 
       // UI changes
-      UI.header_auth_state.textContent = userEmail.replace("\@.*/", "");
+      UI.header_auth_state.textContent = userEmail.replace(/@.*/, "");
       UI.nav.classList.remove("active");
       UI.hero.style.display = "none";
       UI.authform_wrapper.classList.remove("active");
