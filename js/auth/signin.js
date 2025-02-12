@@ -36,7 +36,7 @@ authSignupForm.addEventListener("submit", (e) => {
       const user = userCredential.user;
       
       // Success loader
-      let signupSuccess;
+      let signinSuccess;
       document.querySelector("#loader").classList.add("active");
 
       // Display message
@@ -46,12 +46,12 @@ authSignupForm.addEventListener("submit", (e) => {
       `;
       UI.animation_wrapper.insertAdjacentHTML("beforeend", message);
 
-      document.querySelector(".action-message.title").textContent = "Signed up successfully!";
+      document.querySelector(".action-message.title").textContent = "Signed in successfully!";
       document.querySelector(".action-message.body-content").textContent = "";
 
-      signupSuccess = setTimeout(() => {
+      signinSuccess = setTimeout(() => {
         document.querySelector("#loader").classList.remove("active");
-        clearTimeout(signupSuccess);
+        clearTimeout(signinSuccess);
       }, 5000);
       
       // Modal
