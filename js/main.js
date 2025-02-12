@@ -50,8 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // UI action load time and page refresh animation
-  
-  window.onload = () => {// Page load or reload
+
+  window.onload = () => { // Page load or reload
     let loadEnd;
     UI.loader.classList.add("active");
     loadEnd = setTimeout(() => {
@@ -59,15 +59,15 @@ document.addEventListener("DOMContentLoaded", () => {
       clearTimeout(loadEnd);
     }, 6000);
   }
-  
+
   // When refresh icon stops rotating
-  
+
   let refreshDone;
   refreshDone = setTimeout(() => {
     UI.refresh.textContent = "check_circle";
     UI.refresh.classList.remove("rotate");
     UI.refresh.classList.add("popup");
-    
+
     clearTimeout(refreshDone);
   }, 3000);
 
@@ -82,12 +82,12 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
-  
+
   // Check auth
   const states = JSON.parse(localStorage.getItem("states")) || [];
-  
+
   const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
-  
+
   if (activeSession) {
     // UI changes
     UI.header_auth_state.textContent = activeSession.email.replace(/@.*/, "");
@@ -95,7 +95,15 @@ document.addEventListener("DOMContentLoaded", () => {
       if (link.classList.contains("signOutBtn")) {
         link.addEventListener("click", () => {
           localStorage.removeItem("states");
-        })
+
+          // loader
+          let loadEnd;
+          UI.loader.classList.add("active");
+          loadEnd = setTimeout(() => {
+            UI.loader.classList.remove("active");
+            clearTimeout(loadEnd);
+          }, 5000);
+        });
       }
     });
     UI.hero.style.display = "none";
