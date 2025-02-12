@@ -40,15 +40,15 @@ document.addEventListener("DOMContentLoaded", () => {
     loader: document.querySelector("#loader"),
     animation_wrapper: document.querySelector("#loader .animation-wrapper"),
     refresh: document.querySelector("#loader .refresh"),
+    hero: document.querySelector(".hero"),
+    auth_content: document.querySelector(".auth-content"),
     nav_links: document.querySelectorAll(".nav-link"),
     nl_collapsibles: document.querySelectorAll(".nl-collapsible")
   }
 
   // UI action load time and page refresh animation
   
-  // Page load or reload
-  
-  window.onload = () => {
+  window.onload = () => {// Page load or reload
     let loadEnd;
     UI.loader.classList.add("active");
     loadEnd = setTimeout(() => {
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     clearTimeout(refreshDone);
   }, 3000);
 
-  // X and collapsible nav menu links
+  // Collapsible nav menu links
 
   UI.nav_links.forEach(link => {
     link.addEventListener("click", () => {
@@ -87,5 +87,9 @@ document.addEventListener("DOMContentLoaded", () => {
   
   if (activeSession) {
     document.querySelector("#userName").textContent = "Signed in";
+    
+    // UI changes
+    UI.hero.style.display = "none";
+    UI.auth_content.style.display = "block";
   }
 });
