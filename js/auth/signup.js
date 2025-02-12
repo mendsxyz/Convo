@@ -20,12 +20,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+const UI = {
+  animation_wrapper: document.querySelector("#loader .animation-wrapper")
+}
 
 function displayLoader() {
-  const UI = {
-    animation_wrapper: document.querySelector("#loader .animation-wrapper")
-  }
-
   // Loader
   let signupSuccess;
   document.querySelector("#loader").classList.add("active");
@@ -57,12 +56,8 @@ authSignupForm.addEventListener("submit", (e) => {
       // Signed up
       const user = userCredential.user;
       displayLoader();
-      
       // Modal
-      const modal = document.querySelector("#modal");
-
       // Show content, nav-links and other user info
-
     })
     .catch((error) => {
       const errorCode = error.code;
