@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // UI changes
     UI.hero.style.display = "none";
-    UI.auth_content.style.display = "block";
+    UI.auth_content.classList.add("active");
     UI.authform_wrapper.classList.remove("active");
   }
 });
