@@ -117,6 +117,11 @@ html:has(nav.auto.active) main::after {
 
 .authForm-wrapper {
   width: 100%;
+  display: none;
+}
+
+.authForm-wrapper.active {
+  display: block;
 }
 
 .authForm-wrapper form {
