@@ -26,7 +26,6 @@ authSignupForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const UI = {
     loader: document.querySelector("#loader"),
-    refresh: document.querySelector("#loader .refresh"),
     header_auth_state: document.querySelector("#userName"),
     nav_links: document.querySelectorAll(".nav-link"),
     nl_collapsibles: document.querySelectorAll(".nl-collapsible"),
