@@ -68,7 +68,7 @@ authSignupForm.addEventListener("submit", (e) => {
 
       try {
         const newState = {
-          email: userEmail,
+          email: userEmail.trim(),
           state: "signedup"
         };
 

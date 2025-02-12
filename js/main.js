@@ -91,6 +91,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (activeSession) {
     // UI changes
     UI.header_state.textContent = activeSession.email.replace("/@.*/", "");
+    UI.nav_links.forEach(link => {
+      if (link.classList.contains("signOutBtn")) {
+        localStorage.removeItem("states");
+      }
+    });
     UI.hero.style.display = "none";
     UI.auth_content.classList.add("active");
     UI.authform_wrapper.classList.remove("active");
