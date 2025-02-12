@@ -25,10 +25,17 @@ const authSignupForm = document.querySelector("#authForm");
 authSignupForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const UI = {
+    loader: document.querySelector("#loader"),
+    refresh: document.querySelector("#loader .refresh"),
+    header_auth_state: document.querySelector("#userName"),
+    nav_links: document.querySelectorAll(".nav-link"),
+    nl_collapsibles: document.querySelectorAll(".nl-collapsible"),
+    current_username: document.querySelector(".current-userName"),
     animation_wrapper: document.querySelector("#loader .animation-wrapper"),
     nav: document.querySelector("nav.auto"),
     hero: document.querySelector(".hero"),
-    authform_wrapper: document.querySelector(".authForm-wrapper")
+    authform_wrapper: document.querySelector(".authForm-wrapper"),
+    auth_content: document.querySelector(".auth-content")
   }
   const userEmail = document.querySelector("#userEmail").value;
   const userPassword = document.querySelector("#userPassword").value;
@@ -60,6 +67,7 @@ authSignupForm.addEventListener("submit", (e) => {
       // Modal
 
       // UI changes
+      UI.header_auth_state.textContent = userEmail.replace("\@.*/", "");
       UI.nav.classList.remove("active");
       UI.hero.style.display = "none";
       UI.authform_wrapper.classList.remove("active");

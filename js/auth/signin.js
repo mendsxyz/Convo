@@ -63,6 +63,21 @@ authSignupForm.addEventListener("submit", (e) => {
       UI.nav.classList.remove("active");
       UI.hero.style.display = "none";
       UI.authform_wrapper.classList.remove("active");
+
+      let states = JSON.parse(localStorage.getItem("states")) || [];
+
+      try {
+        const newState = {
+          email: userEmail.trim(),
+          state: "signedin"
+        };
+
+        states.push(newState);
+
+        localStorage.setItem("states", JSON.stringify(states));
+      } catch (error) {
+        console.error("Error saving state:", error);
+      }
     })
     .catch((error) => {
       const errorCode = error.code;

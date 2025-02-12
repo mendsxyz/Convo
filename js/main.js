@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loader: document.querySelector("#loader"),
     animation_wrapper: document.querySelector("#loader .animation-wrapper"),
     refresh: document.querySelector("#loader .refresh"),
-    header_state: document.querySelector("#userName"),
+    header_auth_state: document.querySelector("#userName"),
     authform_wrapper: document.querySelector(".authForm-wrapper"),
     nav_links: document.querySelectorAll(".nav-link"),
     nl_collapsibles: document.querySelectorAll(".nl-collapsible"),
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   if (activeSession) {
     // UI changes
-    UI.header_state.textContent = activeSession.email.replace("/@.*/", "");
+    UI.header_auth_state.textContent = activeSession.email.replace("\@.*/", "");
     UI.nav_links.forEach(link => {
       if (link.classList.contains("signOutBtn")) {
         localStorage.removeItem("states");
