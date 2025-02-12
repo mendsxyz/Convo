@@ -10,22 +10,24 @@
   <link rel="shortcut icon" href="img/Convo-favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="icons/icon.css" type="text/css" media="all" />
   <link rel="stylesheet" href="css/main.css" type="text/css" media="all" />
+  <!-- scripts -->
+  <script type="module" src="js/signup.js" defer></script>
 </head>
 
 <body>
   <header>
     <div class="site-id">
       <img src="img/Convo-logo.png" alt="Convo-logo">
-      <span id="name" style="background: red">user</span>
+      <span id="userName">user</span>
     </div>
 
-    <div class="bottombar-toggle">
+    <div class="nav-toggle">
       <span class="ms-rounded">menu</span>
     </div>
   </header>
 
-  <nav class="bottombar xs-sm-md">
-    <div class="authForm-wrapper active">
+  <nav class="nav auto">
+    <div class="authForm-wrapper">
       <form id="authForm">
         <label for="userEmail">
           <span class="ms-rounded">account_circle</span>
@@ -49,23 +51,39 @@
         </div>
       </form>
     </div>
-
-    <div class="bottombar-link settingsBtn">
-      <span class="ms-rounded">settings</span>
-      <span>Settings</span>
-    </div>
-
-    <div class="bottombar-link accountBtn">
+    
+    <div class="nav-link accountBtn" data-expand="account">
       <span class="ms-rounded">account_circle</span>
-      <span>Account</span>
+      <span style="width: 100%">Account</span>
+      <span class="ms-rounded">unfold_more</span>
+    </div>
+    
+    <div class="nl-collapsible account">
+      <div class="userName-edit">
+        <span class="ms-rounded">edit_note</span>
+        <div class="current-userName" contenteditable="true">user</div>
+      </div>
     </div>
 
-    <div class="bottombar-link helpBtn">
+    <div class="nav-link settingsBtn" data-expand="settings">
+      <span class="ms-rounded">settings</span>
+      <span style="width: 100%">Settings</span>
+      <span class="ms-rounded">unfold_more</span>
+    </div>
+    
+    <div class="nl-collapsible settings">
+      <div class="theme-switch">
+        <span class="ms-rounded">dark_mode</span>
+        <span class="theme-state">Dark theme</span>
+      </div>
+    </div>
+
+    <div class="nav-link helpBtn">
       <span class="ms-rounded">help</span>
       <span>Help</span>
     </div>
 
-    <div class="bottombar-link signOutBtn">
+    <div class="nav-link signOutBtn">
       <span class="ms-rounded">logout</span>
       <span>Sign Out</span>
     </div>
@@ -90,6 +108,7 @@
   </main>
   
   <script src="js/main.js"></script>
+  <script src="js/signup.js"></script>
 </body>
 
 </html>

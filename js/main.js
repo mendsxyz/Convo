@@ -4,22 +4,22 @@ const main = document.querySelector("main");
 
 // Nav toggle
 
-const bottomBar = document.querySelector("nav.bottombar.xs-sm-md");
-const bb_toggle = document.querySelector(".bottombar-toggle");
+const nav = document.querySelector("nav.auto");
+const nav_toggle = document.querySelector(".nav-toggle");
 const cta_btn = document.querySelector("#ctaBtn");
 
-if (!bottomBar || !bb_toggle || !cta_btn) {
+if (!nav || !nav_toggle || !cta_btn) {
   console.error("One or more elements not found in the DOM.");
 } else {
-  bb_toggle.addEventListener("click", () => {
-    bottomBar.classList.toggle("active");
-    if (bottomBar.classList.contains("active")) {
+  nav_toggle.addEventListener("click", () => {
+    nav.classList.toggle("active");
+    if (nav.classList.contains("active")) {
       main.addEventListener("click", menuOpenOk_touchBg);
     }
   });
 
   cta_btn.addEventListener("click", () => {
-    bottomBar.classList.toggle("active");
+    nav.classList.toggle("active");
     main.addEventListener("click", (e) => {
       if (main.contains(e.target)) {
         main.addEventListener("click", menuOpenOk_touchBg);
@@ -29,38 +29,25 @@ if (!bottomBar || !bb_toggle || !cta_btn) {
 
   function menuOpenOk_touchBg(e) {
     if (main.contains(e.target)) {
-      bottomBar.classList.remove("active");
+      nav.classList.remove("active");
       main.removeEventListener("click", menuOpenOk_touchBg);
     }
   }
 }
 
-// Auth
-
-const auth = {};
-
-const authForm = document.querySelector("#authForm");
-authForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  
-  alert("yes")
-});
-
 // UI actions
 
 const UI = {
-  settingsBtn: document.querySelectorAll(".settingsBtn"),
-  accountBtn: document.querySelectorAll(".accountBtn"),
-  helpBtn: document.querySelectorAll(".helpBtn"),
-  signOutBtn: document.querySelectorAll(".signOutBtn")
+  nav_links: document.querySelectorAll(".nav-link"),
+  nl_collapsibles: document.querySelectorAll(".nl-collapsible")
 }
 
-UI.settingsBtn.forEach(btn => {
-  btn.addEventListener("click", () => {
-    alert("200");
+UI.nav_links.forEach(link => {
+  link.addEventListener("click", () => {
+    UI.nl_collapsibles.forEach(cls => {
+      if (cls.classList.contains(link.dataset.expand)) {
+        cls.classList.toggle("active");
+      }
+    });
   });
-});
-
-UI.signOutBtn.forEach(btn => {
-  btn.addEventListener("click", signOut);
 });
