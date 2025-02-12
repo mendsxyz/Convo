@@ -61,6 +61,8 @@ authSignupForm.addEventListener("submit", (e) => {
       UI.nav.classList.remove("active");
       UI.hero.style.display = "none";
       UI.authform_wrapper.classList.remove("active");
+      
+      window.location.href = "dashboard.html";
     })
     .catch((error) => {
       const errorCode = error.code;
