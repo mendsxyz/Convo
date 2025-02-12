@@ -44,7 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
     auth_content: document.querySelector(".auth-content"),
     authform_wrapper: document.querySelector(".authForm-wrapper"),
     nav_links: document.querySelectorAll(".nav-link"),
-    nl_collapsibles: document.querySelectorAll(".nl-collapsible")
+    nl_collapsibles: document.querySelectorAll(".nl-collapsible"),
+    current_username: document.querySelector(".current-userName")
   }
 
   // UI action load time and page refresh animation
@@ -93,5 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
     UI.hero.style.display = "none";
     UI.auth_content.classList.add("active");
     UI.authform_wrapper.classList.remove("active");
+    UI.current_username.textContent = activeSession.email;
   }
 });
