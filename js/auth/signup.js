@@ -1,4 +1,4 @@
-// Import the functions you need from the SDKs you need
+// Import fn
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
@@ -29,9 +29,28 @@ authSignupForm.addEventListener("submit", (e) => {
 
   createUserWithEmailAndPassword(auth, userEmail, userPassword)
     .then((userCredential) => {
-      // Signed up 
+      // Signed up
+      
       const user = userCredential.user;
-      alert("Signing you up");
+      
+      // Loader
+      
+      let signupSuccess;
+      document.querySelector("#loader").classList.add("active");
+      document.querySelector(".action-message.title").textContent = "Signed Up Successfully!";
+      document.querySelector(".action-message.body-content").textContent = "";
+      
+      signupSuccess = setTimeout(() => {
+        document.querySelector("#loader").classList.remove("active");
+        clearTimeout(signupSuccess);
+      }, 6000);
+      
+      // Modal
+      
+      const modal = document.querySelector("#modal");
+      
+      // Show content, nav-links and other user info
+      
     })
     .catch((error) => {
       const errorCode = error.code;

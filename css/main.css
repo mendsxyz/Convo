@@ -208,6 +208,70 @@ main {
   padding: 60px 5%;
 }
 
+#loader {
+  background: #00000099;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+#loader .animation-wrapper {
+  background: var(--light);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid var(--dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#loader .refresh {
+  animation: none;
+}
+
+#loader .refresh.rotate {
+  font-size: 40px;
+  animation: rotate .8s linear infinite;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#loader .refresh.popup {
+  animation: .3s popup linear forwards;
+}
+
+@keyframes popup {
+  to {
+    color: var(--success);
+    font-size: 50px;
+  }
+}
+
+#loader .action-message {
+  min-width: 80%;
+}
+
+#loader .action-message.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+#loader .action-message.body-content {
+  font-size: 16px;
+}
+
 .hero {
   background: url("../img/wavy_lines_pattern_background.jpg") no-repeat center / cover;
   color: var(--light);
