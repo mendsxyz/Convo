@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Check auth
   const states = JSON.parse(localStorage.getItem("states")) || [];
   
-  const activeSession = states.find(state => state.state === "signedup");
+  const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
   
   if (activeSession) {
     // UI changes
