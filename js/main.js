@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   if (activeSession) {
     // UI changes
-    UI.header_state.textContent = activeSession.email.replace("@gmail.com", "");
+    UI.header_state.textContent = activeSession.email.replace("/@.*/", "");
     UI.hero.style.display = "none";
     UI.auth_content.classList.add("active");
     UI.authform_wrapper.classList.remove("active");
