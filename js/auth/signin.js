@@ -55,11 +55,11 @@ authSignupForm.addEventListener("submit", (e) => {
       }, 5000);
       
       // Modal
+      
       // Show content, nav-links and other user info
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      alert(errorMessage);
     });
 });
