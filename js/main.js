@@ -90,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (activeSession) {
     // UI changes
+    
     UI.header_auth_state.textContent = activeSession.email.replace(/@.*/, "");
     UI.nav_links.forEach(link => {
       if (link.classList.contains("signOutBtn")) {
@@ -97,9 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.removeItem("states");
 
           UI.loader.classList.add("active");
-          if (UI.refresh.classList.contains("rotate")) {
-            // .. alert("yes rotate")
-          } else {
+          if (!UI.refresh.classList.contains("rotate")) {
             UI.refresh.classList.add("rotate");
             // .. alert("no rotate")
           }
@@ -112,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           setTimeout(() => {
             UI.refresh.textContent = "check_circle";
-            UI.refresh.classList.remove("rotate2");
+            UI.refresh.classList.remove("rotate");
             UI.refresh.classList.add("popup");
           }, 2500);
 
