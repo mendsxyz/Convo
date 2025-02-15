@@ -98,7 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
           // loader
           let loadEnd;
-          UI.refresh.classList.remove("popup");
+          UI.refresh.classList.add("rotate");
+          UI.refresh.textContent = "refresh";
+          
           UI.loader.classList.add("active");
           loadEnd = setTimeout(() => {
             UI.loader.classList.remove("active");
