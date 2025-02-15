@@ -89,7 +89,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const states = JSON.parse(localStorage.getItem("states")) || [];
 
   const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
-
+  let loadEnd;
+  
   if (activeSession) {
     // UI changes
     UI.header_auth_state.textContent = activeSession.email.replace(/@.*/, "");
@@ -99,7 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.removeItem("states");
 
           // loader
-          let loadEnd;
           UI.refresh.classList.add("rotate");
           UI.refresh.textContent = "refresh";
           
