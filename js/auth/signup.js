@@ -21,6 +21,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
+let refreshPage;
+
 const authSignupForm = document.querySelector("#authForm");
 authSignupForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -85,6 +87,11 @@ authSignupForm.addEventListener("submit", (e) => {
       } catch (error) {
         console.error("Error saving state:", error);
       }
+      
+      refreshPage = setTimeout(() => {
+        location.reload();
+        clearTimeout(refreshPage);
+      }, 2000);
     })
     .catch((error) => {
       const errorCode = error.code;
