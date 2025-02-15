@@ -23,8 +23,27 @@ const auth = getAuth();
 
 // Reset email password
 
+const states = JSON.parse(localStorage.getItem("states")) || [];
+
 const resetPasswordForm = document.querySelector("#resetPasswordForm");
 resetPasswordForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  alert("200")
+  
+  const emailId = document.querySelector("#resetUserEmail");
+  const saved = states.find(state => state.email === emailId.value);
+
+  if (saved) {
+    sendPasswordResetEmail(auth, saved.email)
+    .then(() => {
+      // Password reset email sent!
+      alert("Password reset email sent successfully!");
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorMessage);
+    });
+  } else {
+    alert("Email doesn't exist in our records!");
+  }
 });

@@ -112,3 +112,16 @@ document.addEventListener("DOMContentLoaded", () => {
     UI.current_username.textContent = activeSession.email;
   }
 });
+
+// Reset password
+
+const resetPasswordForm = document.querySelector(".resetPasswordForm-wrapper");
+const forgotPassword = document.querySelector(".forgot-password");
+forgotPassword.addEventListener("click", () => {
+  resetPasswordForm.classList.add("active");
+});
+
+const backToSignin = document.querySelector(".back-to-signin");
+backToSignin.addEventListener("click", () => {
+  resetPasswordForm.classList.remove("active");
+});
