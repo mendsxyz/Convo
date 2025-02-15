@@ -87,7 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const states = JSON.parse(localStorage.getItem("states")) || [];
 
   const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
-  let loadEnd;
 
   if (activeSession) {
     // UI changes
@@ -101,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           UI.loader.classList.add("active");
           UI.refresh.classList.add("rotate");
+          UI.refresh.textContent = "refresh";
 
           // Stop loader after full page load
 
