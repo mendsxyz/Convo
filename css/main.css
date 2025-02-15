@@ -187,10 +187,11 @@ html:has(.resetPasswordForm-wrapper.active) .nav-link {
 
 .nav-link {
   width: 100%;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: left;
-  gap: 10px;
+  gap: 5px;
   cursor: pointer;
   -webkit-tap-highlight-color: #27272720;
 }
