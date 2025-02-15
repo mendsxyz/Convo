@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // UI action load time and page refresh animation
 
   UI.loader.classList.add("active");
-  UI.refresh.classList.add("rotate");
+  // UI.refresh.classList.add("rotate");
 
   window.addEventListener("load", () => {
 
@@ -97,13 +97,11 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.removeItem("states");
 
           UI.loader.classList.add("active");
-
-          UI.refresh.classList.remove("rotate2"); // Reset
-          void UI.refresh.offsetWidth; // Force reflow
-
-          requestAnimationFrame(() => {
-            UI.refresh.classList.add("rotate2");
-          });
+          if (UI.refresh.classList.contains("rotate")) {
+            alert("yes rotate")
+          } else {
+            alert("no rotate")
+          }
 
           UI.refresh.textContent = "refresh";
 

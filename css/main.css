@@ -279,17 +279,6 @@ main {
   }
 }
 
-.rotate2 {
-  font-size: 40px;
-  animation: spin .5s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: spin(360deg);
-  }
-}
-
 #loader .refresh.popup {
   animation: .3s popup linear forwards;
 }
