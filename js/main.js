@@ -98,9 +98,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
           UI.loader.classList.add("active");
           if (UI.refresh.classList.contains("rotate")) {
-            alert("yes rotate")
+            // .. alert("yes rotate")
           } else {
-            alert("no rotate")
+            UI.refresh.classList.add("rotate");
+            // .. alert("no rotate")
           }
 
           UI.refresh.textContent = "refresh";
