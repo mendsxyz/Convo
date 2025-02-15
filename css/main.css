@@ -270,10 +270,13 @@ main {
 
 #loader .refresh.rotate {
   font-size: 40px;
-  animation: spin .5s linear infinite;
+  animation: spin .75s linear infinite;
 }
 
 @keyframes spin {
+  from {
+    transform: rotate(0);
+  }
   to {
     transform: rotate(360deg);
   }
