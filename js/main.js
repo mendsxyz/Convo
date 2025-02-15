@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Reset password
+// Reset password nav
 
 const resetPasswordForm = document.querySelector(".resetPasswordForm-wrapper");
 const forgotPassword = document.querySelector(".forgot-password");
