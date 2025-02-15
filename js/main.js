@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // UI action load time and page refresh animation
 
   UI.loader.classList.add("active");
-  // UI.refresh.classList.add("rotate");
+  UI.refresh.classList.add("rotate");
 
   window.addEventListener("load", () => {
 

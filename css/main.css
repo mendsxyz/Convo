@@ -275,7 +275,7 @@ main {
 
 @keyframes spin {
   to {
-    transform: spin(360deg);
+    transform: rotate(360deg);
   }
 }
 
