@@ -98,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           // loader
           let loadEnd;
+          UI.refresh.classList.remove("popup");
           UI.loader.classList.add("active");
           loadEnd = setTimeout(() => {
             UI.loader.classList.remove("active");
