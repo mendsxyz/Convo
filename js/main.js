@@ -98,10 +98,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
           UI.loader.classList.add("active");
 
-          // Force reflow before adding rotate2
+          UI.refresh.classList.remove("rotate2"); // Reset
+          void UI.refresh.offsetWidth; // Force reflow
 
-          UI.refresh.offsetWidth;
-          UI.refresh.classList.add("rotate2");
+          requestAnimationFrame(() => {
+            UI.refresh.classList.add("rotate2");
+          });
+
           UI.refresh.textContent = "refresh";
 
           setTimeout(() => {
@@ -114,8 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
             UI.refresh.classList.add("popup");
           }, 2500);
 
-          // Delay page refresh to allow animation to finish
-
+          // Delay page refresh
           setTimeout(() => {
             location.reload();
           }, 6000);

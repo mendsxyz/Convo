@@ -279,7 +279,7 @@ main {
   }
 }
 
-#loader .refresh.rotate2 {
+.rotate2 {
   font-size: 40px;
   animation: spin .5s linear infinite;
 }
