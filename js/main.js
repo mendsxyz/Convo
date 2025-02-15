@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // loader
 
           UI.loader.classList.add("active");
-          UI.refresh.classList.add("rotate");
+          UI.refresh.classList.add("rotate2");
           UI.refresh.textContent = "refresh";
 
           // Stop loader after full page load
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           setTimeout(() => {
             UI.refresh.textContent = "check_circle";
-            UI.refresh.classList.remove("rotate");
+            UI.refresh.classList.remove("rotate2");
             UI.refresh.classList.add("popup");
           }, 2500);
           
