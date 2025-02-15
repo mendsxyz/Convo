@@ -101,9 +101,12 @@ document.addEventListener("DOMContentLoaded", () => {
           // loader
           let loadEnd;
           UI.refresh.classList.add("rotate");
+          UI.refresh.textContent = "refresh";
           
           UI.loader.classList.add("active");
           loadEnd = setTimeout(() => {
+            UI.refresh.classList.remove("rotate");
+            
             UI.loader.classList.remove("active");
             location.reload();
             clearTimeout(loadEnd);
