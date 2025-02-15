@@ -281,12 +281,12 @@ main {
 
 #loader .refresh.rotate2 {
   font-size: 40px;
-  animation: rotate2 .5s linear infinite;
+  animation: spin .5s linear infinite;
 }
 
-@keyframes rotate2 {
+@keyframes spin {
   to {
-    transform: rotate2(360deg);
+    transform: spin(360deg);
   }
 }
 
