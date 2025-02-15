@@ -21,6 +21,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
+let refreshPage;
+
 const authSignupForm = document.querySelector("#authForm");
 authSignupForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -38,8 +40,6 @@ authSignupForm.addEventListener("submit", (e) => {
   }
   const userEmail = document.querySelector("#userEmail").value;
   const userPassword = document.querySelector("#userPassword").value;
-  
-  let reload;
   
   signInWithEmailAndPassword(auth, userEmail, userPassword)
     .then((userCredential) => {
@@ -84,13 +84,14 @@ authSignupForm.addEventListener("submit", (e) => {
         states.push(newState);
 
         localStorage.setItem("states", JSON.stringify(states));
-        
-        reload = reload(() => {
-          location.reload();
-        }, 2000);
       } catch (error) {
         console.error("Error saving state:", error);
       }
+      
+      refreshPage = setTimeout(() => {
+        location.reload();
+        clearTimeout(refreshPage);
+      }, 2000);
     })
     .catch((error) => {
       const errorCode = error.code;
