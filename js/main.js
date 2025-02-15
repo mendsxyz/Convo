@@ -54,6 +54,8 @@ document.addEventListener("DOMContentLoaded", () => {
   window.onload = () => { // Page load or reload
     let loadEnd;
     UI.loader.classList.add("active");
+    UI.refresh.classList.add("rotate");
+    
     loadEnd = setTimeout(() => {
       UI.loader.classList.remove("active");
       clearTimeout(loadEnd);
@@ -99,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
           // loader
           let loadEnd;
           UI.refresh.classList.add("rotate");
-          UI.refresh.textContent = "refresh";
           
           UI.loader.classList.add("active");
           loadEnd = setTimeout(() => {
