@@ -38,7 +38,9 @@ authSignupForm.addEventListener("submit", (e) => {
   }
   const userEmail = document.querySelector("#userEmail").value;
   const userPassword = document.querySelector("#userPassword").value;
-
+  
+  let reload;
+  
   signInWithEmailAndPassword(auth, userEmail, userPassword)
     .then((userCredential) => {
       // Signed in
@@ -82,6 +84,10 @@ authSignupForm.addEventListener("submit", (e) => {
         states.push(newState);
 
         localStorage.setItem("states", JSON.stringify(states));
+        
+        reload = reload(() => {
+          location.reload();
+        }, 2000);
       } catch (error) {
         console.error("Error saving state:", error);
       }

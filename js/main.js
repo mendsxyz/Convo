@@ -104,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
           UI.loader.classList.add("active");
           loadEnd = setTimeout(() => {
             UI.loader.classList.remove("active");
+            location.reload();
             clearTimeout(loadEnd);
           }, 5000);
         });
