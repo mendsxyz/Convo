@@ -98,26 +98,29 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.removeItem("states");
 
           // loader
-          
+
           UI.loader.classList.add("active");
           UI.refresh.classList.add("rotate");
 
-          window.addEventListener("load", () => {
+          // Stop loader after full page load
 
-            // Stop loader after full page load
+          setTimeout(() => {
+            UI.loader.classList.remove("active");
+          }, 5000);
 
-            setTimeout(() => {
-              UI.loader.classList.remove("active");
-            }, 5000);
+          // Handle refresh icon transition
 
-            // Handle refresh icon transition
-
-            setTimeout(() => {
-              UI.refresh.textContent = "check_circle";
-              UI.refresh.classList.remove("rotate");
-              UI.refresh.classList.add("popup");
-            }, 2500);
-          });
+          setTimeout(() => {
+            UI.refresh.textContent = "check_circle";
+            UI.refresh.classList.remove("rotate");
+            UI.refresh.classList.add("popup");
+          }, 2500);
+          
+          // Refresh page
+          
+          setTimeout(() => {
+            location.reload();
+          }, 5000);
         });
       }
     });
