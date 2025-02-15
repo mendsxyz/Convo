@@ -50,25 +50,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // UI action load time and page refresh animation
-  
+
   UI.loader.classList.add("active");
   UI.refresh.classList.add("rotate");
-  
+
   window.addEventListener("load", () => {
-  
+
     // Stop loader after full page load
-    
+
     setTimeout(() => {
       UI.loader.classList.remove("active");
-    }, 6000);
-  
+    }, 5000);
+
     // Handle refresh icon transition
-    
+
     setTimeout(() => {
       UI.refresh.textContent = "check_circle";
       UI.refresh.classList.remove("rotate");
       UI.refresh.classList.add("popup");
-    }, 3000);
+    }, 2000);
   });
 
   // Collapsible nav menu links
@@ -85,10 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Check auth
   const states = JSON.parse(localStorage.getItem("states")) || [];
-  
+
   const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
   let loadEnd;
-  
+
   if (activeSession) {
     // UI changes
     UI.header_auth_state.textContent = activeSession.email.replace(/@.*/, "");
@@ -98,16 +98,23 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.removeItem("states");
 
           // loader
-          UI.refresh.classList.add("rotate");
-          UI.refresh.textContent = "refresh";
-          
-          UI.loader.classList.add("active");
-          loadEnd = setInterval(() => {
-            UI.refresh.classList.remove("rotate");
-            UI.loader.classList.remove("active");
-            location.reload();
-            clearInterval(loadEnd);
-          }, 3000);
+
+          window.addEventListener("load", () => {
+
+            // Stop loader after full page load
+
+            setTimeout(() => {
+              UI.loader.classList.remove("active");
+            }, 5000);
+
+            // Handle refresh icon transition
+
+            setTimeout(() => {
+              UI.refresh.textContent = "check_circle";
+              UI.refresh.classList.remove("rotate");
+              UI.refresh.classList.add("popup");
+            }, 2500);
+          });
         });
       }
     });

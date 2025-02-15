@@ -63,7 +63,7 @@ authSignupForm.addEventListener("submit", (e) => {
       signupSuccess = setTimeout(() => {
         document.querySelector("#loader").classList.remove("active");
         clearTimeout(signupSuccess);
-      }, 5000);
+      }, 2000);
 
       // Modal
 
