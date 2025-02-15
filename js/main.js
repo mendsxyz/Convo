@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // UI action load time and page refresh animation
 
-  window.onload = () => { // Page load or reload
+  window.onpageshow = () => { // Page load or reload
     let loadEnd;
     UI.loader.classList.add("active");
     UI.refresh.classList.add("rotate");
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Check auth
   const states = JSON.parse(localStorage.getItem("states")) || [];
-
+  
   const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
   let loadEnd;
   
@@ -104,13 +104,12 @@ document.addEventListener("DOMContentLoaded", () => {
           UI.refresh.textContent = "refresh";
           
           UI.loader.classList.add("active");
-          loadEnd = setTimeout(() => {
+          loadEnd = setInterval(() => {
             UI.refresh.classList.remove("rotate");
-            
             UI.loader.classList.remove("active");
             location.reload();
-            clearTimeout(loadEnd);
-          }, 5000);
+            clearInterval(loadEnd);
+          }, 3000);
         });
       }
     });
