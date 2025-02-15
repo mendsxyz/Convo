@@ -366,6 +366,10 @@ main {
 .auth-content.active {
   width: 100%;
   display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .auth-content .content-nav {
