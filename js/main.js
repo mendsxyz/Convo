@@ -98,6 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.removeItem("states");
 
           // loader
+          
+          UI.loader.classList.add("active");
+          UI.refresh.classList.add("rotate");
 
           window.addEventListener("load", () => {
 
