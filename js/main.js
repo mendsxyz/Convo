@@ -96,31 +96,29 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener("click", () => {
           localStorage.removeItem("states");
 
-          // loader
-
           UI.loader.classList.add("active");
+
+          // Force reflow before adding rotate2
+
+          UI.refresh.offsetWidth;
           UI.refresh.classList.add("rotate2");
           UI.refresh.textContent = "refresh";
-
-          // Stop loader after full page load
 
           setTimeout(() => {
             UI.loader.classList.remove("active");
           }, 5000);
-
-          // Handle refresh icon transition
 
           setTimeout(() => {
             UI.refresh.textContent = "check_circle";
             UI.refresh.classList.remove("rotate2");
             UI.refresh.classList.add("popup");
           }, 2500);
-          
-          // Refresh page
-          
+
+          // Delay page refresh to allow animation to finish
+
           setTimeout(() => {
             location.reload();
-          }, 5000);
+          }, 6000);
         });
       }
     });
