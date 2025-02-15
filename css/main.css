@@ -397,7 +397,7 @@ main {
   width: 100%;
   display: grid;
   grid-auto-flow: row;
-  gap: 10px;
+  gap: 0;
   align-content: start;
 }
 
