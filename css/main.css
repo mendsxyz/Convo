@@ -115,23 +115,25 @@ html:has(nav.auto.active) main::after {
   left: 0;
 }
 
-.authForm-wrapper {
+.authForm-wrapper, .resetPasswordForm-wrapper {
   width: 100%;
   display: none;
 }
 
-.authForm-wrapper.active {
+.authForm-wrapper.active, .resetPasswordForm-wrapper.active {
   display: block;
 }
 
-.authForm-wrapper form {
+.authForm-wrapper form,
+.resetPasswordForm-wrapper form {
   width: 100%;
   display: grid;
   grid-auto-flow: row;
   gap: 10px;
 }
 
-.authForm-wrapper form label {
+.authForm-wrapper form label,
+.resetPasswordForm-wrapper form label {
   width: 100%;
   display: flex;
   align-items: center;
@@ -141,7 +143,8 @@ html:has(nav.auto.active) main::after {
   font-weight: bold;
 }
 
-.authForm-wrapper form .data-info {
+.authForm-wrapper form .data-info,
+.resetPasswordForm-wrapper form .data-info {
   width: 100%;
   display: flex;
   align-items: flex-start;
@@ -149,11 +152,13 @@ html:has(nav.auto.active) main::after {
   gap: 10px
 }
 
-.authForm-wrapper form .data-info span {
+.authForm-wrapper form .data-info span,
+.resetPasswordForm-wrapper form .data-info span {
   font-size: 14px;
 }
 
-.authForm-wrapper form input {
+.authForm-wrapper form input,
+.resetPasswordForm-wrapper form input {
   font-size: 16px;
   width: 100%;
   padding: 12px 5%;
@@ -161,7 +166,8 @@ html:has(nav.auto.active) main::after {
   border-radius: 10px;
 }
 
-.authForm-wrapper form input[type="submit"] {
+.authForm-wrapper form input[type="submit"],
+.resetPasswordForm-wrapper form input[type="submit"] {
   background: var(--primary);
   font-size: 16px;
   font-weight: bold;
@@ -169,6 +175,11 @@ html:has(nav.auto.active) main::after {
 }
 
 html:has(.authForm-wrapper.active) .nav-link {
+  display: none;
+}
+
+html:has(.resetPasswordForm-wrapper.active) .authForm-wrapper,
+html:has(.resetPasswordForm-wrapper.active) .nav-link {
   display: none;
 }
 

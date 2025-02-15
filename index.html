@@ -13,6 +13,7 @@
   <!-- scripts -->
   <script type="module" src="js/auth/signup.js" defer></script>
   <script type="module" src="js/auth/signin.js" defer></script>
+  <script type="module" src="js/auth/reset.js" defer></script>
 </head>
 
 <body>
@@ -49,6 +50,27 @@
         
         <div class="input">
           <input type="submit" value="Sign In">
+        </div>
+      </form>
+    </div>
+    
+    <div class="resetPasswordForm-wrapper active">
+      <form id="resetPasswordForm">
+        <label for="userEmail">
+          <span class="ms-rounded">account_circle</span>
+          <span>Reset password</span>
+        </label>
+        
+        <div class="data-info">
+          <span>A mail with a password reset link will be sent to your inbox</span>
+        </div>
+        
+        <div class="input">
+          <input type="email" name="resetUserEmail" id="resetUserEmail" placeholder="Email address">
+        </div>
+        
+        <div class="input">
+          <input type="submit" value="Send reset link">
         </div>
       </form>
     </div>
