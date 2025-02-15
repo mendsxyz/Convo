@@ -3,24 +3,25 @@
 const contentView = document.querySelector(".content-view");
 
 const posts = {
-  
-  //--2
   "1": {
     "title": "Post 1 title",
     "body": "Post 1 body content"
   }
-  //--1
-}
+};
 
-for (const post of posts) {
+// Loop through the object correctly
+
+for (const [key, post] of Object.entries(posts)) {
   function postBlob() {
     return `
       <div>
-        <span class="post-title">${post[index].title}</span>
-        <span class="post-body">${post[index].body}</span>
+        <span class="post-title">${post.title}</span>
+        <span class="post-body">${post.body}</span>
       </div>
-    `
+    `;
   }
+
+  // Append to innerHTML correctly
   
-  contentView.innerHTML = postBlob();
+  contentView.innerHTML += postBlob();
 }
