@@ -388,3 +388,23 @@ main {
   background: var(--dark);
   color: var(--light);
 }
+
+.content-view {
+  width: 100%;
+  display: grid;
+  grid-auto-flow: row;
+  gap: 10px;
+  align-content: start;
+}
+
+.post {
+  width: 100%;
+  padding: 10px;
+  display: grid;
+  grid-auto-flow: row;
+  gap: 5px;
+}
+
+.post:not(:last-child) {
+  border-bottom: 1px solid var(--dark);
+}

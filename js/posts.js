@@ -14,7 +14,7 @@ const posts = {
 for (const [key, post] of Object.entries(posts)) {
   function postBlob() {
     return `
-      <div>
+      <div class="post">
         <span class="post-title">${post.title}</span>
         <span class="post-body">${post.body}</span>
       </div>
