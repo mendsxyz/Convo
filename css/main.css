@@ -193,7 +193,7 @@ html:has(.resetPasswordForm-wrapper.active) .nav-link {
   justify-content: left;
   gap: 5px;
   cursor: pointer;
-  -webkit-tap-highlight-color: #27272720;
+  -webkit-tap-highlight-color: #27272710;
 }
 
 .nl-collapsible {
