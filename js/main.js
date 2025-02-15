@@ -50,28 +50,26 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // UI action load time and page refresh animation
-
-  window.onpageshow = () => { // Page load or reload
-    let loadEnd;
-    UI.loader.classList.add("active");
-    UI.refresh.classList.add("rotate");
+  
+  UI.loader.classList.add("active");
+  UI.refresh.classList.add("rotate");
+  
+  window.addEventListener("load", () => {
+  
+    // Stop loader after full page load
     
-    loadEnd = setTimeout(() => {
+    setTimeout(() => {
       UI.loader.classList.remove("active");
-      clearTimeout(loadEnd);
     }, 6000);
-  }
-
-  // When refresh icon stops rotating
-
-  let refreshDone;
-  refreshDone = setTimeout(() => {
-    UI.refresh.textContent = "check_circle";
-    UI.refresh.classList.remove("rotate");
-    UI.refresh.classList.add("popup");
-
-    clearTimeout(refreshDone);
-  }, 3000);
+  
+    // Handle refresh icon transition
+    
+    setTimeout(() => {
+      UI.refresh.textContent = "check_circle";
+      UI.refresh.classList.remove("rotate");
+      UI.refresh.classList.add("popup");
+    }, 3000);
+  });
 
   // Collapsible nav menu links
 
