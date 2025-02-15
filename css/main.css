@@ -209,7 +209,6 @@ html:has(.resetPasswordForm-wrapper.active) .nav-link {
 .nl-collapsible .current-userName {
   font-size: 16px;
   white-space: nowrap;
-  text-overflow: ellipsis;
   padding: 7px 3%;
   border: 1px solid var(--dark);
   border-radius: 5px;
