@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      postsWrapper.innerHTML = ""; // Clear before updating
+      // postsWrapper.innerHTML = ""; // Clear before updating
 
       snapshot.forEach((childSnapshot) => {
         const post = childSnapshot.val();
