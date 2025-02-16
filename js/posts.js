@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
       createPostForm.reset(); 
 
     } catch (error) {
-      console.error("Error adding post:", error);
+      alert("Error adding post:", error);
       alert("Failed to add post. Please try again.");
     }
   });
