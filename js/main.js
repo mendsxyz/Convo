@@ -1,6 +1,25 @@
+// Import fn
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+import { getDatabase, ref, set, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
+
+// Config
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDKJMIf4G_oFG5fRa_bjrZbTRdbXoPG8Kk",
+  authDomain: "web-auth-e9d5a.firebaseapp.com",
+  databaseURL: "https://web-auth-e9d5a-default-rtdb.firebaseio.com",
+  projectId: "web-auth-e9d5a",
+  storageBucket: "web-auth-e9d5a.firebasestorage.app",
+  messagingSenderId: "231194816624",
+  appId: "1:231194816624:web:0a3db5c0b927d89f6dc4b5",
+  measurementId: "G-FE8WF5H6XV"
+};
 
 const auth = getAuth();
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -157,7 +176,53 @@ document.addEventListener("DOMContentLoaded", () => {
     UI.authform_wrapper.classList.remove("active");
     UI.current_username.textContent = activeSession.email;
   }
+  
+  // Retrieve saved posts and display on posts-wrapper
+
+  const postsWrapper = document.querySelector(".posts-wrapper");
+  getPosts(postsWrapper);
 });
+
+function getPosts(wrapper) {
+  if (!postsWrapper) {
+    console.error("Error: .posts-wrapper element not found!");
+    alert("Error: Posts container missing!");
+    return;
+  }
+
+  const postsRef = ref(db, "posts");
+
+  onValue(postsRef, (snapshot) => {
+    if (!snapshot.exists()) {
+      console.warn("No posts found in the database.");
+      postsWrapper.innerHTML = "<h3>No posts available.</h3>";
+      alert("No posts available.");
+      return;
+    }
+
+    postsWrapper.innerHTML = ""; // Clear before updating
+
+    snapshot.forEach((childSnapshot) => {
+      const post = childSnapshot.val();
+      const postId = childSnapshot.key;
+
+      postsWrapper.innerHTML += `
+        <div id="post-${postId}">
+          <div>${post.body}</div>
+          ${post.imgUrl ? `<img src="${post.imgUrl}" width="200">` : ""}
+          <span>Views: ${post.views}, Likes: ${post.counts}</span>
+          <button onclick="updatePost('${postId}', '${post.body}', '${post.imgUrl}')">Edit</button>
+          <button onclick="deletePost('${postId}')">Delete</button>
+        </div>
+      `;
+    });
+
+    alert("Posts loaded successfully!");
+  }, (error) => {
+    console.error("Error fetching posts:", error);
+    alert("Error fetching posts: " + error.message);
+  });
+}
 
 // Reset password nav
 

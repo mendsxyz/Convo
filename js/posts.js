@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".italic").addEventListener("click", () => formatText("italic"));
   document.querySelector(".underline").addEventListener("click", () => formatText("underline"));
   document.querySelector(".strikethrough").addEventListener("click", () => formatText("strikethrough"));
-
+  
   function formatText(command) {
     document.execCommand(command, false, null);
   }
@@ -127,52 +127,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
   }
-
-  // Retrieve saved posts and display on posts-wrapper
-
-  const postsWrapper = document.querySelector(".posts-wrapper");
-
-  getPosts(postsWrapper);
 });
-
-function getPosts(wrapper) {
-  /*if (!postsWrapper) {
-    console.error("Error: .posts-wrapper element not found!");
-    alert("Error: Posts container missing!");
-    return;
-  }
-
-  const postsRef = ref(db, "posts");
-
-  onValue(postsRef, (snapshot) => {
-    if (!snapshot.exists()) {
-      console.warn("No posts found in the database.");
-      postsWrapper.innerHTML = "<h3>No posts available.</h3>";
-      alert("No posts available.");
-      return;
-    }
-
-    postsWrapper.innerHTML = ""; // Clear before updating
-
-    snapshot.forEach((childSnapshot) => {
-      const post = childSnapshot.val();
-      const postId = childSnapshot.key;
-
-      postsWrapper.innerHTML += `
-        <div id="post-${postId}">
-          <div>${post.body}</div>
-          ${post.imgUrl ? `<img src="${post.imgUrl}" width="200">` : ""}
-          <span>Views: ${post.views}, Likes: ${post.counts}</span>
-          <button onclick="updatePost('${postId}', '${post.body}', '${post.imgUrl}')">Edit</button>
-          <button onclick="deletePost('${postId}')">Delete</button>
-        </div>
-      `;
-    });
-
-    alert("Posts loaded successfully!");
-  }, (error) => {
-    console.error("Error fetching posts:", error);
-    alert("Error fetching posts: " + error.message);
-  });*/
-  alert("200");
-}
