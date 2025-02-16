@@ -209,8 +209,8 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="post-body">${post.body}</div>
           ${post.imgUrl ? `<img class="post-img" src="${post.imgUrl}" width="200">` : ""}
           <div class="post-analytics">
-            <span class="pa views">Views: ${post.views}</span>
-            <span class="pa counts">Likes: ${post.counts}</span>
+            <span class="pa views">${post.views} <span class="ms-rounded">bar_chart</span></span>
+            <span class="pa counts">${post.counts} <span class="ms-rounded">bolt</span></span>
           </div>
           <div class="post-actions">
             <button class="update-post" id="${postId}">Edit</button>
