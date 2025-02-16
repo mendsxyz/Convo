@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <span class="time-posted"><span>
             </div>
             
-            <div class="post-body">${post.body.length > MAX_BODY ? post.body.length.substring(0, MAX_BODY) + "..." : post.body}</div>
+            <div class="post-body">${post.body.length > MAX_BODY ? post.body.substring(0, MAX_BODY) + "..." : post.body}</div>
             ${post.imgUrl ? `<img class="post-img" src="${post.imgUrl}" width="200">` : ""}
             
             <div class="post-analytics">
