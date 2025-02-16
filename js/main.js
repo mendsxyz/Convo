@@ -1,4 +1,32 @@
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+
+const auth = getAuth();
+
 document.addEventListener("DOMContentLoaded", () => {
+
+  // Allowed email (replace with your admin email)
+
+  const allowedEmail = "princemendie03@gmail.com";
+
+  // Function to protect routes
+
+  function protectRoute() {
+    onAuthStateChanged(auth, (user) => {
+      if (user && user.email === allowedEmail) {
+        console.log("Access granted to /posts");
+      } else {
+        // Redirect unauthorized users
+        window.location.href = "/404.html";
+      }
+    });
+  }
+
+  // Call this function only on /post page
+
+  if (window.location.pathname === "/post.html") {
+    protectRoute();
+  }
+
   const main = document.querySelector("main");
 
   // Nav toggle
@@ -90,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (activeSession) {
     // UI changes
-    
+
     UI.header_auth_state.textContent = activeSession.email.replace(/@.*/, "");
     UI.nav_links.forEach(link => {
       if (link.classList.contains("signOutBtn")) {

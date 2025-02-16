@@ -1,7 +1,7 @@
 // Import fn
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
 
 // Config
 
@@ -92,29 +92,6 @@ authSignupForm.addEventListener("submit", (e) => {
         location.reload();
         clearTimeout(refreshPage);
       }, 2000);
-      
-      // Allowed email (replace with your admin email)
-
-const allowedEmail = "princemendie03@gmail.com";
-
-// Function to protect routes
-
-function protectRoute() {
-  onAuthStateChanged(auth, (user) => {
-    if (user && user.email === allowedEmail) {
-      console.log("Access granted to /posts");
-    } else {
-      // Redirect unauthorized users
-      window.location.href = "/404.html";
-    }
-  });
-}
-
-// Call this function only on /post page
-
-if (window.location.pathname === "/post.html") {
-  protectRoute();
-}
     })
     .catch((error) => {
       const errorCode = error.code;
