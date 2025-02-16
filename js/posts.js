@@ -133,8 +133,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const postsWrapper = document.querySelector(".posts-wrapper");
 
   function getPosts() {
-    if (!postsWrapper) {
-      //console.error("Error: .posts-wrapper element not found!");
+    /*if (!postsWrapper) {
+      console.error("Error: .posts-wrapper element not found!");
       alert("Error: Posts container missing!");
       return;
     }
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     onValue(postsRef, (snapshot) => {
       if (!snapshot.exists()) {
-        //console.warn("No posts found in the database.");
+        console.warn("No posts found in the database.");
         postsWrapper.innerHTML = "<h3>No posts available.</h3>";
         alert("No posts available.");
         return;
@@ -170,7 +170,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }, (error) => {
       console.error("Error fetching posts:", error);
       alert("Error fetching posts: " + error.message);
-    });
+    });*/
+    alert("200");
   }
 
   getPosts();
