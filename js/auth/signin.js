@@ -92,14 +92,8 @@ authSignupForm.addEventListener("submit", (e) => {
         location.reload();
         clearTimeout(refreshPage);
       }, 2000);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
-});
-
-// Allowed email (replace with your admin email)
+      
+      // Allowed email (replace with your admin email)
 
 const allowedEmail = "princemendie03@gmail.com";
 
@@ -121,3 +115,9 @@ function protectRoute() {
 if (window.location.pathname === "/post.html") {
   protectRoute();
 }
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+});
