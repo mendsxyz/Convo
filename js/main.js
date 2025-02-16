@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       postsWrapper.innerHTML = ""; // Clear before updating
-
+      /*
       snapshot.forEach((childSnapshot) => {
         const post = childSnapshot.val();
         const postId = childSnapshot.key;
@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <button onclick="deletePost('${postId}')">Delete</button>
         </div>
       `;
-      });
+      });*/
 
       alert("Posts loaded successfully!");
     }, (error) => {
