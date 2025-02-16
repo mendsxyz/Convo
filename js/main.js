@@ -203,24 +203,36 @@ document.addEventListener("DOMContentLoaded", () => {
       snapshot.forEach((childSnapshot) => {
         const post = childSnapshot.val();
         const postId = childSnapshot.key;
-
+        
+        let MAX_BODY = 120;
+        
         postsWrapper.innerHTML += `
         <div class="post" id="post-${postId}">
-          <div class="post-body">${post.body}</div>
-          ${post.imgUrl ? `<img class="post-img" src="${post.imgUrl}" width="200">` : ""}
-          <div class="post-analytics">
-            <span class="pa views">
-              <span>${post.views}</span>
-              <span class="ms-rounded">bar_chart</span>
-            </span>
-            <span class="pa counts">
-              <span>${post.counts}</span>
-              <span class="ms-rounded">bolt</span>
-            </span>
+          <div class="post-row1">
+            <img src="" alt="author-pfp">
           </div>
-          <div class="post-actions">
-            <button class="update-post" id="${postId}">Edit</button>
-            <button class="delete-post" id="${postId}">Delete</button>
+          
+          <div class="post-row2">
+            <div class="author">
+              <span class="author-name"></span>
+              <span class="time-posted"><span>
+            </div>
+            <div class="post-body">${post.body.length > MAX_BODY ? post.body.length.substring(0, MAX_BODY) + "..." : post.body}</div>
+            ${post.imgUrl ? `<img class="post-img" src="${post.imgUrl}" width="200">` : ""}
+            <div class="post-analytics">
+              <span class="pa views">
+                <span>${post.views}</span>
+                <span class="ms-rounded">bar_chart</span>
+              </span>
+              <span class="pa counts">
+                <span>${post.counts}</span>
+                <span class="ms-rounded">bolt</span>
+              </span>
+            </div>
+            <div class="post-actions">
+              <button class="update-post" id="${postId}">Edit</button>
+              <button class="delete-post" id="${postId}">Delete</button>
+            </div>
           </div>
         </div>
       `;

@@ -442,8 +442,24 @@ main {
   width: 100%;
   padding: 10px;
   display: grid;
-  grid-auto-flow: row;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr 2fr;
   gap: 5px;
+}
+
+.post-row1 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.post-row1 img {
+  width: 40px;
+  height: auto;
+}
+
+.post-row2 {
+  
 }
 
 .post-body {
@@ -465,21 +481,21 @@ main {
   gap: 10px;
 }
 
-.post .post-analytics .pa {
+.post-analytics .pa {
   display: flex;
   align-items: center;
   justify-content: left;
   padding-top: 10px;
 }
 
-.post .post-analytics .pa span {
+.post-analytics .pa span {
   font-size: 16px;
+  opacity: .8;
 }
 
-.post .post-analytics .pa span.ms-rounded {
-  font-size: 20px;
+.post-analytics .pa span.ms-rounded {
+  font-size: 28px;
 }
-
 
 .post-actions {
   
