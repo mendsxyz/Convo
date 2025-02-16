@@ -1,10 +1,25 @@
-// Posts db
+// Import fn
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
 import { getDatabase, ref, set, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
+
+// Config
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDKJMIf4G_oFG5fRa_bjrZbTRdbXoPG8Kk",
+  authDomain: "web-auth-e9d5a.firebaseapp.com",
+  databaseURL: "https://web-auth-e9d5a-default-rtdb.firebaseio.com",
+  projectId: "web-auth-e9d5a",
+  storageBucket: "web-auth-e9d5a.firebasestorage.app",
+  messagingSenderId: "231194816624",
+  appId: "1:231194816624:web:0a3db5c0b927d89f6dc4b5",
+  measurementId: "G-FE8WF5H6XV"
+};
 
 // Initialize Firebase
 
-const db = getDatabase();
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
 // Format post
 
@@ -61,14 +76,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Post data
 
     try {
-      // Get body
-
       if (!bodyEditor) {
         alert("Error: Missing form elements.");
         return;
       }
-
-      // Validate inputs
 
       const body = bodyEditor.innerHTML.trim();
       const imgUrl = [...bodyEditor.getElementsByTagName("img")].map(img => img.src);
