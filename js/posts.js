@@ -106,15 +106,21 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const newPostRef = db.ref("posts").push(); // Auto-generate unique ID
-      newPostRef.set({
-        body: body,
-        imgUrl: imgUrl,
-        counts: 0,
-        views: 0
-      })
-      .then(() => resolve(true))
-      .catch((error) => reject(error));
+      // Create a new post reference with an auto-generated ID
+      const newPostRef = push(ref(db, "posts"));
+
+      set(newPostRef, {
+          body: body,
+          imgUrl: imgUrl,
+          counts: 0,
+          views: 0
+        })
+        .then(() => {
+          resolve("Post added successfully!");
+        })
+        .catch((error) => {
+          reject("Failed to add post: " + error.message);
+        });
     });
   }
 });
