@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
       
       alert("posts: 200");
     }, (error) => {
-      console.error("Error fetching posts:", error);
+      alert("Error fetching posts:", error);
     });
   }
 
