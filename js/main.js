@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const postId = childSnapshot.key;
 
         postsWrapper.innerHTML += `
-        <div id="post-${postId}">
+        <div class="post" id="post-${postId}">
           <div>${post.body}</div>
           ${post.imgUrl ? `<img src="${post.imgUrl}" width="200">` : ""}
           <span>Views: ${post.views}, Likes: ${post.counts}</span>
