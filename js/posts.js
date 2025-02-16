@@ -129,12 +129,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Retrieve saved posts and display on posts-wrapper
-
+  
+  const postsWrapper = document.querySelector(".posts-wrapper");
+  
   function getPosts() {
     const postsRef = ref(db, "posts");
 
     onValue(postsRef, (snapshot) => {
-      const postsWrapper = document.querySelector(".posts-wrapper");
       if (!postsWrapper) return;
 
       postsWrapper.innerHTML = "";
