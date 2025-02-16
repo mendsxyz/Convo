@@ -430,7 +430,7 @@ main {
   color: var(--light);
 }
 
-.content-view {
+.posts-wrapper {
   width: 100%;
   display: grid;
   grid-auto-flow: row;

@@ -21,9 +21,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Format post
+// Posts
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Edit post content
+
   const bodyEditor = document.querySelector(".body-editor");
 
   document.querySelector(".bold").addEventListener("click", () => formatText("bold"));
@@ -68,6 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
       range.insertNode(img);
     }
   }
+
+  // Create post data
 
   const createPostForm = document.querySelector("#createPostForm");
   createPostForm.addEventListener("submit", async (e) => {
@@ -123,4 +127,31 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
   }
+
+  // Retrieve saved posts and display on posts-wrapper
+
+  function getPosts() {
+    db.ref("posts").on("value", (snapshot) => {
+      const postsWrapper = document.querySelector(".posts-wrapper");
+      postsWrapper.innerHTML = ""; // Clear before updating
+
+      snapshot.forEach((childSnapshot) => {
+        const post = childSnapshot.val();
+        const postId = childSnapshot.key; // Firebase unique key
+
+        postsWrapper.innerHTML += `
+        <div id="post-${postId}">
+          <h3>${post.title}</h3>
+          <p>${post.body}</p>
+          ${post.imgUrl ? `<img src="${post.imgUrl}" width="200">` : ""}
+          <p>Views: ${post.views}, Likes: ${post.counts}</p>
+          <button onclick="updatePost('${postId}', '${post.title}', '${post.body}', '${post.imgUrl}')">Edit</button>
+          <button onclick="deletePost('${postId}')">Delete</button>
+        </div>
+      `;
+      });
+    });
+  }
+
+  getPosts();
 });
