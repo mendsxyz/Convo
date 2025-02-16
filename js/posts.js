@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const createPostForm = document.querySelector("#createPostForm");
-  createPostForm.addEventListener("submit", (e) => {
+  createPostForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     // Post data
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      addPost(body, imgUrl);
+      await addPost(body, imgUrl);
       alert("Post added successfully!");
       createPostForm.reset();
     } catch (error) {
