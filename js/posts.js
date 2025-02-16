@@ -131,25 +131,31 @@ document.addEventListener("DOMContentLoaded", () => {
   // Retrieve saved posts and display on posts-wrapper
 
   function getPosts() {
-    db.ref("posts").on("value", (snapshot) => {
+    const postsRef = ref(db, "posts");
+
+    onValue(postsRef, (snapshot) => {
       const postsWrapper = document.querySelector(".posts-wrapper");
-      postsWrapper.innerHTML = ""; // Clear before updating
+      if (!postsWrapper) return;
+
+      postsWrapper.innerHTML = "";
 
       snapshot.forEach((childSnapshot) => {
         const post = childSnapshot.val();
-        const postId = childSnapshot.key; // Firebase unique key
+        const postId = childSnapshot.key;
 
         postsWrapper.innerHTML += `
-        <div id="post-${postId}">
-          <h3>${post.title}</h3>
-          <p>${post.body}</p>
-          ${post.imgUrl ? `<img src="${post.imgUrl}" width="200">` : ""}
-          <p>Views: ${post.views}, Likes: ${post.counts}</p>
-          <button onclick="updatePost('${postId}', '${post.title}', '${post.body}', '${post.imgUrl}')">Edit</button>
-          <button onclick="deletePost('${postId}')">Delete</button>
-        </div>
-      `;
+          <div id="post-${postId}">
+            <h3>${post.title}</h3>
+            <p>${post.body}</p>
+            ${post.imgUrl ? `<img src="${post.imgUrl}" width="200">` : ""}
+            <p>Views: ${post.views}, Likes: ${post.counts}</p>
+            <button onclick="updatePost('${postId}', '${post.title}', '${post.body}', '${post.imgUrl}')">Edit</button>
+            <button onclick="deletePost('${postId}')">Delete</button>
+          </div>
+        `;
       });
+    }, (error) => {
+      console.error("Error fetching posts:", error);
     });
   }
 
