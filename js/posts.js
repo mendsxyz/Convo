@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const createPostForm = document.querySelector("#createPostForm");
-  createPostForm.addEventListener("submit", async (e) => {
+  createPostForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     // Post data
@@ -89,15 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Add post to Firebase
-
-      await addPost(body, imgUrl);
-
-      // Success alert
-
+      addPost(body, imgUrl);
       alert("Post added successfully!");
       createPostForm.reset();
-
     } catch (error) {
       alert("Error adding post:", error);
     }
