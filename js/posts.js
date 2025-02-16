@@ -154,6 +154,8 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         `;
       });
+      
+      alert("posts: 200");
     }, (error) => {
       console.error("Error fetching posts:", error);
     });
