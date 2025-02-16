@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (window.location.pathname.includes("post.html")) {
     alert("200");
-    //protectRoute();
+    protectRoute();
   }
 
   const main = document.querySelector("main");
