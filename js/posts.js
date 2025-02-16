@@ -145,11 +145,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         postsWrapper.innerHTML += `
           <div id="post-${postId}">
-            <h3>${post.title}</h3>
-            <p>${post.body}</p>
+            <div>${post.body}</div>
             ${post.imgUrl ? `<img src="${post.imgUrl}" width="200">` : ""}
-            <p>Views: ${post.views}, Likes: ${post.counts}</p>
-            <button onclick="updatePost('${postId}', '${post.title}', '${post.body}', '${post.imgUrl}')">Edit</button>
+            <span>Views: ${post.views}, Likes: ${post.counts}</span>
+            <button onclick="updatePost('${postId}', '${post.body}', '${post.imgUrl}')">Edit</button>
             <button onclick="deletePost('${postId}')">Delete</button>
           </div>
         `;
