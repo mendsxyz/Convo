@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getPosts() {
     if (!postsWrapper) {
-      console.error("Error: .posts-wrapper element not found!");
+      //console.error("Error: .posts-wrapper element not found!");
       alert("Error: Posts container missing!");
       return;
     }
@@ -143,8 +143,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     onValue(postsRef, (snapshot) => {
       if (!snapshot.exists()) {
-        console.warn("No posts found in the database.");
-        postsWrapper.innerHTML = "<h2>No posts available.</h2>";
+        //console.warn("No posts found in the database.");
+        postsWrapper.innerHTML = "<h3>No posts available.</h3>";
         alert("No posts available.");
         return;
       }
