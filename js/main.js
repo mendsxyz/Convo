@@ -23,8 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Call this function only on /post page
 
-  if (window.location.pathname === "/post.html") {
-    protectRoute();
+  if (window.location.pathname.includes("post.html")) {
+    alert("200")
+    //protectRoute();
   }
 
   const main = document.querySelector("main");
