@@ -129,16 +129,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Retrieve saved posts and display on posts-wrapper
-  
+
   const postsWrapper = document.querySelector(".posts-wrapper");
-  
+
   function getPosts() {
+    if (!postsWrapper) {
+      console.error("Error: .posts-wrapper element not found!");
+      alert("Error: Posts container missing!");
+      return;
+    }
+
     const postsRef = ref(db, "posts");
 
     onValue(postsRef, (snapshot) => {
-      if (!postsWrapper) return;
+      if (!snapshot.exists()) {
+        console.warn("No posts found in the database.");
+        postsWrapper.innerHTML = "<h2>No posts available.</h2>";
+        alert("No posts available.");
+        return;
+      }
 
-      postsWrapper.innerHTML = "";
+      postsWrapper.innerHTML = ""; // Clear before updating
 
       snapshot.forEach((childSnapshot) => {
         const post = childSnapshot.val();
@@ -154,10 +165,11 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         `;
       });
-      
-      alert("posts: 200");
+
+      alert("Posts loaded successfully!");
     }, (error) => {
-      alert("Error fetching posts:", error);
+      console.error("Error fetching posts:", error);
+      alert("Error fetching posts: " + error.message);
     });
   }
 
