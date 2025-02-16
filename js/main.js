@@ -208,11 +208,11 @@ document.addEventListener("DOMContentLoaded", () => {
         
         postsWrapper.innerHTML += `
         <div class="post" id="post-${postId}">
-          <div class="post-row1">
+          <div class="post-col1">
             <img src="" alt="author-pfp">
           </div>
           
-          <div class="post-row2">
+          <div class="post-col2">
             <div class="author">
               <span class="author-name"></span>
               <span class="time-posted"><span>

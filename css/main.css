@@ -447,18 +447,19 @@ main {
   gap: 5px;
 }
 
-.post-row1 {
+.post-col1 {
   display: flex;
   align-items: flex-start;
   justify-content: center;
 }
 
-.post-row1 img {
+.post-col1 img {
   width: 40px;
-  height: auto;
+  height: 40px;
+  border-radius: 100%;
 }
 
-.post-row2 {
+.post-col2 {
   
 }
 
