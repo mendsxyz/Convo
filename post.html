@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- stylesheet --->
+  <link rel="shortcut icon" href="img/Convo-favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="icons/icon.css" type="text/css" media="all" />
+  <link rel="stylesheet" href="css/main.css" type="text/css" media="all" />
+
+  <title>postToConvo</title>
+</head>
+
+<body>
+  <main>
+    <div class="createPostForm-wrapper">
+      <form id="createPostForm">
+        <label>
+          <div>
+            <span class="ms-rounded">account_circle</span>
+            <span>Write a post</span>
+          </div>
+          
+          <div class="input">
+            <input type="submit" value="Post">
+          </div>
+        </label>
+
+        <div class="data-info">
+          <span>Posting to firebase-db</span>
+        </div>
+
+        <div class="toolbar">
+          <button class="add-image" style="display: flex; align-items: center; justify-content: left; gap: 5px;">
+            <span class="ms-rounded">add_photo_alternate</span> 
+          </button>
+          
+          <button class="bold" type="button">
+            <span class="ms-rounded">format_bold</span>
+          </button>
+          
+          <button class="italic" type="button">
+            <span class="ms-rounded">format_italic</span>
+          </button>
+          
+          <button class="underline" type="button">
+            <span class="ms-rounded">format_underlined</span>
+          </button>
+          
+          <button class="strikethrough" type="button">
+            <span class="ms-rounded">format_strikethrough</span>
+          </button>
+        </div>
+        
+        <input type="file" id="uploadImage" accept="image/*" hidden>
+        <div class="body-editor" contenteditable="true"></div>
+      </form>
+    </div>
+  </main>
+
+  <script type="module" src="js/posts.js" defer></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,45 +1,98 @@
-// Posts Object Array
+// Posts db
 
-const postsData = JSON.parse(localStorage.getItem("postsData")) || [];
-const contentView = document.querySelector(".content-view");
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+import { getDatabase, ref, set, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
-const posts = {
-  "2": {
-    title: "Post 2 title",
-    body: "Post 2 body content"
-  },
-  "1": {
-    title: "Post 1 title",
-    body: "Post 1 body content"
-  }
+// Firebase configuration
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDKJMIf4G_oFG5fRa_bjrZbTRdbXoPG8Kk",
+  authDomain: "web-auth-e9d5a.firebaseapp.com",
+  databaseURL: "https://web-auth-e9d5a-default-rtdb.firebaseio.com",
+  projectId: "web-auth-e9d5a",
+  storageBucket: "web-auth-e9d5a.firebasestorage.app",
+  messagingSenderId: "231194816624",
+  appId: "1:231194816624:web:0a3db5c0b927d89f6dc4b5",
+  measurementId: "G-FE8WF5H6XV"
 };
 
-// Loop through the object correctly
+// Initialize Firebase
 
-for (const [key, post] of Object.entries(posts)) {
-  function postBlob() {
-    return `
-      <div class="post-author">
-        <div class="author-pfp">
-          <img src="${post.imgSrc}" alt="author-pfp">
-        </div>
-        <div class="author-info">
-          <span class="emailUsername">${post.userName}</span>
-          <span class="postedTime">${post.time}</span>
-        </div>
-      </div>
-      <span class="post-body">${post.body}</span>
-      <div class="post-img">${post.img ? post.img : ""}</div>
-      <div class="post-analytics">
-        <div class="favorites-count">
-          <span class="ms-rounded">heart</span>
-          <span class="fc-txt">${post.favCount}</span>
-        </div>
-      </div>
-    `;
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// Format post
+
+document.addEventListener("DOMContentLoaded", () => {
+  const bodyEditor = document.querySelector(".body-editor");
+
+  document.querySelector(".bold").addEventListener("click", () => formatText("bold"));
+  document.querySelector(".italic").addEventListener("click", () => formatText("italic"));
+  document.querySelector(".underline").addEventListener("click", () => formatText("underline"));
+  document.querySelector(".strikethrough").addEventListener("click", () => formatText("strikethrough"));
+
+  function formatText(command) {
+    document.execCommand(command, false, null);
   }
 
-  // Append to innerHTML correctly
+  document.querySelector(".add-image").addEventListener("click", () => {
+    document.getElementById("uploadImage").click();
+  });
   
-  contentView.innerHTML += postBlob();
-}
+  document.getElementById("uploadImage").addEventListener("change", (event) => {
+    event.preventDefault();
+    
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      insertImage(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function insertImage(imageSrc) {
+    const img = document.createElement("img");
+    img.src = imageSrc;
+    img.style.border = "1px solid #ddd";
+    img.style.borderRadius = "15px";
+    img.style.maxWidth = "100%";
+
+    const selection = window.getSelection();
+    if (!selection.rangeCount) {
+      bodyEditor.appendChild(img);
+    } else {
+      const range = selection.getRangeAt(0);
+      range.deleteContents();
+      range.insertNode(img);
+    }
+  }
+
+  const createPostForm = document.querySelector("#createPostForm");
+  createPostForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // Post data
+
+    const postData = {
+      body: bodyEditor.innerHTML,
+      imgUrl: [...bodyEditor.getElementsByTagName("img")].map(img => img.src)
+    }
+
+    addPost(postData.title, postData.body, postData.imgUrl);
+  });
+
+  // Adding post
+
+  function addPost(title, body, imgUrl = "") {
+    const newPostRef = db.ref("posts").push(); // Auto-generate unique ID
+    newPostRef.set({
+      title: title,
+      body: body,
+      imgUrl: imgUrl,
+      counts: 0,
+      views: 0
+    });
+  }
+});

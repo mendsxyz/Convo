@@ -133,11 +133,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const resetPasswordForm = document.querySelector(".resetPasswordForm-wrapper");
 const forgotPassword = document.querySelector(".forgot-password");
-forgotPassword.addEventListener("click", () => {
-  resetPasswordForm.classList.add("active");
-});
+if (forgotPassword) {
+  forgotPassword.addEventListener("click", () => {
+    resetPasswordForm.classList.add("active");
+  });
+}
 
 const backToSignin = document.querySelector(".back-to-signin");
-backToSignin.addEventListener("click", () => {
-  resetPasswordForm.classList.remove("active");
-});
+if (backToSignin) {
+  backToSignin.addEventListener("click", () => {
+    resetPasswordForm.classList.remove("active");
+  });
+}
