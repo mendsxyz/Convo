@@ -481,3 +481,45 @@ main {
   border-top: 1.8px solid var(--lshade);
   white-space: pre-wrap; /* Maintains line breaks */
 }
+
+/* 404 html */
+
+.container {
+  max-width: 800px;
+  padding: 30px;
+  margin: auto;
+  margin-top: 80px;
+  background: var(--lshade);
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.error-code {
+  font-size: 7rem;
+  font-weight: bold;
+  color: var(--alert);
+  margin: 0;
+}
+
+.error-text {
+  font-size: 1.2rem;
+  margin: 0 0 20px;
+  color: var(--dshade);
+}
+
+.home-btn {
+  display: inline-block;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: 1.8px solid var(--dark);
+  border-radius: 5px;
+  text-decoration: none;
+  background: var(--primary);
+  color: var(--dark);
+  transition: background 0.3s, transform 0.2s;
+  cursor: pointer;
+}
+
+.home-btn:hover {
+  transform: scale(1.05);
+}
