@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function protectRoute() {
     onAuthStateChanged(auth, (user) => {
       if (user && user.email === allowedEmail) {
-        alert("Access granted to /posts");
+        console.log("Access granted to /posts");
       } else {
         // Redirect unauthorized users
         window.location.href = "/404.html";
@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Call this function only on /post page
 
   if (window.location.pathname.includes("post.html")) {
-    alert("200");
     protectRoute();
   }
 
