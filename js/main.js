@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function protectRoute() {
     onAuthStateChanged(auth, (user) => {
       if (user && user.email === allowedEmail) {
-        console.log("Access granted to /posts");
+        alert("Access granted to /posts");
       } else {
         // Redirect unauthorized users
         window.location.href = "/404.html";
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Call this function only on /post page
 
   if (window.location.pathname.includes("post.html")) {
-    alert("200")
+    alert("200");
     //protectRoute();
   }
 
@@ -79,26 +79,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // UI action load time and page refresh animation
-
-  UI.loader.classList.add("active");
-  UI.refresh.classList.add("rotate");
-
-  window.addEventListener("load", () => {
-
-    // Stop loader after full page load
-
-    setTimeout(() => {
-      UI.loader.classList.remove("active");
-    }, 5000);
-
-    // Handle refresh icon transition
-
-    setTimeout(() => {
-      UI.refresh.textContent = "check_circle";
-      UI.refresh.classList.remove("rotate");
-      UI.refresh.classList.add("popup");
-    }, 2000);
-  });
+  
+  if (UI.loader && UI.refresh) {
+    UI.loader.classList.add("active");
+    UI.refresh.classList.add("rotate");
+  
+    window.addEventListener("load", () => {
+  
+      // Stop loader after full page load
+  
+      setTimeout(() => {
+        UI.loader.classList.remove("active");
+      }, 5000);
+  
+      // Handle refresh icon transition
+  
+      setTimeout(() => {
+        UI.refresh.textContent = "check_circle";
+        UI.refresh.classList.remove("rotate");
+        UI.refresh.classList.add("popup");
+      }, 2000);
+    });
+  }
 
   // Collapsible nav menu links
 
