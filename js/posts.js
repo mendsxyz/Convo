@@ -38,10 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".add-image").addEventListener("click", () => {
     document.getElementById("uploadImage").click();
   });
-  
+
   document.getElementById("uploadImage").addEventListener("change", (event) => {
     event.preventDefault();
-    
+
     const file = event.target.files[0];
     if (!file) return;
 
@@ -70,29 +70,62 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const createPostForm = document.querySelector("#createPostForm");
-  createPostForm.addEventListener("submit", (e) => {
+  createPostForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     // Post data
 
-    const postData = {
-      body: bodyEditor.innerHTML,
-      imgUrl: [...bodyEditor.getElementsByTagName("img")].map(img => img.src)
-    }
+    try {
+      // Get body
+      
+      if (!bodyEditor) {
+        alert("Error: Missing form elements.");
+        return;
+      }
 
-    addPost(postData.title, postData.body, postData.imgUrl);
+      // Validate inputs
+      
+      const body = bodyEditor.innerHTML.trim();
+      const imgUrl = [...bodyEditor.getElementsByTagName("img")].map(img => img.src);
+
+      if (!body) {
+        alert("Body cannot be empty!");
+        return;
+      }
+
+      // Add post to Firebase
+      
+      await addPost(body, imgUrl);
+
+      // Success alert
+      
+      alert("Post added successfully!");
+      createPostForm.reset(); 
+
+    } catch (error) {
+      console.error("Error adding post:", error);
+      alert("Failed to add post. Please try again.");
+    }
   });
 
-  // Adding post
+  // Add post to firebase
+  
+  function addPost(body, imgUrl = "") {
+    return new Promise((resolve, reject) => {
+      if (!db) {
+        reject("Firebase database is not initialized.");
+        return;
+      }
 
-  function addPost(title, body, imgUrl = "") {
-    const newPostRef = db.ref("posts").push(); // Auto-generate unique ID
-    newPostRef.set({
-      title: title,
-      body: body,
-      imgUrl: imgUrl,
-      counts: 0,
-      views: 0
+      const newPostRef = db.ref("posts").push(); // Auto-generate unique ID
+      newPostRef.set({
+          body: body,
+          imgUrl: imgUrl,
+          counts: 0,
+          views: 0
+        })
+        .then(() => resolve(true))
+        .catch((error) => reject(error));
     });
   }
 });
