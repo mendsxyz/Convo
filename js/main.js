@@ -97,21 +97,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // UI action load time and page refresh animation
-  
+
   if (UI.loader && UI.refresh) {
     UI.loader.classList.add("active");
     UI.refresh.classList.add("rotate");
-  
+
     window.addEventListener("load", () => {
-  
+
       // Stop loader after full page load
-  
+
       setTimeout(() => {
         UI.loader.classList.remove("active");
       }, 5000);
-  
+
       // Handle refresh icon transition
-  
+
       setTimeout(() => {
         UI.refresh.textContent = "check_circle";
         UI.refresh.classList.remove("rotate");
@@ -176,37 +176,35 @@ document.addEventListener("DOMContentLoaded", () => {
     UI.authform_wrapper.classList.remove("active");
     UI.current_username.textContent = activeSession.email;
   }
-  
+
   // Retrieve saved posts and display on posts-wrapper
 
   const postsWrapper = document.querySelector(".posts-wrapper");
-  getPosts(postsWrapper);
-});
 
-function getPosts(wrapper) {
-  if (!postsWrapper) {
-    console.error("Error: .posts-wrapper element not found!");
-    alert("Error: Posts container missing!");
-    return;
-  }
-
-  const postsRef = ref(db, "posts");
-
-  onValue(postsRef, (snapshot) => {
-    if (!snapshot.exists()) {
-      console.warn("No posts found in the database.");
-      postsWrapper.innerHTML = "<h3>No posts available.</h3>";
-      alert("No posts available.");
+  function getPosts() {
+    if (!postsWrapper) {
+      console.error("Error: .posts-wrapper element not found!");
+      alert("Error: Posts container missing!");
       return;
     }
 
-    postsWrapper.innerHTML = ""; // Clear before updating
+    const postsRef = ref(db, "posts");
 
-    snapshot.forEach((childSnapshot) => {
-      const post = childSnapshot.val();
-      const postId = childSnapshot.key;
+    onValue(postsRef, (snapshot) => {
+      if (!snapshot.exists()) {
+        console.warn("No posts found in the database.");
+        postsWrapper.innerHTML = "<h3>No posts available.</h3>";
+        alert("No posts available.");
+        return;
+      }
 
-      postsWrapper.innerHTML += `
+      postsWrapper.innerHTML = ""; // Clear before updating
+
+      snapshot.forEach((childSnapshot) => {
+        const post = childSnapshot.val();
+        const postId = childSnapshot.key;
+
+        postsWrapper.innerHTML += `
         <div id="post-${postId}">
           <div>${post.body}</div>
           ${post.imgUrl ? `<img src="${post.imgUrl}" width="200">` : ""}
@@ -215,14 +213,17 @@ function getPosts(wrapper) {
           <button onclick="deletePost('${postId}')">Delete</button>
         </div>
       `;
-    });
+      });
 
-    alert("Posts loaded successfully!");
-  }, (error) => {
-    console.error("Error fetching posts:", error);
-    alert("Error fetching posts: " + error.message);
-  });
-}
+      alert("Posts loaded successfully!");
+    }, (error) => {
+      console.error("Error fetching posts:", error);
+      alert("Error fetching posts: " + error.message);
+    });
+  }
+
+  getPosts();
+});
 
 // Reset password nav
 
