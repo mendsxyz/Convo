@@ -217,8 +217,10 @@ document.addEventListener("DOMContentLoaded", () => {
               <span class="author-name"></span>
               <span class="time-posted"><span>
             </div>
+            
             <div class="post-body">${post.body.length > MAX_BODY ? post.body.length.substring(0, MAX_BODY) + "..." : post.body}</div>
             ${post.imgUrl ? `<img class="post-img" src="${post.imgUrl}" width="200">` : ""}
+            
             <div class="post-analytics">
               <span class="pa views">
                 <span>${post.views}</span>
@@ -229,6 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <span class="ms-rounded">bolt</span>
               </span>
             </div>
+            
             <div class="post-actions">
               <button class="update-post" id="${postId}">Edit</button>
               <button class="delete-post" id="${postId}">Delete</button>
