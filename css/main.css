@@ -585,9 +585,13 @@ main {
   z-index: 1;
 }
 
-.mpa-options span:not(span.report-post),
-.mpa-options span:not(span.delete-post) {
+.mpa-options span {
   border-right: 0.8px solid var(--lshade);
+}
+
+.mpa-options span.report-post,
+.mpa-options span.delete-post {
+  border-right: none;
 }
 
 .mpa-options .block-user,
