@@ -235,7 +235,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 <span>${post.counts}</span>
                 <span class="ms-rounded">bolt</span>
               </div>
-                
+              
+              <div class="pa favs">
+                <span>${post.favs}</span>
+                <span class="ms-rounded">favorite</span>
+              </div>
+              
+              <div class="pa shares">
+                <span>${post.shares}</span>
+                <span class="ms-rounded">share</span>
+              </div>
+              
               <span class="update-post ms-rounded" style="display: ${post.user_email === activeSession.email ? "flex" : "none"};" id="${postId}">edit</span>
               <span class="delete-post ms-rounded" style="display: ${post.user_email === activeSession.email ? "flex" : "none"};" id="${postId}">delete</span>
             </div>
