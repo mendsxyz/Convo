@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const postId = storedData.find(post => post.id);
 
       if (postId) {
-        const existingPostRef = ref(db, "posts/" + postId);
+        const existingPostRef = ref(db, "posts/" + postId.id);
 
         await update(existingPostRef, { body });
         resolve("Post updated successfully!");
