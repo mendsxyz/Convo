@@ -226,11 +226,11 @@ document.addEventListener("DOMContentLoaded", () => {
               ${post.imgUrl ? `<img class="post-img" src="${post.imgUrl}" width="200">` : ""}
               
               <div class="post-analytics">
-              <div class="pa views">
-                <span>${post.views}</span>
-                <span class="ms-rounded">bar_chart</span>
-              </div>
-                
+              <div class="pa convo">
+                <span>${post.convo}</span>
+                <span class="ms-rounded">quick_reply</span>
+              </div>  
+              
               <div class="pa counts">
                 <span>${post.counts}</span>
                 <span class="ms-rounded">bolt</span>
@@ -244,6 +244,11 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="pa shares">
                 <span>${post.shares}</span>
                 <span class="ms-rounded">share</span>
+              </div>
+              
+              <div class="pa views">
+                <span>${post.views}</span>
+                <span class="ms-rounded">bar_chart</span>
               </div>
               
               <span class="update-post ms-rounded" style="display: ${post.user_email === activeSession.email ? "flex" : "none"};" id="${postId}">edit</span>
