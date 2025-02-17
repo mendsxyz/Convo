@@ -98,7 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       await addPost(body, imgUrl);
-      alert("Post added successfully!");
       createPostForm.reset();
     } catch (error) {
       alert("Error adding post:", error);
@@ -118,6 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Check if any post in localStorage matches an existing post in Firebase
+      
       const postId = storedData.find(post => post.id !== "");
       const pId = postId.id;
 
@@ -141,6 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         resolve("New post added successfully!");
+        alert("Post added successfully!");
       }
     });
   }
