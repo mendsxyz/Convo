@@ -589,6 +589,8 @@ main {
   border-right: 0.8px solid var(--lshade);
 }
 
+.mpa-options .block-user,
+.mpa-options .report-post,
 .mpa-options .update-post,
 .mpa-options .delete-post {
   padding: 5px;
