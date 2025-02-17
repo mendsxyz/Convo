@@ -131,6 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         await set(newPostRef, {
           id: newPostRef.key, // Store the Firebase-generated ID
+          user_email: userEmail.email,
           author_name: emailToUsername.trim(),
           time_posted: Date.now() || Date().getTime(),
           body,

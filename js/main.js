@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <span class="ms-rounded">bolt</span>
               </div>
                 
-              <span class="update-post ms-rounded" id="${postId}">edit</span>
+              <span class="update-post ms-rounded" style="display: ${post.user_email === activeSession.email ? "flex" : "none"};" id="${postId}">edit</span>
               <span class="delete-post ms-rounded" id="${postId}">delete</span>
             </div>
             </div>
