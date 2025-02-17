@@ -136,10 +136,11 @@ document.addEventListener("DOMContentLoaded", () => {
           time_posted: Date.now() || Date().getTime(),
           body,
           imgUrl,
-          views: 0,
+          convo: 0,
           counts: 0,
           saves: 0,
-          shares: 0
+          shares: 0,
+          views: 0
         });
 
         resolve("New post added successfully!");
