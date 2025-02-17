@@ -589,9 +589,17 @@ main {
   border-right: 0.8px solid var(--lshade);
 }
 
-.mpa-options span.report-post,
-.mpa-options span.delete-post {
+.mpa-options .report-post,
+.mpa-options .delete-post {
   border-right: none;
+}
+
+.mpa-options .block-user {
+  color: var(--alert);
+}
+
+.mpa-options .report-post {
+  color: var(--info);
 }
 
 .mpa-options .block-user,
