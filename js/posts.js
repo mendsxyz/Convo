@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
           imgUrl,
           views: 0,
           counts: 0,
-          favs: 0,
+          saves: 0,
           shares: 0
         });
 

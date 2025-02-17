@@ -236,9 +236,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 <span class="ms-rounded">bolt</span>
               </div>
               
-              <div class="pa favs">
-                <span>${post.favs}</span>
-                <span class="ms-rounded">favorite</span>
+              <div class="pa saves">
+                <span>${post.saves}</span>
+                <span class="ms-rounded">bookmark</span>
               </div>
               
               <div class="pa shares">

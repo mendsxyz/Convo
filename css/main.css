@@ -553,12 +553,12 @@ main {
 }
 
 .post-analytics .pa span:nth-child(1) {
-  font-size: 16px;
+  font-size: 14px;
   opacity: .8;
 }
 
 .post-analytics .pa span:nth-child(2) {
-  font-size: 20px;
+  font-size: 18px;
   opacity: .6;
 }
 
