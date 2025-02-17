@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".italic").addEventListener("click", () => formatText("italic"));
   document.querySelector(".underline").addEventListener("click", () => formatText("underline"));
   document.querySelector(".strikethrough").addEventListener("click", () => formatText("strikethrough"));
-  
+
   function formatText(command) {
     document.execCommand(command, false, null);
   }
@@ -72,11 +72,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Create post data
-  
+
   let states = JSON.parse(localStorage.getItem("states")) || [];
   const userEmail = states.find(state => state.email !== "");
   const emailToUsername = userEmail.email.replace(/@.*/, "");
-  
+
   const createPostForm = document.querySelector("#createPostForm");
   createPostForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -107,48 +107,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Add post to firebase
 
+  const storedData = JSON.parse(localStorage.getItem("postId")) || [];
+  console.log(storedData);
+
   function addPost(body, imgUrl = "") {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       if (!db) {
         reject("Firebase database is not initialized.");
         return;
       }
 
-      // Create a new post reference with an auto-generated ID
-      
-      const newPostRef = push(ref(db, "posts"));
+      // Check if any post in localStorage matches an existing post in Firebase
+      const postId = storedData.find(post => post.id !== "");
+      const pId = postId.id;
 
-      set(newPostRef, {
-        author_name: emailToUsername.trim(),
-        time_posted: new Date().getDate().toLocaleString(),
-        body: body,
-        imgUrl: imgUrl,
-        counts: 0,
-        views: 0
-      })
-      .then(() => {
-        resolve("Post added successfully!");
-      })
-      .catch((error) => {
-        reject("Failed to add post: " + error.message);
-      });
+      if (postId) {
+        const existingPostRef = ref(db, "posts/" + pId);
+
+        await update(existingPostRef, { body });
+        resolve("Post updated successfully!");
+        alert("Post updated successfully!");
+      } else {
+        const newPostRef = push(ref(db, "posts"));
+
+        await set(newPostRef, {
+          id: newPostRef.key, // Store the Firebase-generated ID
+          author_name: emailToUsername.trim(),
+          time_posted: Date.now() || Date().getTime(),
+          body,
+          imgUrl,
+          counts: 0,
+          views: 0
+        });
+
+        resolve("New post added successfully!");
+      }
     });
   }
-  
-  const storedData = JSON.parse(localStorage.getItem("postId")) || [];
-  console.log(storedData);
-  
-  function updatePost(postId, body, imgUrl) {
-    const newBody = prompt("Enter new body:", body);
-    const newImgUrl = prompt("Enter new image URL (or leave empty):", imgUrl);
 
-    const postRef = ref(db, `posts/${postId}`);
+  // Display post body to edit
 
-    return update(postRef, {
-        body: newBody || null, // Avoid keeping old body if newBody is empty
-        imgUrl: newImgUrl || null
-      })
-      .then(() => console.log("Post updated successfully"))
-      .catch((error) => console.error("Error updating post:", error));
+  if (storedData) {
+    const bodyData = storedData.find(data => data.body !== "");
+    if (bodyData) bodyEditor.innerHTML = bodyData.body;
   }
+
+  window.addEventListener("load", function(event) {
+    localStorage.removeItem("postId");
+  });
 });

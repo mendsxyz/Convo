@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (activeSession) {
     // UI changes
 
-    UI.header_auth_state.textContent = activeSession.email.replace(/@.*/, "");
+    if (UI.header_auth_state) UI.header_auth_state.textContent = activeSession.email.replace(/@.*/, "");
     UI.nav_links.forEach(link => {
       if (link.classList.contains("signOutBtn")) {
         link.addEventListener("click", () => {
@@ -164,10 +164,9 @@ document.addEventListener("DOMContentLoaded", () => {
             UI.refresh.classList.add("popup");
           }, 2500);
 
-          // Delay page refresh
           setTimeout(() => {
             location.reload();
-          }, 6000);
+          }, 5000);
         });
       }
     });
@@ -192,9 +191,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     onValue(postsRef, (snapshot) => {
       if (!snapshot.exists()) {
-        console.warn("No posts found in the database.");
-        postsWrapper.innerHTML = "<h3>No posts available.</h3>";
-        alert("No posts available.");
+        console.warn("No posts available yet.");
+        postsWrapper.innerHTML = `<h3 style="text-align: center; margin-top: 4rem;">No posts available yet.</h3>`;
         return;
       }
 
@@ -218,18 +216,16 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="author">
                 <span class="author-name">${post.author_name ? post.author_name : "retrieving_author..."}</span>
                 <span>•</span>
-                <span class="time-posted">${post.time_posted ? post.time_posted : "0s"}</span>
+                <span class="time-posted" data-id="${postId}" data-timestamp="${post.time_posted || Date.now()}">${formatTime(post.time_posted)}</span>
               </div>
               
               <div class="post-body" data-id="post-${postId}">
-                ${post.body.length > MAX_BODY ? post.body.substring(0, MAX_BODY) 
-                + "..." : post.body}
+                ${post.body}
               </div>
               
               ${post.imgUrl ? `<img class="post-img" src="${post.imgUrl}" width="200">` : ""}
-            </div>
-            
-            <div class="post-analytics">
+              
+              <div class="post-analytics">
               <div class="pa views">
                 <span>${post.views}</span>
                 <span class="ms-rounded">bar_chart</span>
@@ -243,6 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <span class="update-post ms-rounded" id="${postId}">edit</span>
               <span class="delete-post ms-rounded" id="${postId}">delete</span>
             </div>
+            </div>
           </div>
         `;
 
@@ -253,32 +250,24 @@ document.addEventListener("DOMContentLoaded", () => {
           postBodies.forEach(postBody => {
             postBody.addEventListener("click", () => {
               postBody.classList.toggle("expand");
-
-              if (postBody.classList.contains("expand")) {
-                postBody.innerHTML = post.body;
-              } else {
-                postBody.innerHTML = `
-                  ${post.body.length > MAX_BODY ? post.body.substring(0, MAX_BODY) + "..." : post.body}
-                `;
-              }
             });
           });
         }
 
         if (posts) {
-          posts.forEach(post => {
-            const update0 = post.querySelector(".post-analytics .update-post");
-            const delete0 = post.querySelector(".post-analytics .delete-post");
+          posts.forEach(post0 => {
+            const update0 = post0.querySelector(".post-analytics .update-post");
+            const delete0 = post0.querySelector(".post-analytics .delete-post");
 
             update0.addEventListener("click", () => {
               if (activeSession.email === allowedEmail) {
                 console.log("Access granted to /posts");
-                
+
                 const body0 = {
                   id: postId,
                   body: post.body
                 }
-                
+
                 storedData.push(body0);
                 localStorage.setItem("postId", JSON.stringify(storedData));
                 window.location.href = "/post.html";
@@ -288,7 +277,10 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             delete0.addEventListener("click", () => {
-              undefined
+              if (confirm("Are you sure you want to delete this post?")) {
+                const deleteRef = ref(db, "posts/" + postId);
+                remove(deleteRef);
+              }
             });
           });
         }
@@ -301,6 +293,39 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   getPosts();
+
+  function formatTime(timestamp) {
+    if (!timestamp || isNaN(timestamp) || timestamp < 10000000000) {
+      return "Just now"; // Handles bad timestamps like 0 or null
+    }
+
+    const now = Date.now();
+    const seconds = Math.floor((now - timestamp) / 1000);
+
+    if (seconds < 60) return `${seconds}s ago`;
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    if (days <= 6) return `${days}d ago`;
+
+    return new Date(timestamp).toLocaleDateString("en-GB"); // dd/mm/yyyy
+  }
+
+  function updatePostTimes() {
+    document.querySelectorAll(".post .time-posted").forEach(timeEl => {
+      const postId = timeEl.dataset.id;
+      const timestamp = parseInt(timeEl.dataset.timestamp);
+
+      if (timestamp) {
+        timeEl.innerText = formatTime(timestamp);
+      }
+    });
+  }
+
+  // Run every second to update times in real-time
+  setInterval(updatePostTimes, 1000);
 });
 
 // Reset password nav
