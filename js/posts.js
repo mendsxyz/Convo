@@ -118,10 +118,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Check if any post in localStorage matches an existing post in Firebase
       
-      const postId = storedData.find(post => post.id !== "");
+      const postId = storedData.find(post => post.id);
       const pId = postId.id;
 
-      if (postId.id) {
+      if (postId) {
         const existingPostRef = ref(db, "posts/" + pId);
 
         await update(existingPostRef, { body });
