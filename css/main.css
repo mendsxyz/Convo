@@ -585,7 +585,8 @@ main {
   z-index: 1;
 }
 
-.mpa-options span:not(:last-child) {
+.mpa-options span:not(span.report-post),
+.mpa-options span:not(span.delete-post) {
   border-right: 0.8px solid var(--lshade);
 }
 
