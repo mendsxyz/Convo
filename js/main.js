@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="post-analytics">
               <div class="pa convo">
                 <span>${post.convo}</span>
-                <span class="ms-rounded">quick_reply</span>
+                <span class="ms-rounded">quickreply</span>
               </div>  
               
               <div class="pa counts">
@@ -286,6 +286,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 storedData.push(body0);
                 localStorage.setItem("postId", JSON.stringify(storedData));
                 window.location.href = "/post.html";
+                
+                if (localStorage.getItem("postId")) document.querySelector(".post-status").textContent = "Edit post";
               } else {
                 window.location.href = "/404.html";
               }
