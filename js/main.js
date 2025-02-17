@@ -226,34 +226,40 @@ document.addEventListener("DOMContentLoaded", () => {
               ${post.imgUrl ? `<img class="post-img" src="${post.imgUrl}" width="200">` : ""}
               
               <div class="post-analytics">
-              <div class="pa convo">
-                <span>${post.convo}</span>
-                <span class="ms-rounded">quickreply</span>
-              </div>  
-              
-              <div class="pa counts">
-                <span>${post.counts}</span>
-                <span class="ms-rounded">bolt</span>
+                <div class="pa convo">
+                  <span>${post.convo}</span>
+                  <span class="ms-rounded">quickreply</span>
+                </div>  
+                
+                <div class="pa counts">
+                  <span>${post.counts}</span>
+                  <span class="ms-rounded">bolt</span>
+                </div>
+                
+                <div class="pa saves">
+                  <span>${post.saves}</span>
+                  <span class="ms-rounded">bookmark</span>
+                </div>
+                
+                <div class="pa shares">
+                  <span>${post.shares}</span>
+                  <span class="ms-rounded">share</span>
+                </div>
+                
+                <div class="pa views">
+                  <span>${post.views}</span>
+                  <span class="ms-rounded">bar_chart</span>
+                </div>
+                
+                <span class="more-post-actions ms-rounded">more_horiz</span>
+                <div class="mpa-options">
+                  <span class="block-user ms-rounded" style="display: ${post.user_email !== activeSession.email ? "flex" : "none"};" id="${post.user_email}">block</span>
+                  <span class="report-post ms-rounded" style="display: ${post.user_email !== activeSession.email ? "flex" : "none"};" id="${postId}">report</span>
+                  
+                  <span class="update-post ms-rounded" style="display: ${post.user_email === activeSession.email ? "flex" : "none"};" id="${postId}">edit</span>
+                  <span class="delete-post ms-rounded" style="display: ${post.user_email === activeSession.email ? "flex" : "none"};" id="${postId}">delete</span>
+                </div>
               </div>
-              
-              <div class="pa saves">
-                <span>${post.saves}</span>
-                <span class="ms-rounded">bookmark</span>
-              </div>
-              
-              <div class="pa shares">
-                <span>${post.shares}</span>
-                <span class="ms-rounded">share</span>
-              </div>
-              
-              <div class="pa views">
-                <span>${post.views}</span>
-                <span class="ms-rounded">bar_chart</span>
-              </div>
-              
-              <span class="update-post ms-rounded" style="display: ${post.user_email === activeSession.email ? "flex" : "none"};" id="${postId}">edit</span>
-              <span class="delete-post ms-rounded" style="display: ${post.user_email === activeSession.email ? "flex" : "none"};" id="${postId}">delete</span>
-            </div>
             </div>
           </div>
         `;

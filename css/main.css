@@ -544,6 +544,7 @@ main {
   align-items: center;
   justify-content: left;
   gap: 20px;
+  position: relative;
 }
 
 .post-analytics .pa {
@@ -562,8 +563,35 @@ main {
   opacity: .6;
 }
 
-.post-analytics .update-post,
-.post-analytics .delete-post {
+.post-analytics .more-post-actions {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: .6;
+}
+
+.post-analytics .mpa-options {
+  background: var(--light);
+  width: 100px;
+  padding: 0;
+  border: 1px solid var(--lshade);
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: absolute;
+  bottom: 120%;
+  right: 15px;
+  z-index: 1;
+}
+
+.mpa-options span:not(:last-child) {
+  border-right: 0.8px solid var(--lshade);
+}
+
+.mpa-options .update-post,
+.mpa-options .delete-post {
+  padding: 5px;
   font-size: 20px;
   display: flex;
   align-items: center;
