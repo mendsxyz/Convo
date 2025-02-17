@@ -199,52 +199,104 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       postsWrapper.innerHTML = ""; // Clear before updating
-      
+      const storedData = JSON.parse(localStorage.getItem("postId")) || [];
+      console.log(storedData);
+
       snapshot.forEach((childSnapshot) => {
         const post = childSnapshot.val();
         const postId = childSnapshot.key;
-        
-        let MAX_BODY = 120;
-        
+
+        let MAX_BODY = 220;
+
         postsWrapper.innerHTML += `
-        <div class="post" id="post-${postId}">
-          <div class="post-col1">
-            <img src="" alt="author-pfp">
-          </div>
-          
-          <div class="post-col2">
-            <div class="author">
-              <span class="author-name"></span>
-              <span class="time-posted"><span>
+          <div class="post" id="post-${postId}">
+            <div class="post-col-1">
+              <img src="" alt="author-pfp">
             </div>
             
-            <div class="post-body">${post.body.length > MAX_BODY ? post.body.substring(0, MAX_BODY) + "..." : post.body}</div>
-            ${post.imgUrl ? `<img class="post-img" src="${post.imgUrl}" width="200">` : ""}
+            <div class="post-col-2">
+              <div class="author">
+                <span class="author-name">${post.author_name ? post.author_name : "retrieving_author..."}</span>
+                <span>•</span>
+                <span class="time-posted">${post.time_posted ? post.time_posted : "0s"}</span>
+              </div>
+              
+              <div class="post-body" data-id="post-${postId}">
+                ${post.body.length > MAX_BODY ? post.body.substring(0, MAX_BODY) 
+                + "..." : post.body}
+              </div>
+              
+              ${post.imgUrl ? `<img class="post-img" src="${post.imgUrl}" width="200">` : ""}
+            </div>
             
             <div class="post-analytics">
-              <span class="pa views">
+              <div class="pa views">
                 <span>${post.views}</span>
                 <span class="ms-rounded">bar_chart</span>
-              </span>
-              <span class="pa counts">
+              </div>
+                
+              <div class="pa counts">
                 <span>${post.counts}</span>
                 <span class="ms-rounded">bolt</span>
-              </span>
-            </div>
-            
-            <div class="post-actions">
-              <button class="update-post" id="${postId}">Edit</button>
-              <button class="delete-post" id="${postId}">Delete</button>
+              </div>
+                
+              <span class="update-post ms-rounded" id="${postId}">edit</span>
+              <span class="delete-post ms-rounded" id="${postId}">delete</span>
             </div>
           </div>
-        </div>
-      `;
+        `;
+
+        const posts = document.querySelectorAll(".post");
+        const postBodies = document.querySelectorAll(".post .post-body");
+
+        if (postBodies) {
+          postBodies.forEach(postBody => {
+            postBody.addEventListener("click", () => {
+              postBody.classList.toggle("expand");
+
+              if (postBody.classList.contains("expand")) {
+                postBody.innerHTML = post.body;
+              } else {
+                postBody.innerHTML = `
+                  ${post.body.length > MAX_BODY ? post.body.substring(0, MAX_BODY) + "..." : post.body}
+                `;
+              }
+            });
+          });
+        }
+
+        if (posts) {
+          posts.forEach(post => {
+            const update0 = post.querySelector(".post-analytics .update-post");
+            const delete0 = post.querySelector(".post-analytics .delete-post");
+
+            update0.addEventListener("click", () => {
+              if (activeSession.email === allowedEmail) {
+                console.log("Access granted to /posts");
+                
+                const body0 = {
+                  id: postId,
+                  body: post.body
+                }
+                
+                storedData.push(body0);
+                localStorage.setItem("postId", JSON.stringify(storedData));
+                window.location.href = "/post.html";
+              } else {
+                window.location.href = "/404.html";
+              }
+            });
+
+            delete0.addEventListener("click", () => {
+              undefined
+            });
+          });
+        }
       });
 
-      alert("Posts loaded successfully!");
+      console.log("Posts loaded successfully!");
     }, (error) => {
       console.error("Error fetching posts:", error);
-      alert("Error fetching posts: " + error.message);
     });
   }
 

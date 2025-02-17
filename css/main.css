@@ -262,7 +262,7 @@ html:has(.resetPasswordForm-wrapper.active) .nav-link {
 
 main {
   width: 100%;
-  padding: 60px 5%;
+  padding: 20px 5%;
 }
 
 #loader {
@@ -411,7 +411,7 @@ main {
 
 .auth-content .content-nav {
   width: 100%;
-  padding: 10px;
+  padding: 5px;
   border-radius: 50px;
   border: 1px solid var(--dark);
   display: flex;
@@ -440,33 +440,53 @@ main {
 
 .post {
   width: 100%;
-  padding: 10px;
+  padding: 10px 0;
   display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 1fr 2fr;
-  gap: 5px;
+  grid-template-columns: auto 2fr;
+  gap: 10px;
 }
 
-.post-col1 {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
+.post-col-1 {
+  display: grid;
+  align-content: start;
+  justify-items: center;
 }
 
-.post-col1 img {
-  width: 40px;
-  height: 40px;
+.post-col-1 img {
+  width: 42px;
+  height: 42px;
   border-radius: 100%;
+  border: 1.8px solid var(--lshade);
 }
 
-.post-col2 {
-  
+.post-col-2 {
+  display: grid;
+  grid-auto-flow: row;
+  gap: 10px;
+}
+
+.author {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 10px;
+}
+
+.author .author-name {
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.author .time-posted {
+  font-weight: 300;
+  opacity: .5;
 }
 
 .post-body {
   width: 100%;
-  height: 150px;
-  overflow-y: auto;
+  height: auto;
+  font-size: 14px;
 }
 
 .post-img {
@@ -479,27 +499,32 @@ main {
   display: flex;
   align-items: center;
   justify-content: left;
-  gap: 10px;
+  gap: 20px;
 }
 
 .post-analytics .pa {
   display: flex;
   align-items: center;
   justify-content: left;
-  padding-top: 10px;
 }
 
-.post-analytics .pa span {
+.post-analytics .pa span:nth-child(1) {
   font-size: 16px;
   opacity: .8;
 }
 
-.post-analytics .pa span.ms-rounded {
-  font-size: 28px;
+.post-analytics .pa span:nth-child(2) {
+  font-size: 20px;
+  opacity: .6;
 }
 
-.post-actions {
-  
+.post-analytics .update-post,
+.post-analytics .delete-post {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: .6;
 }
 
 .post:not(:last-child) {

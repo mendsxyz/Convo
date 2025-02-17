@@ -72,7 +72,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Create post data
-
+  
+  let states = JSON.parse(localStorage.getItem("states")) || [];
+  const userEmail = states.find(state => state.email !== "");
+  const emailToUsername = userEmail.email.replace(/@.*/, "");
+  
   const createPostForm = document.querySelector("#createPostForm");
   createPostForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -111,20 +115,40 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Create a new post reference with an auto-generated ID
+      
       const newPostRef = push(ref(db, "posts"));
 
       set(newPostRef, {
-          body: body,
-          imgUrl: imgUrl,
-          counts: 0,
-          views: 0
-        })
-        .then(() => {
-          resolve("Post added successfully!");
-        })
-        .catch((error) => {
-          reject("Failed to add post: " + error.message);
-        });
+        author_name: emailToUsername.trim(),
+        time_posted: new Date().getDate().toLocaleString(),
+        body: body,
+        imgUrl: imgUrl,
+        counts: 0,
+        views: 0
+      })
+      .then(() => {
+        resolve("Post added successfully!");
+      })
+      .catch((error) => {
+        reject("Failed to add post: " + error.message);
+      });
     });
+  }
+  
+  const storedData = JSON.parse(localStorage.getItem("postId")) || [];
+  console.log(storedData);
+  
+  function updatePost(postId, body, imgUrl) {
+    const newBody = prompt("Enter new body:", body);
+    const newImgUrl = prompt("Enter new image URL (or leave empty):", imgUrl);
+
+    const postRef = ref(db, `posts/${postId}`);
+
+    return update(postRef, {
+        body: newBody || null, // Avoid keeping old body if newBody is empty
+        imgUrl: newImgUrl || null
+      })
+      .then(() => console.log("Post updated successfully"))
+      .catch((error) => console.error("Error updating post:", error));
   }
 });
