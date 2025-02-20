@@ -150,25 +150,37 @@
 
     <div class="auth-content">
       <div class="content-nav">
-        <a href="/post.html" class="write-post cnl-adaptive">
+        <a href="/post.html" class="edit-post">
           <span class="ms-rounded">edit</span>
         </a>
-        
-        <div class="for-you cn-link active">
+
+        <div class="cn-link active" data-tab="for-you-posts">
           <span>For you</span>
         </div>
 
-        <div class="favourites cn-link">
+        <div class="cn-link" data-tab="saved-posts">
           <span>Favorites</span>
         </div>
       </div>
 
-      <div class="posts-wrapper">
-        <h3 style="text-align: center; margin-top: 4rem;">Fetching posts...</h3> 
+      <div class="feed">
+        <div class="posts-container">
+          <div class="posts-wrapper for-you-posts active">
+            <h3 style="text-align: center; margin-top: 4rem;">Fetching posts...</h3>
+          </div>
+
+          <div class="posts-wrapper saved-posts">
+            <h3 style="text-align: center; margin-top: 4rem;">Fetching saved posts...</h3>
+          </div>
+        </div>
+
+        <div class="utilities">
+
+        </div>
       </div>
     </div>
   </main>
-  
+
   <script type="module" src="js/main.js" defer></script>
 </body>
 

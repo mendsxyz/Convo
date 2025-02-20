@@ -1,7 +1,7 @@
 // Import fn
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-import { getDatabase, ref, set, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
+import { getDatabase, ref, get, set, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
 // Config
 
@@ -24,10 +24,13 @@ const db = getDatabase(app);
 // Posts
 
 document.addEventListener("DOMContentLoaded", () => {
+  
   // Edit post content
 
   const bodyEditor = document.querySelector(".body-editor");
-
+  
+  // Formatting
+  
   document.querySelector(".bold").addEventListener("click", () => formatText("bold"));
   document.querySelector(".italic").addEventListener("click", () => formatText("italic"));
   document.querySelector(".underline").addEventListener("click", () => formatText("underline"));
@@ -36,7 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function formatText(command) {
     document.execCommand(command, false, null);
   }
-
+  
+  // Image uploads
+  
   document.querySelector(".add-image").addEventListener("click", () => {
     document.getElementById("uploadImage").click();
   });
@@ -71,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Create post data
+  // Build post data
 
   let states = JSON.parse(localStorage.getItem("states")) || [];
   const userEmail = states.find(state => state.email !== "");
@@ -109,54 +114,83 @@ document.addEventListener("DOMContentLoaded", () => {
   const storedData = JSON.parse(localStorage.getItem("postId")) || [];
   console.log(storedData);
 
-  function addPost(body, imgUrl = "") {
-    return new Promise(async (resolve, reject) => {
-      if (!db) {
-        reject("Firebase database is not initialized.");
-        return;
-      }
+  async function addPost(body, imgUrl = "") {
+    try {
+      if (!db) throw new Error("Firebase database is not initialized.");
 
-      // Check if any post in localStorage matches an existing post in Firebase
+      // Ensure `localStorage` contains valid post data
       
-      const postId = storedData.find(post => post.id);
+      const storedData = JSON.parse(localStorage.getItem("postId")) || [];
+      console.log("Stored Data at post submit:", storedData);
 
-      if (postId) {
-        const existingPostRef = ref(db, "posts/" + postId.id);
+      // Extract correct post ID
+      
+      const storedPost = storedData.length > 0 ? storedData[0] : null;
 
-        await update(existingPostRef, { body });
-        resolve("Post updated successfully!");
+      if (storedPost && storedPost.id) {
+        console.log("Updating post with ID:", storedPost.id);
+
+        const existingPostRef = ref(db, "posts/" + storedPost.id);
+        const snapshot = await get(existingPostRef);
+
+        if (!snapshot.exists()) {
+          throw new Error("Post not found in Firebase for update.");
+        }
+
+        const existingPost = snapshot.val();
+        console.log("Existing Post Data:", existingPost);
+
+        // Ensure proper update
+        
+        await update(existingPostRef, {
+          body,
+          imgUrl: imgUrl || existingPost.imgUrl,
+          time_posted: existingPost.time_posted,
+          author_name: existingPost.author_name || "Unknown Author"
+        });
+
         alert("Post updated successfully!");
+        console.log("Post updated successfully!");
+
+        // Remove `localStorage` item after update
+        
+        localStorage.removeItem("postId");
+        localStorage.removeItem("edit");
       } else {
         const newPostRef = push(ref(db, "posts"));
-
+        
+        // Post object
+        
         await set(newPostRef, {
-          id: newPostRef.key, // Store the Firebase-generated ID
+          id: newPostRef.key,
           user_email: userEmail.email,
           author_name: emailToUsername.trim(),
-          time_posted: Date.now() || Date().getTime(),
+          time_posted: Date.now(),
           body,
           imgUrl,
           convo: 0,
-          counts: 0,
+          convo_partners: {},
+          boosts: 0,
+          boostedBy: {},
           saves: 0,
+          savedBy: {},
           shares: 0,
           views: 0
         });
 
-        resolve("New post added successfully!");
-        alert("Post added successfully!");
+        alert("New post added successfully!");
+        console.log("New post added successfully!");
       }
-    });
+    } catch (error) {
+      console.error("Error adding/updating post:", error.message);
+      alert("Error: " + error.message);
+    }
   }
 
-  // Display post body to edit
+  // Inject post content to createPostForm
 
   if (storedData) {
     const bodyData = storedData.find(data => data.body !== "");
     if (bodyData) bodyEditor.innerHTML = bodyData.body;
   }
-
-  window.addEventListener("load", function(event) {
-    localStorage.removeItem("postId");
-  });
 });

@@ -5,7 +5,9 @@
 }
 
 /* Global style */
-*,html,body {
+*,
+html,
+body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -29,7 +31,7 @@
   --success: #0ACE2D;
   --lshade: #dddddd;
   --dshade: #4D4D4D;
-  
+
   /* dark */
   --dprimary: #FFC649;
   --dsecondary: #8ACD6D;
@@ -37,6 +39,21 @@
   --dalert: #E15F5F;
   --dinfo: #FFBA7B;
   --dsuccess: #65E17B;
+  
+  /* font-size */
+  --sm: 14px;
+  --md: 16px;
+  --lg: 18px;
+  --xl: 20px;
+  --xl2: 22px;
+  --xl4: 24px;
+  
+  --sm2: 16px;
+  --md2: 18px;
+  --lg2: 20px;
+  --xl22: 22px;
+  --xl24: 24px;
+  --xl26: 26px;
 }
 
 body {
@@ -48,13 +65,14 @@ header {
   width: 100%;
   height: 55px;
   padding: 0 5%;
-  border-bottom: 1px solid var(--dark);
+  border-bottom: 1px solid var(--lshade);
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: sticky;
   top: 0;
   left: 0;
+  z-index: 7;
 }
 
 header .site-id {
@@ -67,6 +85,10 @@ header .site-id {
 header .site-id img {
   width: 1.5em;
   height: auto;
+}
+
+header .site-id #userName {
+  font-size: var(--md);
 }
 
 header .nav-toggle {
@@ -118,15 +140,16 @@ html:has(nav.auto.active) main::after {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 8;
 }
 
-.authForm-wrapper, 
+.authForm-wrapper,
 .resetPasswordForm-wrapper {
   width: 100%;
   display: none;
 }
 
-.authForm-wrapper.active, 
+.authForm-wrapper.active,
 .resetPasswordForm-wrapper.active {
   display: block;
 }
@@ -137,7 +160,7 @@ html:has(nav.auto.active) main::after {
 
 .authForm-wrapper form,
 .resetPasswordForm-wrapper form,
-.createPostForm-wrapper form{
+.createPostForm-wrapper form {
   width: 100%;
   display: grid;
   grid-auto-flow: row;
@@ -151,7 +174,7 @@ html:has(nav.auto.active) main::after {
   align-items: center;
   justify-content: left;
   gap: 10px;
-  font-size: 18px;
+  font-size: var(--lg);
   font-weight: bold;
 }
 
@@ -160,7 +183,7 @@ html:has(nav.auto.active) main::after {
   display: grid;
   grid-auto-flow: column;
   gap: 10px;
-  font-size: 18px;
+  font-size: var(--lg);
   font-weight: bold;
 }
 
@@ -184,30 +207,31 @@ html:has(nav.auto.active) main::after {
 .authForm-wrapper form .data-info span,
 .resetPasswordForm-wrapper form .data-info span,
 .createPostForm-wrapper form .data-info span {
-  font-size: 14px;
+  font-size: var(--sm);
 }
 
 .authForm-wrapper form input,
 .resetPasswordForm-wrapper form input,
 .createPostForm-wrapper form input {
-  font-size: 16px;
+  font-size: var(--md);
   width: 100%;
   padding: 12px 5%;
-  border: 1.8px solid var(--dark);
+  border: 1.8px solid var(--lshade);
   border-radius: 10px;
 }
 
 .authForm-wrapper form input[type="submit"],
 .resetPasswordForm-wrapper form input[type="submit"] {
   background: var(--primary);
-  font-size: 16px;
+  color: var(--light);
+  font-size: var(--md);
   font-weight: bold;
   cursor: pointer;
 }
 
 .createPostForm-wrapper form input[type="submit"] {
   background: var(--primary);
-  font-size: 16px;
+  font-size: var(--md);
   font-weight: bold;
   padding: 9px 5%;
   cursor: pointer;
@@ -238,7 +262,8 @@ html:has(.resetPasswordForm-wrapper.active) .nav-link {
   display: none;
 }
 
-.theme-switch, .userName-edit {
+.theme-switch,
+.userName-edit {
   width: 100%;
   display: flex;
   align-items: center;
@@ -247,10 +272,10 @@ html:has(.resetPasswordForm-wrapper.active) .nav-link {
 }
 
 .nl-collapsible .current-userName {
-  font-size: 16px;
+  font-size: var(--md);
   white-space: nowrap;
   padding: 7px 3%;
-  border: 1px solid var(--dark);
+  border: 1px solid var(--lshade);
   border-radius: 5px;
   opacity: .8;
   overflow: auto;
@@ -286,14 +311,14 @@ main {
 #loader.active {
   opacity: 1;
   visibility: visible;
-  z-index: 10;
+  z-index: 9;
 }
 
 #loader .animation-wrapper {
   background: var(--light);
   padding: 15px;
   border-radius: 10px;
-  border: 1px solid var(--dark);
+  border: 1.8px solid var(--lshade);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -314,6 +339,7 @@ main {
   from {
     transform: rotate(0);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -335,12 +361,12 @@ main {
 }
 
 #loader .action-message.title {
-  font-size: 22px;
-  font-weight: bold;
+  font-size: var(--xl);
+  font-weight: 400;
 }
 
 #loader .action-message.body-content {
-  font-size: 16px;
+  font-size: var(--md);
 }
 
 .hero {
@@ -380,21 +406,23 @@ main {
 
 .hero .body-content {
   margin: 0 5%;
-  font-size: 18px;
+  font-size: var(--lg);
   font-weight: 300;
   line-height: 1.4;
 }
 
 #ctaBtn {
   background: var(--primary);
-  color: var(--dark);
-  width: 100%;
+  color: var(--light);
+  width: 80%;
   padding: 10px 1em;
+  margin: 0 0 10%;
   display: flex;
   align-items: center;
   justify-content: left;
   gap: 1em;
-  border: 1.8px solid #000000;
+  font-size: var(--lg);
+  border: 1.8px solid var(--lshade);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -413,10 +441,11 @@ main {
 }
 
 .auth-content .content-nav {
-  width: 100%;
+  width: 102%;
   padding: 5px;
+  margin-left: -1%;
   border-radius: 50px;
-  border: 1px solid var(--dark);
+  border: 1px solid var(--lshade);
   display: flex;
   align-items: center;
   justify-content: left;
@@ -426,13 +455,15 @@ main {
 .auth-content .cn-link {
   border-radius: 50px;
   padding: 7px 14px;
+  font-size: var(--sm);
+  font-weight: 600;
 }
 
-.auth-content .cnl-adaptive {
+.auth-content .edit-post {
   background: var(--primary);
   color: var(--light);
-  width: 33px;
-  height: 33px;
+  width: 30px;
+  height: 30px;
   border-radius: 100%;
   display: flex;
   align-items: center;
@@ -440,8 +471,8 @@ main {
   text-decoration: none;
 }
 
-.auth-content .cnl-adaptive span {
-  font-size: 16px;
+.auth-content .edit-post span {
+  font-size: var(--xl);
 }
 
 .auth-content .cn-link.active {
@@ -449,12 +480,40 @@ main {
   color: var(--light);
 }
 
-.posts-wrapper {
+.feed {
   width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 100% 0;
+}
+
+.posts-container {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 100% 0;
+  overflow-x: hidden;
+}
+
+html:has(.posts-wrapper.saved-posts.active) .posts-container {
+  grid-template-columns: 0 100%;
+}
+
+.posts-wrapper {
   display: grid;
   grid-auto-flow: row;
   gap: 0;
   align-content: start;
+}
+
+.posts-wrapper.for-you-posts,
+.posts-wrapper.saved-posts {
+  opacity: 0;
+}
+
+.posts-wrapper.for-you-posts.active,
+.posts-wrapper.saved-posts.active {
+  opacity: 1;
 }
 
 .post {
@@ -493,12 +552,12 @@ main {
 }
 
 .author .author-name {
-  font-size: 15px;
+  font-size: var(--sm);
   font-weight: 300;
 }
 
 .author .time-posted {
-  font-size: 15px;
+  font-size: var(--sm);
   font-weight: 300;
   opacity: .5;
 }
@@ -506,17 +565,17 @@ main {
 .post-body {
   width: 100%;
   min-height: 50px;
-  font-size: 14px;
+  font-size: var(--sm);
   overflow-y: hidden;
   position: relative;
-  user-select: none!important;
+  user-select: none !important;
 }
 
 .post-body::after {
   content: "";
-  background: 
-    linear-gradient(to bottom, 
-    transparent, var(--light));
+  background:
+    linear-gradient(to bottom,
+      transparent, var(--light));
   width: 100%;
   height: 50%;
   position: absolute;
@@ -526,7 +585,7 @@ main {
 
 .post-body.expand {
   height: auto;
-  user-select: auto!important;
+  user-select: auto !important;
 }
 
 .post-body.expand::after {
@@ -554,17 +613,17 @@ main {
 }
 
 .post-analytics .pa span:nth-child(1) {
-  font-size: 14px;
+  font-size: var(--sm);
   opacity: .8;
 }
 
 .post-analytics .pa span:nth-child(2) {
-  font-size: 18px;
+  font-size: var(--lg);
   opacity: .6;
 }
 
 .post-analytics .more-post-actions {
-  font-size: 20px;
+  font-size: var(--xl);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -580,8 +639,17 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   position: absolute;
+  bottom: 100%;
+  right: 5%;
+  opacity: 0;
+  visibility: hidden;
+  z-index: -1;
+}
+
+.mpa-options.active {
+  opacity: 1;
+  visibility: visible;
   bottom: 120%;
-  right: 15px;
   z-index: 1;
 }
 
@@ -607,7 +675,7 @@ main {
 .mpa-options .update-post,
 .mpa-options .delete-post {
   padding: 5px;
-  font-size: 20px;
+  font-size: var(--xl);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -618,28 +686,54 @@ main {
   border-bottom: 1px solid var(--lshade);
 }
 
+.utilities {
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
 /* Posts html */
 
-.createPostForm-wrapper .toolbar {
+.createPostForm-wrapper {
+  background: var(--light);
+  width: 100%;
+  height: 100%;
+  /*padding: 60px 5%;
+  bottom: -100%;
+  left: 0;
+  position: fixed;
+  z-index: -1;*/
+}
+
+/*.createPostForm-wrapper.active {
+  bottom: 0;
+  z-index: 9;
+}*/
+
+/*.createPostForm-wrapper.active .toolbar {
+  bottom: 0;
+  z-index: 1;
+}*/
+
+.createPostForm-wrapper label {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  padding: 10px 15px;
-  background: #f1f1f1;
-  border-radius: 10px 10px 0 0;
-  border: 1px solid #ddd;
-  overflow: auto;
-  position: fixed;
-  left: 0;
-  bottom: 0;
+  justify-content: space-between;
 }
 
-.createPostForm-wrapper .toolbar button {
-  padding: 0;
-  white-space: nowrap;
-  cursor: pointer;
+.createPostForm-wrapper .toolbar {
+  background: var(--lshade);
+  width: 100%;
+  padding: 10px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 10px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
 }
 
 .createPostForm-wrapper form .body-editor {
@@ -647,7 +741,9 @@ main {
   min-height: 300px;
   padding: 12px 0;
   border-top: 1.8px solid var(--lshade);
-  white-space: pre-wrap; /* Maintains line breaks */
+  white-space: pre-wrap;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* 404 html */
@@ -690,4 +786,129 @@ main {
 
 .home-btn:hover {
   transform: scale(1.05);
+}
+
+@media screen and (min-width: 768px) {
+  header {
+    height: 80px;
+  }
+  
+  header .site-id {
+    gap: var(--lg2);
+  }
+
+  header .site-id img {
+    width: 39px;
+    height: auto;
+  }
+
+  header .site-id #userName {
+    font-size: var(--lg2);
+  }
+
+  nav.auto.active {
+    width: 60%;
+    height: 50vh;
+    margin-left: 20%;
+    border-radius: 20px;
+    bottom: 25vh;
+  }
+
+  .hero .title {
+    margin: 0 5%;
+    font-size: 90px;
+    font-weight: 800;
+    letter-spacing: -4px;
+    line-height: 0.9;
+  }
+
+  .hero .body-content {
+    margin: 0 10%;
+    font-size: var(--lg2);
+    font-weight: 300;
+    line-height: 1.4;
+  }
+
+  #ctaBtn {
+    font-size: var(--lg2);
+  }
+  
+  .auth-content.active {
+    gap: 0!important;
+  }
+  
+  .auth-content .content-nav {
+    width: 101%;
+    padding: 7px;
+    gap: 7px;
+    margin-left: -0.5%;
+  }
+  
+  .auth-content .cn-link {
+    padding: 6px 18px;
+    font-size: var(--sm2);
+  }
+  
+  .auth-content .edit-post {
+    width: 33px;
+    height: 33px;
+  }
+  
+  .auth-content .edit-post span {
+    font-size: var(--md2);
+  }
+
+  .author .author-name,
+  .author .time-posted {
+    font-size: var(--sm2);
+  }
+  
+  .feed {
+    grid-template-columns: 60% 40%;
+  }
+  
+  .posts-container {
+    padding: 20px 0;
+    border-right: 1px solid var(--lshade);
+  }
+  
+  .post {
+    padding: 15px 0;
+    gap: var(--sm2);
+  }
+  
+  .post-col-1 {
+    /* no styles */
+  }
+
+  .post-col-2 {
+    /* no styles */
+  }
+
+  .post-body {
+    font-size: var(--sm2);
+  }
+
+  .post-analytics .pa span:nth-child(1) {
+    font-size: var(--sm2);
+    opacity: .8;
+  }
+
+  .post-analytics .pa span:nth-child(2) {
+    font-size: var(--lg2);
+    opacity: .6;
+  }
+  
+  .more-post-actions {
+    font-size: var(--lg2);
+  }
+
+  .mpa-options span {
+    font-size: var(--lg2);
+    opacity: .6;
+  }
+  
+  .utilities {
+    display: block;
+  }
 }
