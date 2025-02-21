@@ -202,6 +202,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         localStorage.removeItem("postId");
         localStorage.removeItem("edit");
+        
+        setTimeout(() => {
+          localStorage.removeItem("storedData");
+        }, 2000);
       } else {
         const newPostRef = push(ref(db, "posts"));
 
@@ -214,8 +218,8 @@ document.addEventListener("DOMContentLoaded", () => {
           time_posted: Date.now(),
           body,
           imgUrl,
-          convo: 0,
-          convo_partners: {},
+          comments: 0,
+          commenters: {},
           boosts: 0,
           boostedBy: {},
           saves: 0,

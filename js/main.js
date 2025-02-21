@@ -29,9 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
     onAuthStateChanged(auth, (user) => {
       if (user && user.email) {
         console.log("Access granted to /posts");
-        
+
         // Change title of createPostForm label from "Create" to "Edit"
-        
+
         const edit = localStorage.getItem("edit");
         if (edit) document.querySelector(".post-status").textContent = "Edit post";
       } else {
@@ -42,12 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  
+
   /* 
     Only verified users can edit and unverified users can
     post up to 5 times daily
   */
-  
+
   if (window.location.pathname.includes("post.html")) {
     protectRoute();
   }
@@ -59,9 +59,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const nav = document.querySelector("nav.auto");
   const nav_toggle = document.querySelector(".nav-toggle");
   const cta_btn = document.querySelector("#ctaBtn");
-  
+
   // Check if the elements exist
-  
+
   if (!nav || !nav_toggle || !cta_btn) {
     console.error("One or more elements not found in the DOM.");
   } else {
@@ -80,9 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     });
-    
+
     // Close nav menu by clicking away from it
-    
+
     function menuOpenOk_touchBg(e) {
       if (main.contains(e.target)) {
         nav.classList.remove("active");
@@ -164,30 +164,67 @@ document.addEventListener("DOMContentLoaded", () => {
   // Check user session
 
   const states = JSON.parse(localStorage.getItem("states")) || [];
-
   const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
+
+  // Set tiers per session
+
+  const safeEmail_ = activeSession.email.replace(/\./g, "_");
+  const userRef = ref(db, "users/" + safeEmail_);
+
+  async function setUserTierMarks() {
+    const userRef = ref(db, "users/" + activeSession.email.replace(/\./g, "_"));
+    const userSnapshot = await get(userRef);
+
+    if (userSnapshot.exists()) {
+      const userData = userSnapshot.val();
+      const userTier = userData.tier;
+      const userName = activeSession.email.replace(/@.*/, "");
+      const authorNames = document.querySelectorAll(".post .author-name");
+
+      const tierMarks = {
+        T2: `<span style="color: var(--primary); font-size: 16px;" class="ms-rounded">verified</span>`,
+        T3: `<span style="color: var(--secondary); font-size: 18px;" class="ms-rounded">award_star</span>`
+      };
+
+      // Add tier mark to logged-in user in the header
+
+      if (UI.header_auth_state) {
+        UI.header_auth_state.classList.add("active");
+        UI.header_auth_state.innerHTML = `${userName} ${tierMarks[userTier] || ""}`;
+      }
+
+      // Fetch all authors and apply correct tier marks
+
+      authorNames.forEach(async (name) => {
+        const authorEmail = name.dataset.email;
+        if (!authorEmail) return;
+
+        const safeAuthorEmail = authorEmail.replace(/\./g, "_");
+        const authorRef = ref(db, "users/" + safeAuthorEmail);
+        const authorSnapshot = await get(authorRef);
+
+        if (authorSnapshot.exists()) {
+          const authorData = authorSnapshot.val();
+          const authorTier = authorData.tier;
+
+          // Remove any existing tier marks before adding a new one
+
+          name.querySelectorAll(".ms-rounded").forEach(mark => mark.remove());
+
+          // Apply the correct tier mark
+
+          if (tierMarks[authorTier]) {
+            name.insertAdjacentHTML("beforeend", " " + tierMarks[authorTier]);
+          }
+        }
+      });
+    }
+  }
 
   if (activeSession) {
 
-    // User session
-    
-    const safeEmail = activeSession.email.replace(/\./g, "_");
-    const userRef = ref(db, "users/" + safeEmail);
-    
-    async function setUserTierMarks(){
-      const userSnapshot = await get(userRef);
-      if (userSnapshot.exists()) {
-        
-      }
-    }
-    
     setUserTierMarks();
-    
-    if (UI.header_auth_state) {
-      UI.header_auth_state.classList.add("active");
-      UI.header_auth_state.textContent = activeSession.email.replace(/@.*/, "");
-    }
-    
+
     UI.nav_links.forEach(link => {
       if (link.classList.contains("signOutBtn")) {
         link.addEventListener("click", () => {
@@ -216,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     });
-    
+
     UI.hero.style.display = "none";
     UI.auth_content.classList.add("active");
     UI.authform_wrapper.classList.remove("active");
@@ -266,9 +303,9 @@ document.addEventListener("DOMContentLoaded", () => {
       postsArray.forEach((post) => {
         const postId = post.postId;
         console.log(postId);
-        
+
         // Post HTML template
-        
+
         postsWrapper.innerHTML += `
           <div class="post" id="post-${postId}" data-id="${postId}">
             <div class="post-col-1">
@@ -277,7 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
           
             <div class="post-col-2">
               <div class="author">
-                <span class="author-name">${post.author_name  ||  "retrieving_author..."}</span>
+                <span class="author-name" data-email="${post.user_email}">${post.author_name  ||  "retrieving_author..."}</span>
                 <span>•</span>
                 <span class="time-posted" data-id="${postId}" data-timestamp="${post.time_posted  ||  Date.now()}">${formatTime(post.time_posted)}</span>
               </div>
@@ -285,8 +322,8 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="post-body" data-id="post-${postId}">${post.body}</div>
             
               <div class="post-analytics">
-                <div class="pa convo"><span>${post.convo  ||  0}</span><span class="ms-rounded">quickreply</span></div>
-                <div class="pa boosts" data-id="${postId}"><span class="boosts-count">${post.boosts  ||  0}</span><span class="ms-rounded">bolt</span></div>
+                <div class="pa comments"><span>${post.comments  ||  0}</span><span class="ms-rounded">quickreply</span></div>
+                <div class="pa boosts" data-id="${postId}"><span class="boosts-count">${post.boosts  ||  0}</span><span class="ms-rounded">flash_on</span></div>
                 <div class="pa saves" data-id="${postId}"><span class="saves-count">${post.saves  ||  0}</span><span class="ms-rounded">bookmark</span></div>
                 <div class="pa shares"><span>${post.shares  ||  0}</span><span class="ms-rounded">share</span></div>
                 <div class="pa views"><span>${post.views  ||  0}</span><span class="ms-rounded">bar_chart</span></div>
@@ -303,9 +340,9 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           </div>
         `;
-        
+
         // Individual post actions
-        
+
         const posts = document.querySelectorAll(".post");
         const postBodies = document.querySelectorAll(".post .post-body");
 
@@ -340,13 +377,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 const postBody = postBodyEl ? postBodyEl.innerHTML.trim() : "";
 
                 // Store the post ID and body
-                
+
                 const storedPostData = [{ id: post0.dataset.id, body: postBody }];
                 localStorage.setItem("postId", JSON.stringify(storedPostData));
                 localStorage.setItem("edit", "fromEditPost");
 
                 // Debug log to confirm data is stored
-                
+
                 console.log("Stored in localStorage (Edit Click):", localStorage.getItem("postId"));
 
                 setTimeout(() => {
@@ -367,17 +404,90 @@ document.addEventListener("DOMContentLoaded", () => {
                 remove(deleteRef)
                   .then(() => console.log(`Post ${postIdToDelete} deleted successfully`))
                   .catch(error => console.error("Error deleting post:", error));
+
+                setTimeout(() => {
+                  setUserTierMarks();
+                }, 1000);
               }
             });
 
             // Other post actions
 
             const pa = {
-              convo: post0.querySelector(".post-analytics .pa.convo"),
+              comments: document.querySelectorAll(".post-analytics .pa.comments"),
               boosts: post0.querySelector(".post-analytics .pa.boosts"),
               saves: post0.querySelector(".post-analytics .pa.saves"),
               shares: post0.querySelector(".post-analytics .pa.shares"),
               views: post0.querySelector(".post-analytics .pa.views")
+            }
+
+            // Comments
+            
+            const postComments = document.querySelector(".post-comments");
+            const commentField = document.querySelector(".comment-field");
+            const submitComment = document.querySelector(".submit-comment");
+            let activePostId = null;
+
+            // Open comment popup
+            
+             pa.comments.forEach((btn) => {
+              btn.addEventListener("click", (e) => {
+                const postElement = e.target.closest(".post");
+                if (!postElement) return;
+
+                activePostId = postElement.dataset.id;
+                postComments.classList.add("active");
+
+                // Insert the post at the top of the popup
+                
+                const postClone = postElement.cloneNode(true);
+                const commentsList = postComments.querySelector(".comments-list");
+                commentsList.innerHTML = "";
+                commentsList.appendChild(postClone);
+              });
+            });
+            
+            submitComment.addEventListener("click", () => {
+              alert("200");
+            });
+
+            async function handleComments(postId, commentField) {
+              if (!activePostId || !commentField.value.trim()) return;
+
+              const commentBody = commentField.value.trim();
+              const safeEmail = activeSession.email.replace(/\./g, "_");
+              const userName = activeSession.email.replace(/@.*/, "");
+
+              const postRef = ref(db, "posts/" + activePostId);
+              const postSnapshot = await get(postRef);
+
+              if (!postSnapshot.exists()) {
+                alert("Post not found.");
+                return;
+              }
+
+              const postData = postSnapshot.val();
+              const commentsCount = (postData.comments || 0) + 1;
+
+              // Prepare comment object
+
+              const newComment = {
+                body: commentBody,
+                boosts: 0,
+                boos: 0,
+                views: 0
+              };
+
+              await update(postRef, {
+                comments: commentsCount,
+                ["commenters/" + safeEmail]: {
+                  commenter_username: userName,
+                  comment: newComment
+                }
+              });
+
+              commentField.value = "";
+              alert("Comment added!");
             }
 
             // Boosts
@@ -429,6 +539,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (boostCountEl) boostCountEl.textContent = currentBoosts;
 
                 console.log("Boost updated successfully!");
+                
+                setUserTierMarks();
               } catch (error) {
                 console.error("Error updating boosts:", error);
               }
@@ -510,15 +622,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   getPosts();
-  
-  // Comments
-  
-  async function getComments(userId) {
-    
-  }
-  
+
   // Retrieve user's saved posts per session
-  
+
   async function getSavedPosts(userId) {
     const userRef = ref(db, "users/" + userId + "/saved_posts");
     const snapshot = await get(userRef);
@@ -544,9 +650,9 @@ document.addEventListener("DOMContentLoaded", () => {
       let postElement = document.createElement("div");
       postElement.className = "post";
       postElement.id = `post-${postId}`;
-      
+
       // Saved post HTML template
-      
+
       postElement.innerHTML = `
         <div class="post-col-1">
           <img src="" alt="author-pfp">
@@ -554,7 +660,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         <div class="post-col-2">
           <div class="author">
-            <span class="author-name">${post.author_name  ||  "retrieving_author..."}</span>
+            <span class="author-name" data-email="${post.user_email}">${post.author_name  ||  "retrieving_author..."}</span>
             <span>•</span>
             <span class="time-posted" data-id="${postId}" data-timestamp="${post.time_posted  ||  Date.now()}">${formatTime(post.time_posted)}</span>
           </div>
@@ -562,8 +668,8 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="post-body" data-id="post-${postId}">${post.body}</div>
           
           <div class="post-analytics">
-            <div class="pa convo"><span>${post.convo  ||  0}</span><span class="ms-rounded">quickreply</span></div>
-            <div class="pa boosts data-id="${postId}"><span>${post.boosts  ||  0}</span><span class="ms-rounded">bolt</span></div>
+            <div class="pa comments"><span>${post.comments  ||  0}</span><span class="ms-rounded">quickreply</span></div>
+            <div class="pa boosts data-id="${postId}"><span>${post.boosts  ||  0}</span><span class="ms-rounded">flash_on</span></div>
             <div class="pa saves" data-id="${postId}"><span>${post.saves  ||  0}</span><span class="ms-rounded">bookmark</span></div>
             <div class="pa shares"><span>${post.shares  ||  0}</span><span class="ms-rounded">share</span></div>
             <div class="pa views"><span>${post.views  ||  0}</span><span class="ms-rounded">bar_chart</span></div>
@@ -582,18 +688,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
       savedPostsWrapper.appendChild(postElement);
     }
-    
+
     // Second click on save btn should unsave post
-    
+
     document.querySelectorAll(".pa.saves").forEach(btn => {
       btn.removeEventListener("click", handleUnsave);
       btn.addEventListener("click", handleUnsave);
     });
 
     const safeEmail = activeSession.email.replace(/\./g, "_");
-    
+
     // Unsave post
-    
+
     function handleUnsave(event) {
       let postId = event.currentTarget.getAttribute("data-id");
       removeSavedPost(postId, safeEmail);
@@ -602,9 +708,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const safeEmail = activeSession.email.replace(/\./g, "_");
   getSavedPosts(safeEmail);
-  
+
   // Remove saved post
-  
+
   async function removeSavedPost(postId, userEmail) {
     console.log("Removing saved post: " + postId + " for user: " + userEmail);
 
@@ -634,13 +740,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => getSavedPosts(safeEmail), 300);
   }
-  
+
   // Post time
-  
+
   function formatTime(timestamp) {
-    
+
     // If no valid/running timestamp return "Just now"
-    
+
     if (!timestamp || isNaN(timestamp) || timestamp < 10000000000) {
       return "Just now";
     }
@@ -658,9 +764,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return new Date(timestamp).toLocaleDateString("en-GB"); // dd/mm/yyyy
   }
-  
+
   // Update post time
-  
+
   function updatePostTimes() {
     document.querySelectorAll(".post .time-posted").forEach(timeEl => {
       const postId = timeEl.dataset.id;

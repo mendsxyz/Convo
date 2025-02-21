@@ -64,7 +64,7 @@ authSignupForm.addEventListener("submit", (e) => {
       
     UI.animation_wrapper.insertAdjacentHTML("beforeend", message);
 
-    document.querySelector(".action-message.title").textContent = "Signed up successfully!";
+    document.querySelector(".action-message.title").textContent = "Welcome to Convo, bozo!";
     document.querySelector(".action-message.body-content").textContent = "";
 
     signupSuccess = setTimeout(() => {
