@@ -19,18 +19,18 @@ const firebaseConfig = {
 // Initialize Firebase
 
 const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+const db = getDatabase();
 
 // Posts
 
 document.addEventListener("DOMContentLoaded", () => {
-  
+
   // Edit post content
 
   const bodyEditor = document.querySelector(".body-editor");
-  
+
   // Formatting
-  
+
   document.querySelector(".bold").addEventListener("click", () => formatText("bold"));
   document.querySelector(".italic").addEventListener("click", () => formatText("italic"));
   document.querySelector(".underline").addEventListener("click", () => formatText("underline"));
@@ -39,15 +39,18 @@ document.addEventListener("DOMContentLoaded", () => {
   function formatText(command) {
     document.execCommand(command, false, null);
   }
-  
+
   // Image uploads
-  
-  document.querySelector(".add-image").addEventListener("click", () => {
+
+  document.querySelector(".add-image").addEventListener("click", (e) => {
+    e.preventDefault();
+
     document.getElementById("uploadImage").click();
   });
 
   document.getElementById("uploadImage").addEventListener("change", (event) => {
     event.preventDefault();
+    event.stopPropagation();
 
     const file = event.target.files[0];
     if (!file) return;
@@ -118,13 +121,56 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       if (!db) throw new Error("Firebase database is not initialized.");
 
-      // Ensure `localStorage` contains valid post data
+      // Get and sanitize user email
+
+      const safeEmail = userEmail.email.replace(/\./g, "_");
       
+      // Fetch user tier from Firebase
+
+      const userRef = ref(db, "users/" + safeEmail);
+      const userSnapshot = await get(userRef);
+      let userTier;
+      
+      if (userSnapshot.exists()) {
+        userTier = userSnapshot.val().tier || "T1"; // Default to T1 if missing
+        console.log("User tier found:", userTier);
+      } else {
+        throw new Error("User not found in database.");
+      }
+
+      // Tier-based limits
+
+      const tierLimits = {
+        T1: { maxPosts: 5, maxImages: 5, maxChars: 250 },
+        T2: { maxPosts: 50, maxImages: 25, maxChars: 1020 },
+        T3: { maxPosts: Infinity, maxImages: Infinity, maxChars: Infinity }
+      };
+
+      const { maxPosts, maxImages, maxChars } = tierLimits[userTier];
+
+      // Check character limit
+
+      if (body.length > maxChars) {
+        throw new Error(`Post exceeds character limit of ${maxChars} for your tier.`);
+      }
+
+      // Fetch user's existing post count
+
+      const userPostsRef = ref(db, "posts");
+      const postsSnapshot = await get(userPostsRef);
+      const userPosts = postsSnapshot.exists() ? Object.values(postsSnapshot.val()).filter(post => post.user_email === userEmail.email) : [];
+
+      if (userPosts.length >= maxPosts) {
+        throw new Error(`You have reached your daily post limit of ${maxPosts} for your tier.`);
+      }
+
+      // Ensure `localStorage` contains valid post data
+
       const storedData = JSON.parse(localStorage.getItem("postId")) || [];
       console.log("Stored Data at post submit:", storedData);
 
       // Extract correct post ID
-      
+
       const storedPost = storedData.length > 0 ? storedData[0] : null;
 
       if (storedPost && storedPost.id) {
@@ -141,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Existing Post Data:", existingPost);
 
         // Ensure proper update
-        
+
         await update(existingPostRef, {
           body,
           imgUrl: imgUrl || existingPost.imgUrl,
@@ -152,15 +198,15 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Post updated successfully!");
         console.log("Post updated successfully!");
 
-        // Remove `localStorage` item after update
-        
+        // Remove `localStorage` items after update
+
         localStorage.removeItem("postId");
         localStorage.removeItem("edit");
       } else {
         const newPostRef = push(ref(db, "posts"));
-        
+
         // Post object
-        
+
         await set(newPostRef, {
           id: newPostRef.key,
           user_email: userEmail.email,

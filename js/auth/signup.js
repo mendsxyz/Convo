@@ -2,6 +2,7 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
 // Config
 
@@ -20,12 +21,14 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+const db = getDatabase();
 
 let refreshPage;
 
 const authSignupForm = document.querySelector("#authForm");
 authSignupForm.addEventListener("submit", (e) => {
   e.preventDefault();
+  
   const UI = {
     loader: document.querySelector("#loader"),
     header_auth_state: document.querySelector("#userName"),
@@ -38,63 +41,80 @@ authSignupForm.addEventListener("submit", (e) => {
     authform_wrapper: document.querySelector(".authForm-wrapper"),
     auth_content: document.querySelector(".auth-content")
   }
+  
   const userEmail = document.querySelector("#userEmail").value;
   const userPassword = document.querySelector("#userPassword").value;
 
   createUserWithEmailAndPassword(auth, userEmail, userPassword)
-    .then((userCredential) => {
-      // Signed up
-      const user = userCredential.user;
-
-      // Success loader
-      let signupSuccess;
-      document.querySelector("#loader").classList.add("active");
-
-      // Display message
-      let message = `
-        <span class="action-message title"></span>
-        <span class="action-message body-content" hidden></span>
-      `;
-      UI.animation_wrapper.insertAdjacentHTML("beforeend", message);
-
-      document.querySelector(".action-message.title").textContent = "Signed up successfully!";
-      document.querySelector(".action-message.body-content").textContent = "";
-
-      signupSuccess = setTimeout(() => {
-        document.querySelector("#loader").classList.remove("active");
-        clearTimeout(signupSuccess);
-      }, 2000);
-
-      // Modal
-
-      // UI changes
-      UI.header_auth_state.textContent = userEmail.replace(/@.*/, "");
-      UI.nav.classList.remove("active");
-      UI.hero.style.display = "none";
-      UI.authform_wrapper.classList.remove("active");
-
-      let states = JSON.parse(localStorage.getItem("states")) || [];
-
-      try {
-        const newState = {
-          email: userEmail.trim(),
-          state: "signedup"
-        };
-
-        states.push(newState);
-
-        localStorage.setItem("states", JSON.stringify(states));
-      } catch (error) {
-        console.error("Error saving state:", error);
-      }
+  .then((userCredential) => {
       
-      refreshPage = setTimeout(() => {
-        location.reload();
-        clearTimeout(refreshPage);
-      }, 2000);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
+    // Signed up
+      
+    const user = userCredential.user;
+
+    let signupSuccess;
+    document.querySelector("#loader").classList.add("active");
+
+    // Display success message
+      
+    let message = `
+      <span class="action-message title"></span>
+      <span class="action-message body-content" hidden></span>
+    `;
+      
+    UI.animation_wrapper.insertAdjacentHTML("beforeend", message);
+
+    document.querySelector(".action-message.title").textContent = "Signed up successfully!";
+    document.querySelector(".action-message.body-content").textContent = "";
+
+    signupSuccess = setTimeout(() => {
+      document.querySelector("#loader").classList.remove("active");
+      clearTimeout(signupSuccess);
+    }, 2000);
+      
+    // Set user active session
+      
+    UI.header_auth_state.textContent = userEmail.replace(/@.*/, "");
+    UI.nav.classList.remove("active");
+    UI.hero.style.display = "none";
+    UI.authform_wrapper.classList.remove("active");
+
+    let states = JSON.parse(localStorage.getItem("states")) || [];
+
+    try {
+      const safeEmail = userEmail.replace(/\./g, "_");
+
+      // Default tier for new users is "T1"
+      
+      const userTier = "T1";
+
+      // Store user data in Firebase Realtime Database
+      
+      set(ref(db, "users/" + safeEmail), {
+        email: userEmail,
+        tier: userTier
+      });
+
+      const newState = {
+        email: userEmail.trim(),
+        state: "signedup",
+        tier: userTier // Store tier inside states object
+      };
+
+      states.push(newState);
+      localStorage.setItem("states", JSON.stringify(states));
+
+    } catch (error) {
+      console.error("Error saving state:", error);
+    }
+      
+    refreshPage = setTimeout(() => {
+      location.reload();
+      clearTimeout(refreshPage);
+    }, 3000);
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
 });

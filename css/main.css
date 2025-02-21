@@ -1,10 +1,12 @@
 /* Global font */
+
 @font-face {
   font-family: "W sans";
   src: url("../fonts/WorkSans-Regular.ttf");
 }
 
-/* Global style */
+/* Global styles */
+
 *,
 html,
 body {
@@ -33,6 +35,7 @@ body {
   --dshade: #4D4D4D;
 
   /* dark */
+  
   --dprimary: #FFC649;
   --dsecondary: #8ACD6D;
   --dark: #2F2E2B;
@@ -41,6 +44,7 @@ body {
   --dsuccess: #65E17B;
   
   /* font-size */
+  
   --sm: 14px;
   --md: 16px;
   --lg: 18px;
@@ -88,7 +92,29 @@ header .site-id img {
 }
 
 header .site-id #userName {
-  font-size: var(--md);
+  background: var(--lshade);
+  padding: 5px 30px 5px 15px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--sm);
+  border-radius: 20px;
+  position: relative;
+}
+
+header .site-id #userName.active {
+  display: flex;
+}
+
+header .site-id #userName.active::after {
+  content: "";
+  background: var(--success);
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  position: absolute;
+  top: auto;
+  right: 10px;
 }
 
 header .nav-toggle {
@@ -316,9 +342,9 @@ main {
 
 #loader .animation-wrapper {
   background: var(--light);
-  padding: 15px;
-  border-radius: 10px;
-  border: 1.8px solid var(--lshade);
+  padding: 5px;
+  border-radius: 100%;
+  border: 1px solid var(--lshade);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -326,12 +352,17 @@ main {
   gap: 15px;
 }
 
+#loader .animation-wrapper.message {
+  padding: 15px;
+  border-radius: 15px;
+}
+
 #loader .refresh {
   animation: none;
 }
 
 #loader .refresh.rotate {
-  font-size: 40px;
+  font-size: 30px;
   animation: spin .75s linear infinite;
 }
 
@@ -352,7 +383,7 @@ main {
 @keyframes popup {
   to {
     color: var(--dark);
-    font-size: 50px;
+    font-size: 40px;
   }
 }
 
@@ -361,12 +392,12 @@ main {
 }
 
 #loader .action-message.title {
-  font-size: var(--xl);
+  font-size: var(--lg);
   font-weight: 400;
 }
 
 #loader .action-message.body-content {
-  font-size: var(--md);
+  font-size: var(--sm);
 }
 
 .hero {
@@ -553,7 +584,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 
 .author .author-name {
   font-size: var(--sm);
-  font-weight: 300;
+  font-weight: 600;
 }
 
 .author .time-posted {
@@ -692,28 +723,13 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   display: none;
 }
 
-/* Posts html */
+/* Post html */
 
 .createPostForm-wrapper {
   background: var(--light);
   width: 100%;
   height: 100%;
-  /*padding: 60px 5%;
-  bottom: -100%;
-  left: 0;
-  position: fixed;
-  z-index: -1;*/
 }
-
-/*.createPostForm-wrapper.active {
-  bottom: 0;
-  z-index: 9;
-}*/
-
-/*.createPostForm-wrapper.active .toolbar {
-  bottom: 0;
-  z-index: 1;
-}*/
 
 .createPostForm-wrapper label {
   width: 100%;
@@ -734,6 +750,10 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   bottom: 0;
   left: 0;
   z-index: 1;
+}
+
+.createPostForm-wrapper .toolbar button {
+  background: none;
 }
 
 .createPostForm-wrapper form .body-editor {

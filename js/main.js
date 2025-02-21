@@ -23,15 +23,11 @@ const db = getDatabase(app);
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  // Allowed email (replace with your admin email)
-
-  const allowedEmail = "princemendie03@gmail.com";
-
   // Function to protect routes
 
   function protectRoute() {
     onAuthStateChanged(auth, (user) => {
-      if (user && user.email === allowedEmail) {
+      if (user && user.email) {
         console.log("Access granted to /posts");
         
         // Change title of createPostForm label from "Create" to "Edit"
@@ -173,9 +169,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (activeSession) {
 
-    // Loader display on signout 
-
-    if (UI.header_auth_state) UI.header_auth_state.textContent = activeSession.email.replace(/@.*/, "");
+    // User session
+    
+    const safeEmail = activeSession.email.replace(/\./g, "_");
+    const userRef = ref(db, "users/" + safeEmail);
+    
+    async function setUserTierMarks(){
+      const userSnapshot = await get(userRef);
+      if (userSnapshot.exists()) {
+        
+      }
+    }
+    
+    setUserTierMarks();
+    
+    if (UI.header_auth_state) {
+      UI.header_auth_state.classList.add("active");
+      UI.header_auth_state.textContent = activeSession.email.replace(/@.*/, "");
+    }
+    
     UI.nav_links.forEach(link => {
       if (link.classList.contains("signOutBtn")) {
         link.addEventListener("click", () => {
@@ -204,6 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     });
+    
     UI.hero.style.display = "none";
     UI.auth_content.classList.add("active");
     UI.authform_wrapper.classList.remove("active");
@@ -258,36 +271,36 @@ document.addEventListener("DOMContentLoaded", () => {
         
         postsWrapper.innerHTML += `
           <div class="post" id="post-${postId}" data-id="${postId}">
-          <div class="post-col-1">
-          <img src="" alt="author-pfp">
-          </div>
+            <div class="post-col-1">
+              <img src="" alt="author-pfp">
+            </div>
           
-          <div class="post-col-2">
-          <div class="author">
-          <span class="author-name">${post.author_name  ||  "retrieving_author..."}</span>
-          <span>•</span>
-          <span class="time-posted" data-id="${postId}" data-timestamp="${post.time_posted  ||  Date.now()}">${formatTime(post.time_posted)}</span>
-          </div>
+            <div class="post-col-2">
+              <div class="author">
+                <span class="author-name">${post.author_name  ||  "retrieving_author..."}</span>
+                <span>•</span>
+                <span class="time-posted" data-id="${postId}" data-timestamp="${post.time_posted  ||  Date.now()}">${formatTime(post.time_posted)}</span>
+              </div>
           
-          <div class="post-body" data-id="post-${postId}">${post.body}</div>
-          
-          ${post.imgUrl ? `<img class="post-img" src="${post.imgUrl}" width="200">` : ""}
-          
-          <div class="post-analytics">
-          <div class="pa convo"><span>${post.convo  ||  0}</span><span class="ms-rounded">quickreply</span></div>
-          <div class="pa boosts" data-id="${postId}"><span class="boosts-count">${post.boosts  ||  0}</span><span class="ms-rounded">bolt</span></div>
-          <div class="pa saves" data-id="${postId}"><span class="saves-count">${post.saves  ||  0}</span><span class="ms-rounded">bookmark</span></div>
-          <div class="pa shares"><span>${post.shares  ||  0}</span><span class="ms-rounded">share</span></div>
-          <div class="pa views"><span>${post.views  ||  0}</span><span class="ms-rounded">bar_chart</span></div>
-          <span class="more-post-actions ms-rounded">more_horiz</span>
-          <div class="mpa-options">
-          <span class="block-user ms-rounded" style="display: ${post.user_email !== activeSession.email ? "flex" : "none"};" id="${post.user_email}">block</span>
-          <span class="report-post ms-rounded" style="display: ${post.user_email !== activeSession.email ? "flex" : "none"};" id="${postId}">report</span>
-          <span class="update-post ms-rounded" data-id=${postId} style="display: ${post.user_email ===activeSession.email ? "flex" : "none"};" id="${postId}">edit</span>
-          <span class="delete-post ms-rounded" data-id=${postId} style="display: ${post.user_email ===activeSession.email ? "flex" : "none"};" id="${postId}">delete</span>
-          </div>
-          </div>
-          </div>
+              <div class="post-body" data-id="post-${postId}">${post.body}</div>
+            
+              <div class="post-analytics">
+                <div class="pa convo"><span>${post.convo  ||  0}</span><span class="ms-rounded">quickreply</span></div>
+                <div class="pa boosts" data-id="${postId}"><span class="boosts-count">${post.boosts  ||  0}</span><span class="ms-rounded">bolt</span></div>
+                <div class="pa saves" data-id="${postId}"><span class="saves-count">${post.saves  ||  0}</span><span class="ms-rounded">bookmark</span></div>
+                <div class="pa shares"><span>${post.shares  ||  0}</span><span class="ms-rounded">share</span></div>
+                <div class="pa views"><span>${post.views  ||  0}</span><span class="ms-rounded">bar_chart</span></div>
+                
+                <span class="more-post-actions ms-rounded">more_horiz</span>
+                
+                <div class="mpa-options">
+                  <span class="block-user ms-rounded" style="display: ${post.user_email !== activeSession.email ? "flex" : "none"};" id="${post.user_email}">block</span>
+                  <span class="report-post ms-rounded" style="display: ${post.user_email !== activeSession.email ? "flex" : "none"};" id="${postId}">report</span>
+                  <span class="update-post ms-rounded" data-id=${postId} style="display: ${post.user_email ===activeSession.email ? "flex" : "none"};" id="${postId}">edit</span>
+                  <span class="delete-post ms-rounded" data-id=${postId} style="display: ${post.user_email ===activeSession.email ? "flex" : "none"};" id="${postId}">delete</span>
+                </div>
+              </div>
+            </div>
           </div>
         `;
         
@@ -318,7 +331,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Edit post
 
             update0.addEventListener("click", () => {
-              if (activeSession.email === allowedEmail) {
+              if (activeSession.email) {
                 console.log("Access granted to edit posts");
 
                 if (update0.dataset.id !== post0.dataset.id) return;
@@ -536,30 +549,34 @@ document.addEventListener("DOMContentLoaded", () => {
       
       postElement.innerHTML = `
         <div class="post-col-1">
-        <img src="" alt="author-pfp">
+          <img src="" alt="author-pfp">
         </div>
+        
         <div class="post-col-2">
-        <div class="author">
-        <span class="author-name">${post.author_name  ||  "retrieving_author..."}</span>
-        <span>•</span>
-        <span class="time-posted" data-id="${postId}" data-timestamp="${post.time_posted  ||  Date.now()}">${formatTime(post.time_posted)}</span>
-        </div>
-        <div class="post-body" data-id="post-${postId}">${post.body}</div>
-        ${post.imgUrl ? '<img class="post-img" src="' + post.imgUrl + '" width="200">' : ""}
-        <div class="post-analytics">
-        <div class="pa convo"><span>${post.convo  ||  0}</span><span class="ms-rounded">quickreply</span></div>
-        <div class="pa boosts data-id="${postId}"><span>${post.boosts  ||  0}</span><span class="ms-rounded">bolt</span></div>
-        <div class="pa saves" data-id="${postId}"><span>${post.saves  ||  0}</span><span class="ms-rounded">bookmark</span></div>
-        <div class="pa shares"><span>${post.shares  ||  0}</span><span class="ms-rounded">share</span></div>
-        <div class="pa views"><span>${post.views  ||  0}</span><span class="ms-rounded">bar_chart</span></div>
-        <span class="more-post-actions ms-rounded">more_horiz</span>
-        <div class="mpa-options">
-        <span class="block-user ms-rounded" style="display: ${post.user_email !== activeSession.email ? "flex" : "none"};" id="${post.user_email}">block</span>
-        <span class="report-post ms-rounded" style="display: ${post.user_email !== activeSession.email ? "flex" : "none"};" id="${postId}">report</span>
-        <span class="update-post ms-rounded" style="display: ${post.user_email === activeSession.email ? "flex" : "none"};" id="${postId}">edit</span>
-        <span class="delete-post ms-rounded" style="display: ${post.user_email === activeSession.email ? "flex" : "none"};" id="${postId}">delete</span>
-        </div>
-        </div>
+          <div class="author">
+            <span class="author-name">${post.author_name  ||  "retrieving_author..."}</span>
+            <span>•</span>
+            <span class="time-posted" data-id="${postId}" data-timestamp="${post.time_posted  ||  Date.now()}">${formatTime(post.time_posted)}</span>
+          </div>
+          
+          <div class="post-body" data-id="post-${postId}">${post.body}</div>
+          
+          <div class="post-analytics">
+            <div class="pa convo"><span>${post.convo  ||  0}</span><span class="ms-rounded">quickreply</span></div>
+            <div class="pa boosts data-id="${postId}"><span>${post.boosts  ||  0}</span><span class="ms-rounded">bolt</span></div>
+            <div class="pa saves" data-id="${postId}"><span>${post.saves  ||  0}</span><span class="ms-rounded">bookmark</span></div>
+            <div class="pa shares"><span>${post.shares  ||  0}</span><span class="ms-rounded">share</span></div>
+            <div class="pa views"><span>${post.views  ||  0}</span><span class="ms-rounded">bar_chart</span></div>
+            
+            <span class="more-post-actions ms-rounded">more_horiz</span>
+            
+            <div class="mpa-options">
+              <span class="block-user ms-rounded" style="display: ${post.user_email !== activeSession.email ? "flex" : "none"};" id="${post.user_email}">block</span>
+              <span class="report-post ms-rounded" style="display: ${post.user_email !== activeSession.email ? "flex" : "none"};" id="${postId}">report</span>
+              <span class="update-post ms-rounded" style="display: ${post.user_email === activeSession.email ? "flex" : "none"};" id="${postId}">edit</span>
+              <span class="delete-post ms-rounded" style="display: ${post.user_email === activeSession.email ? "flex" : "none"};" id="${postId}">delete</span>
+            </div>
+          </div>
         </div>
       `;
 
