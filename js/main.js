@@ -166,64 +166,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const states = JSON.parse(localStorage.getItem("states")) || [];
   const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
 
-  // Set tiers per session
-
-  const safeEmail_ = activeSession.email.replace(/\./g, "_");
-  const userRef = ref(db, "users/" + safeEmail_);
-
-  async function setUserTierMarks() {
-    const userRef = ref(db, "users/" + activeSession.email.replace(/\./g, "_"));
-    const userSnapshot = await get(userRef);
-
-    if (userSnapshot.exists()) {
-      const userData = userSnapshot.val();
-      const userTier = userData.tier;
-      const userName = activeSession.email.replace(/@.*/, "");
-      const authorNames = document.querySelectorAll(".post .author-name");
-
-      const tierMarks = {
-        T2: `<span style="color: var(--primary); font-size: 16px;" class="ms-rounded">verified</span>`,
-        T3: `<span style="color: var(--secondary); font-size: 18px;" class="ms-rounded">award_star</span>`
-      };
-
-      // Add tier mark to logged-in user in the header
-
-      if (UI.header_auth_state) {
-        UI.header_auth_state.classList.add("active");
-        UI.header_auth_state.innerHTML = `${userName} ${tierMarks[userTier] || ""}`;
-      }
-
-      // Fetch all authors and apply correct tier marks
-
-      authorNames.forEach(async (name) => {
-        const authorEmail = name.dataset.email;
-        if (!authorEmail) return;
-
-        const safeAuthorEmail = authorEmail.replace(/\./g, "_");
-        const authorRef = ref(db, "users/" + safeAuthorEmail);
-        const authorSnapshot = await get(authorRef);
-
-        if (authorSnapshot.exists()) {
-          const authorData = authorSnapshot.val();
-          const authorTier = authorData.tier;
-
-          // Remove any existing tier marks before adding a new one
-
-          name.querySelectorAll(".ms-rounded").forEach(mark => mark.remove());
-
-          // Apply the correct tier mark
-
-          if (tierMarks[authorTier]) {
-            name.insertAdjacentHTML("beforeend", " " + tierMarks[authorTier]);
-          }
-        }
-      });
-    }
-  }
-
   if (activeSession) {
 
-    setUserTierMarks();
+    // Tier marks
+
+    const tierMarks = {
+      T2: `<span style="color: var(--primary); font-size: 16px;" class="ms-rounded">verified</span>`,
+      T3: `<span style="color: var(--secondary); font-size: 18px;" class="ms-rounded">award_star</span>`
+    };
+
+    // Set tiers per session
+
+    const safeEmail = activeSession.email.replace(/@.*/, "");
+
+    if (UI.header_auth_state) {
+
+      if (activeSession.tier === "T2") {
+        UI.header_auth_state.innerHTML = `${safeEmail + " " + tierMarks.T2}`;
+      } else if (activeSession.tier === "T3") {
+        UI.header_auth_state.innerHTML = `${safeEmail + " " + tierMarks.T3}`;
+      }
+
+      UI.header_auth_state.classList.add("active");
+    }
 
     UI.nav_links.forEach(link => {
       if (link.classList.contains("signOutBtn")) {
@@ -271,9 +236,9 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Error: Posts container missing!");
       return;
     }
-
+    
     const postsRef = ref(db, "posts");
-
+    
     onValue(postsRef, (snapshot) => {
       if (!snapshot.exists()) {
         console.warn("No posts available yet.");
@@ -282,6 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       postsWrapper.innerHTML = ""; // Clear before updating
+
       const storedData = JSON.parse(localStorage.getItem("postId")) || [];
       console.log(storedData);
 
@@ -303,6 +269,13 @@ document.addEventListener("DOMContentLoaded", () => {
       postsArray.forEach((post) => {
         const postId = post.postId;
         console.log(postId);
+        
+        // Author tier marks
+        
+        const tierMarks = {
+          T2: `<span style="color: var(--primary); font-size: 16px;" class="ms-rounded">verified</span>`,
+          T3: `<span style="color: var(--secondary); font-size: 18px;" class="ms-rounded">award_star</span>`
+        };
 
         // Post HTML template
 
@@ -314,7 +287,13 @@ document.addEventListener("DOMContentLoaded", () => {
           
             <div class="post-col-2">
               <div class="author">
-                <span class="author-name" data-email="${post.user_email}">${post.author_name  ||  "retrieving_author..."}</span>
+                <span class="author-name" data-email="${post.user_email}" data-tier="${post.author_tier}">
+                  ${((post.author_tier === "T2") ? 
+                  post.author_name + " " + tierMarks.T2 
+                  : (post.author_tier === "T3") ?
+                  post.author_name + " " + tierMarks.T3 
+                  : post.author_name) || "loading..."}
+                </span>
                 <span>•</span>
                 <span class="time-posted" data-id="${postId}" data-timestamp="${post.time_posted  ||  Date.now()}">${formatTime(post.time_posted)}</span>
               </div>
@@ -414,7 +393,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Other post actions
 
             const pa = {
-              comments: document.querySelectorAll(".post-analytics .pa.comments"),
+              comments: post0.querySelector(".post-analytics .pa.comments"),
               boosts: post0.querySelector(".post-analytics .pa.boosts"),
               saves: post0.querySelector(".post-analytics .pa.saves"),
               shares: post0.querySelector(".post-analytics .pa.shares"),
@@ -422,31 +401,29 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // Comments
-            
+
             const postComments = document.querySelector(".post-comments");
             const commentField = document.querySelector(".comment-field");
             const submitComment = document.querySelector(".submit-comment");
             let activePostId = null;
 
             // Open comment popup
-            
-             pa.comments.forEach((btn) => {
-              btn.addEventListener("click", (e) => {
-                const postElement = e.target.closest(".post");
-                if (!postElement) return;
 
-                activePostId = postElement.dataset.id;
-                postComments.classList.add("active");
+            pa.comments.addEventListener("click", (e) => {
+              const postElement = e.target.closest(".post");
+              if (!postElement) return;
 
-                // Insert the post at the top of the popup
-                
-                const postClone = postElement.cloneNode(true);
-                const commentsList = postComments.querySelector(".comments-list");
-                commentsList.innerHTML = "";
-                commentsList.appendChild(postClone);
-              });
+              activePostId = postElement.dataset.id;
+              postComments.classList.add("active");
+
+              // Insert the post at the top of the popup
+
+              const postClone = postElement.cloneNode(true);
+              const commentsList = postComments.querySelector(".comments-list");
+              commentsList.innerHTML = "";
+              commentsList.appendChild(postClone);
             });
-            
+
             submitComment.addEventListener("click", () => {
               alert("200");
             });
@@ -539,11 +516,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (boostCountEl) boostCountEl.textContent = currentBoosts;
 
                 console.log("Boost updated successfully!");
-                
-                setUserTierMarks();
               } catch (error) {
                 console.error("Error updating boosts:", error);
               }
+
+              setUserTierMarks();
             }
 
             // Saves

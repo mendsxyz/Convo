@@ -82,9 +82,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Build post data
 
   let states = JSON.parse(localStorage.getItem("states")) || [];
+  
   const userEmail = states.find(state => state.email !== "");
   const emailToUsername = userEmail.email.replace(/@.*/, "");
-
+  const userTier = userEmail.tier;
+  
   const createPostForm = document.querySelector("#createPostForm");
   createPostForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -214,6 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
         await set(newPostRef, {
           id: newPostRef.key,
           user_email: userEmail.email,
+          author_tier: userTier,
           author_name: emailToUsername.trim(),
           time_posted: Date.now(),
           body,
@@ -228,7 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
           views: 0
         });
 
-        alert("New post added successfully!");
+        alert("New post added successfully! " + "Tier: " + userTier);
         console.log("New post added successfully!");
       }
     } catch (error) {
