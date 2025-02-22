@@ -789,11 +789,15 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 }
 
 .comment {
-  background: var(--lshade);
   font-size: var(--sm);
-  padding: 10px 16px;
+  padding: 5px 16px 5px 16px;
   margin-left: 21px;
-  border-radius: 10px 10px 10px 0;
+  border-radius: 10px 10px 0 0;
+  border-bottom: 1px solid var(--lshade);
+}
+
+.comment:last-child {
+  border-bottom: 0;
 }
 
 .commenter-info {
@@ -816,22 +820,27 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 }
 
 .commenter-comment {
-  display: grid;
-  grid-auto-flow: row;
-  gap: 5px;
+ /* no styles yet */
 }
 
 .comment-analytics {
+  width: 100%;
+  margin-top: 10px;
   display: flex;
   align-items: center;
   justify-content: left;
-  gap: 5px;
+  gap: 20px;
 }
 
-.ca-option span.ms-rounded,
+.ca-option span.ms-rounded {
+  font-size: var(--lg);
+  opacity: .6;
+}
+
 .ca.edit-comment,
 .ca.delete-comment {
-  font-size: var(--sm);
+  font-size: var(--xl);
+  opacity: .6;
 }
 
 .commentForm-wrapper {
@@ -975,7 +984,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 
 @media screen and (min-width: 768px) {
   header {
-    height: 80px;
+    height: 60px;
   }
   
   header .site-id {
@@ -983,12 +992,12 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   }
 
   header .site-id img {
-    width: 39px;
+    width: 36px;
     height: auto;
   }
 
   header .site-id #userName {
-    font-size: var(--md2);
+    font-size: var(--sm2);
   }
 
   nav.auto.active {
