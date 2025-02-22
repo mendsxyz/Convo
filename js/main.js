@@ -560,11 +560,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const activePostAuthorEmail = postElement.querySelector(".author-name").dataset.email;
     const activePostAuthorName = activePostAuthorEmail.replace(/@.*/, "");
-
-    // Set reply text
-
-    commentBody.innerHTML = `<span>Replying to ${activePostAuthorName}</span>`;
-
+    
     // Post header
 
     const postHeader = postComments.querySelector(".post-header");
@@ -687,21 +683,20 @@ document.addEventListener("DOMContentLoaded", () => {
           <span class="commenter-comment">${comment.body}</span>
           <div class="comment-analytics">
             <div class="ca-option">
-              <span class="ca upvote"></span>
+              <span class="ca upvote">0</span>
               <span class="ms-rounded">thumb_up</span>
             </div>
             
             <div class="ca-option">
-              <span class="ca haha"></span>
+              <span class="ca haha">0</span>
               <span class="ms-rounded">sentiment_very_satisfied</span>
             </div>
             
             <div class="ca-option">
-              <span class="ca downvote"></span>
-              <span class="ms-rounded">thumb_down</span>
+              <span class="ca views">0</span>
+              <span class="ms-rounded">bar_chart</span>
             </div>
             
-            <span class="ms-rounded ca edit-comment">edit</span> 
             <span class="ms-rounded ca delete-comment">delete</span>
           </div>
         `;

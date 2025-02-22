@@ -735,7 +735,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   background: var(--light);
   width: 100%;
   height: 100%;
-  padding: 15px 5%;
+  padding: 15px 5% 50px 5%;
   max-width: 700px;
   position: fixed;
   bottom: -100%;
@@ -749,7 +749,8 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 .post-comments.active {
   bottom: 0;
   left: 0;
-  z-index: 8;
+  z-index: 9;
+  overflow-y: auto;
   opacity: 1;
   visibility: visible;
   transition: .3s ease;
@@ -768,32 +769,28 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   border-radius: 20px;
 }
 
-.post-comments.active .v-line {
-  background: var(--lshade);
-  width: 1px;
-  height: 80vh;
-  position: absolute;
-  top: 120px;
-  left: calc(5% + 21px);
-}
-
 .comments-list {
+  padding-bottom: 50px;
+  margin-left: 35px;
   display: grid;
   grid-auto-flow: row;
-  gap: 10px;
+  gap: 0;
   position: relative;
 }
 
-.comments-list .post {
-  border-bottom: 0;
+.post-header {
+  border-bottom: 1px solid var(--lshade);
 }
 
 .comment {
   font-size: var(--sm);
-  padding: 5px 16px 5px 16px;
-  margin-left: 21px;
-  border-radius: 10px 10px 0 0;
+  padding: 10px 16px 5px 16px;
+  border-radius: 0;
+  border-left: 1px solid var(--lshade);
   border-bottom: 1px solid var(--lshade);
+  display: grid;
+  grid-auto-flow: row;
+  gap: 9px;
 }
 
 .comment:last-child {
@@ -809,8 +806,8 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 }
 
 .commenter-info img.commenter-pfp {
-  width: 20px;
-  height: 20px;
+  width: 23px;
+  height: 23px;
   border-radius: 100%;
   overflow: hidden;
 }
@@ -832,15 +829,22 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   gap: 20px;
 }
 
+.ca-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
 .ca-option span.ms-rounded {
   font-size: var(--lg);
-  opacity: .6;
+  opacity: .5;
 }
 
 .ca.edit-comment,
 .ca.delete-comment {
   font-size: var(--xl);
-  opacity: .6;
+  opacity: .5;
 }
 
 .commentForm-wrapper {
@@ -992,7 +996,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   }
 
   header .site-id img {
-    width: 36px;
+    width: 35px;
     height: auto;
   }
 
