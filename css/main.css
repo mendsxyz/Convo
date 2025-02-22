@@ -828,7 +828,9 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   gap: 5px;
 }
 
-.ca-option span.ms-rounded {
+.ca-option span.ms-rounded,
+.ca.edit-comment,
+.ca.delete-comment {
   font-size: var(--sm);
 }
 
