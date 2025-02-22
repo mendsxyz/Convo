@@ -177,14 +177,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Set tiers per session
 
-    const safeEmail = activeSession.email.replace(/@.*/, "");
+    const safeEmail_ = activeSession.email.replace(/@.*/, "");
 
     if (UI.header_auth_state) {
 
       if (activeSession.tier === "T2") {
-        UI.header_auth_state.innerHTML = `${safeEmail + " " + tierMarks.T2}`;
+        UI.header_auth_state.innerHTML = `${safeEmail_ + " " + tierMarks.T2}`;
       } else if (activeSession.tier === "T3") {
-        UI.header_auth_state.innerHTML = `${safeEmail + " " + tierMarks.T3}`;
+        UI.header_auth_state.innerHTML = `${safeEmail_ + " " + tierMarks.T3}`;
       }
 
       UI.header_auth_state.classList.add("active");
@@ -236,9 +236,9 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Error: Posts container missing!");
       return;
     }
-    
+
     const postsRef = ref(db, "posts");
-    
+
     onValue(postsRef, (snapshot) => {
       if (!snapshot.exists()) {
         console.warn("No posts available yet.");
@@ -269,9 +269,9 @@ document.addEventListener("DOMContentLoaded", () => {
       postsArray.forEach((post) => {
         const postId = post.postId;
         console.log(postId);
-        
+
         // Author tier marks
-        
+
         const tierMarks = {
           T2: `<span style="color: var(--primary); font-size: 16px;" class="ms-rounded">verified</span>`,
           T3: `<span style="color: var(--secondary); font-size: 18px;" class="ms-rounded">award_star</span>`
@@ -301,9 +301,9 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="post-body" data-id="post-${postId}">${post.body}</div>
             
               <div class="post-analytics">
-                <div class="pa comments"><span>${post.comments  ||  0}</span><span class="ms-rounded">quickreply</span></div>
-                <div class="pa boosts" data-id="${postId}"><span class="boosts-count">${post.boosts  ||  0}</span><span class="ms-rounded">flash_on</span></div>
-                <div class="pa saves" data-id="${postId}"><span class="saves-count">${post.saves  ||  0}</span><span class="ms-rounded">bookmark</span></div>
+                <div class="pa comments"><span>${post.commentsCount  ||  0}</span><span class="ms-rounded">quickreply</span></div>
+                <div class="pa boosts" data-id="${postId}"><span class="boosts-count">${post.boosts || 0}</span><span class="ms-rounded">flash_on</span></div>
+                <div class="pa saves" data-id="${postId}"><span class="saves-count">${post.saves || 0}</span><span class="ms-rounded">bookmark</span></div>
                 <div class="pa shares"><span>${post.shares  ||  0}</span><span class="ms-rounded">share</span></div>
                 <div class="pa views"><span>${post.views  ||  0}</span><span class="ms-rounded">bar_chart</span></div>
                 
@@ -400,73 +400,6 @@ document.addEventListener("DOMContentLoaded", () => {
               views: post0.querySelector(".post-analytics .pa.views")
             }
 
-            // Comments
-
-            const postComments = document.querySelector(".post-comments");
-            const commentField = document.querySelector(".comment-field");
-            const submitComment = document.querySelector(".submit-comment");
-            let activePostId = null;
-
-            // Open comment popup
-
-            pa.comments.addEventListener("click", (e) => {
-              const postElement = e.target.closest(".post");
-              if (!postElement) return;
-
-              activePostId = postElement.dataset.id;
-              postComments.classList.add("active");
-
-              // Insert the post at the top of the popup
-
-              const postClone = postElement.cloneNode(true);
-              const commentsList = postComments.querySelector(".comments-list");
-              commentsList.innerHTML = "";
-              commentsList.appendChild(postClone);
-            });
-
-            submitComment.addEventListener("click", () => {
-              alert("200");
-            });
-
-            async function handleComments(postId, commentField) {
-              if (!activePostId || !commentField.value.trim()) return;
-
-              const commentBody = commentField.value.trim();
-              const safeEmail = activeSession.email.replace(/\./g, "_");
-              const userName = activeSession.email.replace(/@.*/, "");
-
-              const postRef = ref(db, "posts/" + activePostId);
-              const postSnapshot = await get(postRef);
-
-              if (!postSnapshot.exists()) {
-                alert("Post not found.");
-                return;
-              }
-
-              const postData = postSnapshot.val();
-              const commentsCount = (postData.comments || 0) + 1;
-
-              // Prepare comment object
-
-              const newComment = {
-                body: commentBody,
-                boosts: 0,
-                boos: 0,
-                views: 0
-              };
-
-              await update(postRef, {
-                comments: commentsCount,
-                ["commenters/" + safeEmail]: {
-                  commenter_username: userName,
-                  comment: newComment
-                }
-              });
-
-              commentField.value = "";
-              alert("Comment added!");
-            }
-
             // Boosts
 
             const safeEmail = activeSession.email.replace(/\./g, "_");
@@ -519,8 +452,6 @@ document.addEventListener("DOMContentLoaded", () => {
               } catch (error) {
                 console.error("Error updating boosts:", error);
               }
-
-              setUserTierMarks();
             }
 
             // Saves
@@ -537,6 +468,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 let savedBy = post.savedBy || {};
                 let isSaved = savedBy[userId];
 
+                const savesCountElement = document.querySelector(`#post-${postId} .saves-count`);
+
+                // Optimistically update UI before async calls
+
+                if (savesCountElement) {
+                  savesCountElement.textContent = isSaved ? post.saves - 1 : post.saves + 1;
+                }
+
                 if (isSaved) {
                   delete savedBy[userId];
                   post.saves = Math.max(0, post.saves - 1);
@@ -547,7 +486,10 @@ document.addEventListener("DOMContentLoaded", () => {
                   await set(userRef, true);
                 }
 
+                // Update Firebase
+
                 await update(postRef, { saves: post.saves, savedBy });
+
               } catch (error) {
                 console.error("Error updating saves:", error);
               }
@@ -600,6 +542,177 @@ document.addEventListener("DOMContentLoaded", () => {
 
   getPosts();
 
+  // Comments
+
+  const postComments = document.querySelector(".post-comments");
+  const commentBody = document.querySelector(".comment-body"); // contenteditable div
+  const submitComment = document.querySelector(".submit-comment");
+
+  let activePostId = null;
+
+  // Open comments
+
+  const openComments = (postElement) => {
+    if (!postElement) return;
+
+    activePostId = postElement.dataset.id;
+    postComments.classList.add("active");
+
+    const activePostAuthorEmail = postElement.querySelector(".author-name").dataset.email;
+    const activePostAuthorName = activePostAuthorEmail.replace(/@.*/, "");
+
+    // Set reply text
+
+    commentBody.innerHTML = `<span>Replying to ${activePostAuthorName}</span>`;
+
+    // Post header
+
+    const postHeader = postComments.querySelector(".post-header");
+    postHeader.innerHTML = ""; // Clear old post
+    postHeader.appendChild(postElement.cloneNode(true));
+
+    const commentsList = postComments.querySelector(".comments-list");
+    commentsList.innerHTML = "";
+    loadComments(activePostId);
+
+    document.querySelector(".close-comments").addEventListener("click", () => {
+      postComments.classList.remove("active");
+    });
+
+    submitComment.addEventListener("click", async (e) => {
+      e.preventDefault();
+      await handleComments(activePostId, commentBody.innerHTML);
+    });
+  };
+
+  // Make sure .post-header exists in your HTML inside .post-comments
+
+  // Listen for comment button clicks
+  
+  document.addEventListener("click", (e) => {
+    if (e.target.closest(".pa.comments")) {
+      openComments(e.target.closest(".post"));
+    }
+  });
+
+  // Function to add a comment
+
+  async function handleComments(postId, commentText) {
+    if (!postId || !commentText) return;
+
+    const safeEmail = activeSession.email.replace(/\./g, "_");
+    const userName = activeSession.email.replace(/@.*/, "");
+
+    const postRef = ref(db, "posts/" + postId);
+    const commentsRef = ref(db, "posts/" + postId + "/comments");
+
+    try {
+
+      // Fetch current post data
+
+      const postSnapshot = await get(postRef);
+      if (!postSnapshot.exists()) {
+        alert("Post not found.");
+        return;
+      }
+
+      const postData = postSnapshot.val();
+      const currentComments = postData.comments || {}; // Ensure comments exist
+      const currentCommentsCount = Number(postData.commentsCount || 0); // Ensure it's a number
+
+      // Create new comment with a unique key
+
+      const newCommentRef = push(commentsRef);
+      const commentId = newCommentRef.key;
+
+      const newCommentData = {
+        id: commentId, // Save comment ID
+        commenter_username: userName,
+        body: commentText,
+        boosts: 0,
+        boos: 0,
+        views: 0,
+        timestamp: Date.now()
+      };
+
+      // Save new comment object in database
+
+      await set(newCommentRef, newCommentData);
+
+      // Update comment count separately
+
+      await update(postRef, {
+        commentsCount: currentCommentsCount + 1,
+        comments: { ...currentComments, [commentId]: newCommentData }
+      });
+
+      // Clear input field
+
+      commentBody.innerText = "";
+
+      // Reload comments
+
+      loadComments(postId);
+
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
+  }
+
+  // Function to load and display comments
+
+  async function loadComments(postId) {
+    const commentsList = document.querySelector(".comments-list");
+    if (!commentsList) return;
+
+    commentsList.innerHTML = ""; // Clear previous comments
+
+    const commentsRef = ref(db, "posts/" + postId + "/comments");
+
+    try {
+      const commentsSnapshot = await get(commentsRef);
+      if (!commentsSnapshot.exists()) return;
+
+      const commentsData = commentsSnapshot.val();
+
+      Object.entries(commentsData).forEach(([commentId, comment]) => {
+        const commentElement = document.createElement("div");
+        commentElement.classList.add("comment");
+        commentElement.dataset.id = commentId; // Store comment ID for future actions
+        commentElement.innerHTML = `
+          <div class="commenter-info">
+            <img class="commenter-pfp" src="" alt="user_pfp">
+            <span class="commenter-username">${comment.commenter_username}</span> 
+          </div>
+          <span class="commenter-comment">${comment.body}</span>
+          <div class="comment-analytics">
+            <div class="ca-option">
+              <span class="ca upvote"></span>
+              <span class="ms-rounded">thumb_up</span>
+            </div>
+            
+            <div class="ca-option">
+              <span class="ca haha"></span>
+              <span class="ms-rounded">sentiment_very_satisfied</span>
+            </div>
+            
+            <div class="ca-option">
+              <span class="ca downvote"></span>
+              <span class="ms-rounded">thumb_down</span>
+            </div>
+            
+            <span class="ms-rounded ca edit-comment">edit</span> 
+            <span class="ms-rounded ca delete-comment">delete</span>
+          </div>
+        `;
+        commentsList.appendChild(commentElement);
+      });
+
+    } catch (error) {
+      console.error("Error loading comments:", error);
+    }
+  }
+
   // Retrieve user's saved posts per session
 
   async function getSavedPosts(userId) {
@@ -627,6 +740,14 @@ document.addEventListener("DOMContentLoaded", () => {
       let postElement = document.createElement("div");
       postElement.className = "post";
       postElement.id = `post-${postId}`;
+      postElement.dataset.id = `post-${postId}`;
+
+      // Author tier marks
+
+      const tierMarks = {
+        T2: `<span style="color: var(--primary); font-size: 16px;" class="ms-rounded">verified</span>`,
+        T3: `<span style="color: var(--secondary); font-size: 18px;" class="ms-rounded">award_star</span>`
+      };
 
       // Saved post HTML template
 
@@ -637,7 +758,13 @@ document.addEventListener("DOMContentLoaded", () => {
         
         <div class="post-col-2">
           <div class="author">
-            <span class="author-name" data-email="${post.user_email}">${post.author_name  ||  "retrieving_author..."}</span>
+            <span class="author-name" data-email="${post.user_email}">
+              ${((post.author_tier === "T2") ? 
+              post.author_name + " " + tierMarks.T2 
+              : (post.author_tier === "T3") ?
+              post.author_name + " " + tierMarks.T3 
+              : post.author_name) || "loading..."}
+            </span>
             <span>•</span>
             <span class="time-posted" data-id="${postId}" data-timestamp="${post.time_posted  ||  Date.now()}">${formatTime(post.time_posted)}</span>
           </div>
@@ -645,7 +772,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="post-body" data-id="post-${postId}">${post.body}</div>
           
           <div class="post-analytics">
-            <div class="pa comments"><span>${post.comments  ||  0}</span><span class="ms-rounded">quickreply</span></div>
+            <div class="pa comments"><span>${post.commentsCount  ||  0}</span><span class="ms-rounded">quickreply</span></div>
             <div class="pa boosts data-id="${postId}"><span>${post.boosts  ||  0}</span><span class="ms-rounded">flash_on</span></div>
             <div class="pa saves" data-id="${postId}"><span>${post.saves  ||  0}</span><span class="ms-rounded">bookmark</span></div>
             <div class="pa shares"><span>${post.shares  ||  0}</span><span class="ms-rounded">share</span></div>
