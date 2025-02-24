@@ -51,26 +51,17 @@ authSignupForm.addEventListener("submit", (e) => {
     // Signed up
       
     const user = userCredential.user;
-
-    let signupSuccess;
+    
     document.querySelector("#loader").classList.add("active");
 
     // Display success message
       
-    let message = `
+    let welcomeScr = `
       <span class="action-message title"></span>
       <span class="action-message body-content" hidden></span>
     `;
       
-    UI.animation_wrapper.insertAdjacentHTML("beforeend", message);
-
-    document.querySelector(".action-message.title").textContent = "Welcome to Convo, bozo!";
-    document.querySelector(".action-message.body-content").textContent = "";
-
-    signupSuccess = setTimeout(() => {
-      document.querySelector("#loader").classList.remove("active");
-      clearTimeout(signupSuccess);
-    }, 2000);
+    UI.animation_wrapper.innerHTML = `${welcomeScr}`;
       
     // Set user active session
       

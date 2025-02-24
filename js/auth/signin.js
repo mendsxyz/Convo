@@ -53,25 +53,11 @@ authSignupForm.addEventListener("submit", (e) => {
 
     let signinSuccess;
     document.querySelector("#loader").classList.add("active");
-
-    // Success message
-
-    let message = `
-      <span class="action-message title"></span>
-      <span class="action-message body-content" hidden></span>
-    `;
-
-    UI.animation_wrapper.classList.add("message");
-    UI.animation_wrapper.insertAdjacentHTML("beforeend", message);
-
-    document.querySelector(".action-message.title").textContent = "Signed in successfully!";
-    document.querySelector(".action-message.body-content").textContent = "";
-
+    
     signinSuccess = setTimeout(() => {
       document.querySelector("#loader").classList.remove("active");
-      UI.animation_wrapper.classList.remove("message");
       clearTimeout(signinSuccess);
-    }, 3000);
+    }, 5000);
 
     // Set user active session
 

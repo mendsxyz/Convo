@@ -35,23 +35,23 @@ body {
   --dshade: #4D4D4D;
 
   /* dark */
-  
+
   --dprimary: #FFC649;
   --dsecondary: #8ACD6D;
   --dark: #2F2E2B;
   --dalert: #E15F5F;
   --dinfo: #FFBA7B;
   --dsuccess: #65E17B;
-  
+
   /* font-size */
-  
+
   --sm: 14px;
   --md: 16px;
   --lg: 18px;
   --xl: 20px;
   --xl2: 22px;
   --xl4: 24px;
-  
+
   --sm2: 16px;
   --md2: 18px;
   --lg2: 20px;
@@ -67,9 +67,8 @@ body {
 header {
   background: var(--light);
   width: 100%;
-  height: 55px;
+  height: 60px;
   padding: 0 5%;
-  border-bottom: 1px solid var(--lshade);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -79,11 +78,25 @@ header {
   z-index: 7;
 }
 
-header .site-id {
+header .user-avatar, header .site-id {
   display: flex;
   align-items: center;
   justify-content: left;
   gap: 10px;
+}
+
+header .user-avatar img {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--lshade);
+  border-radius: 100%;
+  opacity: 0;
+  visibility: hidden;
+}
+
+header .user-avatar.active img {
+  opacity: 1;
+  visibility: visible;
 }
 
 header .site-id img {
@@ -91,7 +104,12 @@ header .site-id img {
   height: auto;
 }
 
-header .site-id #userName {
+header .site-id span {
+  font-size: var(--xl);
+  font-weight: 800;
+}
+
+#userName {
   background: var(--lshade);
   padding: 5px 30px 5px 15px;
   display: none;
@@ -103,11 +121,11 @@ header .site-id #userName {
   position: relative;
 }
 
-header .site-id #userName.active {
+#userName.active {
   display: flex;
 }
 
-header .site-id #userName.active::after {
+#userName.active::after {
   content: "";
   background: var(--success);
   width: 10px;
@@ -318,7 +336,7 @@ html:has(.resetPasswordForm-wrapper.active) .nav-link {
 
 main {
   width: 100%;
-  padding: 20px 5%;
+  padding: 0;
 }
 
 #loader {
@@ -407,9 +425,7 @@ main {
   color: var(--light);
   width: 100%;
   margin: auto;
-  max-width: 800px;
   height: auto;
-  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -419,8 +435,7 @@ main {
   background: #00000090;
   width: 100%;
   height: 100%;
-  padding-top: 60px;
-  border-radius: 10px;
+  padding: 60px 5%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -447,12 +462,14 @@ main {
 #ctaBtn {
   background: var(--primary);
   color: var(--light);
-  width: 80%;
+  width: 100%;
+  max-width: 600px;
   padding: 10px 1em;
-  margin: 0 0 10%;
+  margin-top: 10%;
+  margin: auto;
   display: flex;
   align-items: center;
-  justify-content: left;
+  justify-content: center;
   gap: 1em;
   font-size: var(--lg);
   border: 1.8px solid var(--lshade);
@@ -466,66 +483,75 @@ main {
 
 .auth-content.active {
   width: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: 100% 0;
+  gap: 0;
 }
 
-.auth-content .content-nav {
-  width: 102%;
-  padding: 5px;
-  margin-left: -1%;
-  border-radius: 50px;
-  border: 1px solid var(--lshade);
+.auth-content .feed {
+  width: 100%;
+  padding: 50px 0;
+  display: grid;
+  grid-auto-flow: row;
+  position: relative;
+}
+
+.auth-content .feed .content-nav {
+  background: var(--light);
+  width: 100%;
+  height: 32px;
+  border: 2px solid var(--lshade);
   display: flex;
   align-items: center;
   justify-content: left;
-  gap: 5px;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  z-index: 8;
 }
 
-.auth-content .cn-link {
-  border-radius: 50px;
-  padding: 7px 14px;
-  font-size: var(--sm);
-  font-weight: 600;
+.auth-content .feed .content-nav div {
+  height: 100%;
+  border-right: 2px solid var(--lshade);
 }
 
-.auth-content .edit-post {
-  background: var(--primary);
-  color: var(--light);
-  width: 30px;
-  height: 30px;
-  border-radius: 100%;
+.auth-content .feed .content-nav div span {
+  opacity: .3;
+}
+
+.auth-content .feed .content-nav div.active span {
+  opacity: 1;
+}
+
+.auth-content .cn-icon {
+  padding: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
 }
 
-.auth-content .edit-post span {
-  font-size: var(--xl);
+.auth-content .cn-link {
+  padding: 7px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--sm);
+  font-weight: 400;
 }
 
 .auth-content .cn-link.active {
-  background: var(--primary);
-  color: var(--light);
+  color: var(--primary);
+  font-weight: 800;
 }
 
-.feed {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 100% 0;
-}
-
-.posts-container {
+.auth-content .posts-container {
   width: 100%;
   height: 100vh;
+  padding: 0 5%;
   display: grid;
   grid-template-columns: 100% 0;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 html:has(.posts-wrapper.saved-posts.active) .posts-container {
@@ -601,7 +627,6 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 
 .post-body {
   width: 100%;
-  min-height: 40px;
   max-height: 300px;
   font-size: var(--sm);
   overflow-y: hidden;
@@ -725,10 +750,23 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   border-bottom: 1px solid var(--lshade);
 }
 
-.utilities {
-  width: 100%;
-  height: 100%;
-  display: none;
+.auth-content .feed .edit-post {
+  background: var(--primary);
+  color: var(--light);
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  position: fixed;
+  bottom: 50px;
+  right: 5%;
+}
+
+.auth-content .feed .edit-post span {
+  font-size: var(--xl);
 }
 
 .post-comments {
@@ -736,7 +774,8 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   width: 100%;
   height: 100%;
   padding: 15px 5% 50px 5%;
-  max-width: 700px;
+  max-width: 600px;
+  margin: auto;
   position: fixed;
   bottom: -100%;
   left: 0;
@@ -814,10 +853,14 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 
 .commenter-info .commenter-username {
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 3px;
 }
 
 .commenter-comment {
- /* no styles yet */
+  /* no styles yet */
 }
 
 .comment-analytics {
@@ -833,7 +876,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 0;
 }
 
 .ca-option span.ms-rounded {
@@ -863,8 +906,8 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 
 #commentForm {
   width: 100%;
-  padding: 5px;
-  border: 1px solid var(--lshade);
+  padding: 5px 5px 3px 5px;
+  border-top: 1px solid var(--lshade);
   border-radius: 15px 25px 0 0;
   display: flex;
   align-items: flex-start;
@@ -899,6 +942,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   font-size: var(--xl2);
   font-weight: 400;
   line-height: 40px;
+  margin-left: 3px;
 }
 
 /* Posting html */
@@ -906,7 +950,11 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 .createPostForm-wrapper {
   background: var(--light);
   width: 100%;
+  max-width: 600px;
   height: 100%;
+  max-height: 50vh;
+  padding: 15px 5%;
+  margin: auto;
 }
 
 .createPostForm-wrapper label {
@@ -986,17 +1034,40 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   transform: scale(1.05);
 }
 
+.utility {
+  width: 100%;
+  padding: 50px 0;
+  display: none;
+  border-top: 2px solid var(--lshade);
+  overflow-y: auto;
+}
+
+.utility .ut {
+  background: var(--light);
+  width: 100%;
+  min-height: 200px;
+  border: 2px solid var(--lshade);
+  border-radius: 15px;
+}
+
+/* Medium screens */
+
+@media screen and (min-width: 768px) {}
+
+/* Wide screens */
+
 @media screen and (min-width: 768px) {
   header {
     height: 60px;
+    padding: 0 10%;
   }
-  
+
   header .site-id {
     gap: var(--lg2);
   }
 
   header .site-id img {
-    width: 35px;
+    width: 34px;
     height: auto;
   }
 
@@ -1010,6 +1081,10 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
     margin-left: 20%;
     border-radius: 20px;
     bottom: 25vh;
+  }
+
+  main {
+    overflow-y: hidden;
   }
 
   .hero .title {
@@ -1030,61 +1105,51 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   #ctaBtn {
     font-size: var(--lg2);
   }
-  
+
   .auth-content.active {
-    gap: 0!important;
+    padding: 0 10%;
+    display: grid;
+    align-content: start;
+    grid-template-columns: 60% 40%;
+    gap: var(--sm2);
   }
-  
-  .auth-content .content-nav {
-    width: 101%;
-    padding: 7px;
-    gap: 7px;
-    margin-left: -0.5%;
+
+  .auth-content .cn-icon {
+    padding: 7px 7px 7px 10%;
   }
-  
+
   .auth-content .cn-link {
     padding: 6px 18px;
-    font-size: var(--sm2);
   }
-  
+
   .auth-content .edit-post {
     width: 33px;
     height: 33px;
   }
-  
+
   .auth-content .edit-post span {
     font-size: var(--md2);
   }
 
-  .author .author-name,
-  .author .time-posted {
-    font-size: var(--sm2);
+  .auth-content .feed {
+    border-right: 2px solid var(--lshade);
   }
-  
-  .feed {
-    grid-template-columns: 60% 40%;
-  }
-  
+
   .posts-container {
-    padding: 20px 0;
-    border-right: 1px solid var(--lshade);
+    padding: 0 !important;
   }
-  
+
   .post {
     padding: 15px 20px 15px 0;
-    gap: var(--sm2);
+    gap: var(--lg2);
   }
-  
+
   .post-col-1 {
     /* no styles */
   }
 
   .post-col-2 {
     /* no styles */
-  }
-
-  .post-body {
-    font-size: var(--sm2);
   }
 
   .post-analytics .pa span:nth-child(1) {
@@ -1096,7 +1161,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
     font-size: var(--lg2);
     opacity: .6;
   }
-  
+
   .more-post-actions {
     font-size: var(--lg2);
   }
@@ -1106,7 +1171,42 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
     opacity: .6;
   }
   
-  .utilities {
-    display: block;
+  .post-comments.active {
+    height: 700px;
+    border: 2px solid var(--lshade);
+    border-radius: 22px 22px 23px 18px;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+  
+  .comments-list {
+    margin-left: 45px;
+  }
+
+  .utility {
+    display: grid;
+    grid-auto-flow: row;
+    gap: var(--sm2);
+  }
+
+  /* Posting html */
+
+  .createPostForm-wrapper {
+    margin-top: 20%;
+    border: 2px solid var(--lshade);
+    border-radius: 22px;
+  }
+  
+  .createPostForm-wrapper label {
+    padding: var(--sm2) var(--sm2) 0;
+  }
+  
+  .createPostForm-wrapper .data-info {
+    padding: 0 var(--sm2);
+  }
+  
+  .createPostForm-wrapper form .body-editor {
+    padding: 12px 12px;
   }
 }

@@ -6,10 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-signin-client_id" content="754387532769-2vrnrga8vunfjk7hbislp168u36hjsr2.apps.googleusercontent.com">
   <title>Convo - Your decentralized news feed</title>
+  
   <!-- stylesheets -->
   <link rel="shortcut icon" href="img/Convo-favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="icons/icon.css" type="text/css" media="all" />
   <link rel="stylesheet" href="css/main.css" type="text/css" media="all" />
+  
   <!-- scripts -->
   <script type="module" src="js/auth/signup.js" defer></script>
   <script type="module" src="js/auth/signin.js" defer></script>
@@ -18,9 +20,12 @@
 
 <body>
   <header>
+    <div class="user-avatar">
+      <img src="" alt="avatar">
+    </div>
+    
     <div class="site-id">
       <img src="img/Convo-logo.png" alt="Convo-logo">
-      <span id="userName"></span>
     </div>
 
     <div class="nav-toggle">
@@ -82,6 +87,10 @@
         </div>
       </form>
     </div>
+    
+    <div class="nav-link">
+      <span id="userName"></span>
+    </div>
 
     <div class="nav-link accountBtn" data-expand="account">
       <span class="ms-rounded">account_circle</span>
@@ -127,13 +136,6 @@
       </div>
     </div>
 
-    <div class="modal">
-      <span class="ms-rounded md-icon"></span>
-      <span class="md-title"></span>
-      <span class="md-body-content"></span>
-      <button class="md-cta"></button>
-    </div>
-
     <div class="hero">
       <div class="overlay">
         <span class="title">Your Decentralized News Feed for Web3 & Crypto</span>
@@ -149,21 +151,21 @@
     </div>
 
     <div class="auth-content">
-      <div class="content-nav">
-        <a href="/post.html" class="edit-post">
-          <span class="ms-rounded">edit</span>
-        </a>
-
-        <div class="cn-link active" data-tab="for-you-posts">
-          <span>For you</span>
-        </div>
-
-        <div class="cn-link" data-tab="saved-posts">
-          <span>Saved</span>
-        </div>
-      </div>
-
       <div class="feed">
+        <div class="content-nav">
+          <div class="cn-icon">
+            <span class="ms-rounded">left_panel_open</span>
+          </div>
+          
+          <div class="cn-link active" data-tab="for-you-posts">
+            <span>For you</span>
+          </div>
+          
+          <div class="cn-link" data-tab="saved-posts">
+            <span>Saved</span>
+          </div>
+        </div>
+        
         <div class="posts-container">
           <div class="posts-wrapper for-you-posts active">
             <h3 style="text-align: center; margin-top: 4rem;">Fetching posts...</h3>
@@ -173,28 +175,52 @@
             <h3 style="text-align: center; margin-top: 4rem;">Fetching saved posts...</h3>
           </div>
         </div>
-
-        <div class="utilities">
-
-        </div>
+        
+        <a href="/post.html" class="edit-post">
+          <span class="ms-rounded">edit</span>
+        </a>
       </div>
       
+      <div class="utility">
+        <div class="ut user-info">
+          <div class="ui-avatar00name">
+            <img src="" alt="avatar" class="ui-avatar">
+            <span class="ui-name"></span>
+          </div>
+          <div class="ui-status">
+            
+          </div>
+        </div>
+        
+        <div class="ut user-followers00following">
+          
+        </div>
+        
+        <div class="ut user-posts">
+          
+        </div>
+        
+        <div class="ut other">
+          
+        </div>
+      </div>
+
       <div class="post-comments">
         <div class="close-comments">
           <button>Cancel</button>
         </div>
-        
+
         <div class="post-header"></div>
-        
+
         <div class="comments-list">
-          <h3 style="text-align: center;">No comments yet.</h3>
+          <h3 style="text-align: center;"></h3>
         </div>
-        
+
         <div class="commentForm-wrapper">
           <form id="commentForm">
             <div class="comment-body" contenteditable="true"></div>
             <button class="submit-comment" type="submit">
-              <span class="ms-rounded">add_comment</span>
+              <span class="ms-rounded">send</span>
             </button>
           </form>
         </div>

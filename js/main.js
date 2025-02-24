@@ -121,14 +121,6 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => {
         UI.loader.classList.remove("active");
       }, 5000);
-
-      // Handle refresh icon transition
-
-      setTimeout(() => {
-        UI.refresh.textContent = "check_circle";
-        UI.refresh.classList.remove("rotate");
-        UI.refresh.classList.add("popup");
-      }, 2000);
     });
   }
 
@@ -560,7 +552,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const activePostAuthorEmail = postElement.querySelector(".author-name").dataset.email;
     const activePostAuthorName = activePostAuthorEmail.replace(/@.*/, "");
-    
+
     // Post header
 
     const postHeader = postComments.querySelector(".post-header");
@@ -578,13 +570,12 @@ document.addEventListener("DOMContentLoaded", () => {
     submitComment.addEventListener("click", async (e) => {
       e.preventDefault();
       await handleComments(activePostId, commentBody.innerHTML);
+      setTimeout(() => { loadComments(activePostId) }, 300);
     });
   };
-
-  // Make sure .post-header exists in your HTML inside .post-comments
-
-  // Listen for comment button clicks
   
+  // Listen for comment button clicks
+
   document.addEventListener("click", (e) => {
     if (e.target.closest(".pa.comments")) {
       openComments(e.target.closest(".post"));
@@ -598,11 +589,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const safeEmail = activeSession.email.replace(/\./g, "_");
     const userName = activeSession.email.replace(/@.*/, "");
-
+    
+    const userRef = ref(db, "users/" + safeEmail);
     const postRef = ref(db, "posts/" + postId);
     const commentsRef = ref(db, "posts/" + postId + "/comments");
 
     try {
+      
+      // Fetch user data
+      
+      const userSnapshot = await get(userRef);
+      if (!userSnapshot.exists()) return;
+      
+      const userData = userSnapshot.val();
+      const userTier = userData.tier;
 
       // Fetch current post data
 
@@ -622,11 +622,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const commentId = newCommentRef.key;
 
       const newCommentData = {
-        id: commentId, // Save comment ID
+        id: commentId,
+        commenter_tier: userTier,
         commenter_username: userName,
         body: commentText,
         boosts: 0,
-        boos: 0,
         views: 0,
         timestamp: Date.now()
       };
@@ -645,18 +645,13 @@ document.addEventListener("DOMContentLoaded", () => {
       // Clear input field
 
       commentBody.innerText = "";
-
-      // Reload comments
-
-      loadComments(postId);
-
     } catch (error) {
       console.error("Error adding comment:", error);
     }
   }
 
   // Function to load and display comments
-
+  
   async function loadComments(postId) {
     const commentsList = document.querySelector(".comments-list");
     if (!commentsList) return;
@@ -665,38 +660,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const commentsRef = ref(db, "posts/" + postId + "/comments");
 
+    // Tier marks
+    
+    const tierMarks = {
+      T2: `<span style="color: var(--primary); font-size: 16px;" class="ms-rounded">verified</span>`,
+      T3: `<span style="color: var(--secondary); font-size: 18px;" class="ms-rounded">award_star</span>`
+    };
+
     try {
       const commentsSnapshot = await get(commentsRef);
       if (!commentsSnapshot.exists()) return;
-
+      
       const commentsData = commentsSnapshot.val();
 
-      Object.entries(commentsData).forEach(([commentId, comment]) => {
+      Object.keys(commentsData).forEach(commentId => {
+        const comment = commentsData[commentId];
+        
+        if (document.querySelector(`[data-id="${commentId}"]`)) return;
+        
         const commentElement = document.createElement("div");
         commentElement.classList.add("comment");
         commentElement.dataset.id = commentId; // Store comment ID for future actions
         commentElement.innerHTML = `
           <div class="commenter-info">
             <img class="commenter-pfp" src="" alt="user_pfp">
-            <span class="commenter-username">${comment.commenter_username}</span> 
+            <span class="commenter-username">
+              ${comment.commenter_username} ${tierMarks[comment.commenter_tier] || ""}
+            </span>
+            <span>•</span>
+            <span class="time-commented" data-id="${commentId}" data-timestamp="${comment.timestamp  ||  Date.now()}">${formatTime(comment.timestamp)}</span>
           </div>
           <span class="commenter-comment">${comment.body}</span>
           <div class="comment-analytics">
             <div class="ca-option">
-              <span class="ca upvote">0</span>
-              <span class="ms-rounded">thumb_up</span>
+              <span class="ca boosts">0</span>
+              <span class="ms-rounded">flash_on</span>
             </div>
-            
-            <div class="ca-option">
-              <span class="ca haha">0</span>
-              <span class="ms-rounded">sentiment_very_satisfied</span>
-            </div>
-            
             <div class="ca-option">
               <span class="ca views">0</span>
               <span class="ms-rounded">bar_chart</span>
             </div>
-            
             <span class="ms-rounded ca delete-comment">delete</span>
           </div>
         `;
@@ -880,6 +883,47 @@ document.addEventListener("DOMContentLoaded", () => {
   // Run every second to update times in real-time
 
   setInterval(updatePostTimes, 1000);
+  
+  // Comment time
+  
+  function formatCommentTime(timestamp) {
+
+    // If no valid/running timestamp return "Just now"
+
+    if (!timestamp || isNaN(timestamp) || timestamp < 10000000000) {
+      return "Just now";
+    }
+
+    const now = Date.now();
+    const seconds = Math.floor((now - timestamp) / 1000);
+
+    if (seconds < 60) return `${seconds}s ago`;
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    if (days <= 6) return `${days}d ago`;
+
+    return new Date(timestamp).toLocaleDateString("en-GB"); // dd/mm/yyyy
+  }
+
+  // Update comment time
+
+  function updateCommentTimes() {
+    document.querySelectorAll(".comment .time-commented").forEach(timeEl => {
+      const postId = timeEl.dataset.id;
+      const timestamp = parseInt(timeEl.dataset.timestamp);
+
+      if (timestamp) {
+        timeEl.innerText = formatCommentTime(timestamp);
+      }
+    });
+  }
+
+  // Run every second to update times in real-time
+
+  setInterval(updateCommentTimes, 1000);
 });
 
 // Reset password
