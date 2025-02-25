@@ -672,7 +672,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 }
 
 .post-body div {
-  margin-bottom: 2px;
+  margin-bottom: -4px;
 }
 
 .post-img {
