@@ -1162,7 +1162,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   }
 
   .post-col-2 {
-    /* no styles */
+    gap: 5px;
   }
 
   .post-analytics .pa span:nth-child(1) {
