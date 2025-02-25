@@ -1185,12 +1185,18 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   }
   
   .post-comments.active {
-    min-height: 50%;
+    height: auto;
     border: 2px solid var(--lshade);
     border-radius: 22px 22px 23px 18px;
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
+  }
+  
+  .post-comments.active .commentForm-wrapper {
+    position: relative;
+    bottom: 0;
+    z-index: 8;
   }
   
   .comments-list {
