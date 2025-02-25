@@ -549,7 +549,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Check if the post is in the middle or above it
 
-      if (rect.top > window.innerHeight * 0.25 && rect.top < window.innerHeight * 0.6) {
+      if (rect.top > window.innerHeight * 0.01 && rect.top < window.innerHeight * 0.6) {
         if (!viewedPosts.has(postId)) {
           handlePostViews(postId); // Update views in the database
           viewedPosts.add(postId); // Prevent multiple counts
