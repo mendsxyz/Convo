@@ -693,7 +693,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 }
 
 .post-analytics .pa span:nth-child(1) {
-  font-size: var(--sm);
+  font-size: var(--md);
   opacity: .8;
 }
 
@@ -708,6 +708,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   align-items: center;
   justify-content: center;
   opacity: .6;
+  cursor: pointer;
 }
 
 .post-analytics .mpa-options {
