@@ -527,6 +527,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       console.log("Posts loaded successfully!");
+      
+      // Run view tracking every 30 seconds
+      
+      setInterval(trackPostViews, 30000);
     }, (error) => {
       console.error("Error fetching posts:", error);
     });
@@ -534,11 +538,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
   getPosts();
 
+  const viewedPosts = new Set(); // Store posts that have been counted
+
+  function trackPostViews() {
+    const posts = document.querySelectorAll(".post");
+
+    posts.forEach((post) => {
+      const rect = post.getBoundingClientRect();
+      const postId = post.getAttribute("data-id");
+
+      // Check if the post is in the middle or above it
+      
+      if (rect.top > window.innerHeight * 0.25 && rect.top < window.innerHeight * 0.6) {
+        if (!viewedPosts.has(postId)) {
+          handlePostViews(postId); // Update views in the database
+          viewedPosts.add(postId); // Prevent multiple counts
+        }
+      }
+    });
+  }
+  
+  // Handle post views
+
+  async function handlePostViews(postId) {
+    if (!postId) return;
+
+    const postRef = ref(db, "posts/" + postId);
+
+    try {
+      const snapshot = await get(postRef);
+      if (!snapshot.exists()) return;
+
+      let postData = snapshot.val();
+      let currentViews = postData.views ?? 0;
+
+      // Increase view count
+
+      await update(postRef, {
+        views: currentViews + 1
+      });
+
+      console.log("Post view updated:", currentViews + 1);
+    } catch (error) {
+      console.error("Error updating post views:", error);
+    }
+  }
+
   // Comments
 
   const postComments = document.querySelector(".post-comments");
-  const commentBody = document.querySelector(".comment-body"); // contenteditable div
-  const submitComment = document.querySelector(".submit-comment");
+  const commentBody = document.querySelector(".comment-body");
+  const commentForm = document.querySelector("#commentForm");
 
   let activePostId = null;
 
@@ -547,13 +597,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const openComments = (postElement) => {
     if (!postElement) return;
 
-    activePostId = postElement.dataset.id;
+    const postId = postElement.dataset.id;
+    if (activePostId === postId) return; // Prevent reloading comments for the same post
+
+    activePostId = postId;
     postComments.classList.add("active");
-
-    const activePostAuthorEmail = postElement.querySelector(".author-name").dataset.email;
-    const activePostAuthorName = activePostAuthorEmail.replace(/@.*/, "");
-
-    // Post header
 
     const postHeader = postComments.querySelector(".post-header");
     postHeader.innerHTML = ""; // Clear old post
@@ -563,17 +611,100 @@ document.addEventListener("DOMContentLoaded", () => {
     commentsList.innerHTML = "";
     loadComments(activePostId);
 
-    document.querySelector(".close-comments").addEventListener("click", () => {
-      postComments.classList.remove("active");
-    });
+    // Comment boosts
 
-    submitComment.addEventListener("click", async (e) => {
-      e.preventDefault();
-      await handleComments(activePostId, commentBody.innerHTML);
-      setTimeout(() => { loadComments(activePostId) }, 300);
+    async function handleCommentBoosts(postId, commentId, userEmail) {
+      const commentRef = ref(db, "posts/" + activePostId + "/comments/" + commentId); // ✅ Correct path
+
+      try {
+        // Fetch latest comment data
+        const snapshot = await get(commentRef);
+
+        if (!snapshot.exists()) {
+          console.error("Comment not found in database.");
+          return;
+        }
+
+        let comment = snapshot.val();
+        console.log("Fetched comment data:", comment);
+
+        let currentBoosts = comment.boosts ?? 0;
+        let boosterUsers = comment.boostedBy ? { ...comment.boostedBy } : {};
+
+        if (boosterUsers[userEmail]) {
+          currentBoosts = Math.max(0, currentBoosts - 1);
+          delete boosterUsers[userEmail];
+        } else {
+          currentBoosts += 1;
+          boosterUsers[userEmail] = true;
+        }
+
+        console.log("Updating comment boosts:", { ...comment, boosts: currentBoosts, boostedBy: boosterUsers });
+
+        // Update comment boosts in Firebase
+        await update(commentRef, {
+          boosts: currentBoosts,
+          boostedBy: boosterUsers
+        });
+
+        // Update the UI
+        let boostCountEl = document.querySelector(`.ca.boosts.boosts-count[data-id="${commentId}"]`);
+        if (boostCountEl) boostCountEl.textContent = currentBoosts;
+
+        console.log("Comment boost updated successfully!");
+      } catch (error) {
+        console.error("Error updating comment boosts:", error);
+      }
+    }
+
+    // Event delegation for comment boosts
+
+    document.addEventListener("click", async (event) => {
+      let boostBtn = event.target.closest(".ca-option.boosts");
+      if (!boostBtn) return;
+
+      let commentId = boostBtn.getAttribute("data-id");
+
+      if (!commentId || !activePostId) return;
+
+      let userEmail = activeSession.email.replace(/\./g, "_");
+
+      if (boostBtn.classList.contains("processing")) return;
+      boostBtn.classList.add("processing");
+
+      await handleCommentBoosts(activePostId, commentId, userEmail);
+
+      boostBtn.classList.remove("processing");
     });
   };
-  
+
+  // Close comments and reset functions
+
+  document.querySelector(".close-comments").addEventListener("click", () => {
+    postComments.classList.remove("active");
+
+    // Reset active post ID
+    activePostId = null;
+
+    // Clear comment input
+    commentBody.innerHTML = "";
+
+    // Clear comments list
+    const commentsList = postComments.querySelector(".comments-list");
+    commentsList.innerHTML = "";
+  });
+
+  // Ensure event listener is attached only once
+
+  commentForm.addEventListener("submit", handleSubmitComment);
+
+  // Helper function for handling comments
+  async function handleSubmitComment(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    await handleComments(activePostId, commentBody.innerHTML);
+  };
+
   // Listen for comment button clicks
 
   document.addEventListener("click", (e) => {
@@ -587,20 +718,23 @@ document.addEventListener("DOMContentLoaded", () => {
   async function handleComments(postId, commentText) {
     if (!postId || !commentText) return;
 
+    let refreshComments;
+
+    const commentsList = document.querySelector(".comments-list");
     const safeEmail = activeSession.email.replace(/\./g, "_");
     const userName = activeSession.email.replace(/@.*/, "");
-    
+
     const userRef = ref(db, "users/" + safeEmail);
     const postRef = ref(db, "posts/" + postId);
     const commentsRef = ref(db, "posts/" + postId + "/comments");
 
     try {
-      
+
       // Fetch user data
-      
+
       const userSnapshot = await get(userRef);
       if (!userSnapshot.exists()) return;
-      
+
       const userData = userSnapshot.val();
       const userTier = userData.tier;
 
@@ -627,6 +761,7 @@ document.addEventListener("DOMContentLoaded", () => {
         commenter_username: userName,
         body: commentText,
         boosts: 0,
+        boostedBy: {},
         views: 0,
         timestamp: Date.now()
       };
@@ -639,19 +774,70 @@ document.addEventListener("DOMContentLoaded", () => {
 
       await update(postRef, {
         commentsCount: currentCommentsCount + 1,
-        comments: { ...currentComments, [commentId]: newCommentData }
+        ["comments/" + commentId]: newCommentData
       });
 
       // Clear input field
 
       commentBody.innerText = "";
+
+      addCommentToUI(postId, newCommentData);
+
+      refreshComments = setTimeout(() => {
+        loadComments(activePostId);
+        clearTimeout(refreshComments);
+      }, 500);
     } catch (error) {
       console.error("Error adding comment:", error);
     }
   }
 
+  // Add new comment
+
+  function addCommentToUI(commentId, commentData) {
+    const commentsList = document.querySelector(".comments-list");
+    if (!commentsList) return;
+
+    const comment = commentData;
+
+    // Tier marks
+
+    const tierMarks = {
+      T2: `<span style="color: var(--primary); font-size: 16px;" class="ms-rounded">verified</span>`,
+      T3: `<span style="color: var(--secondary); font-size: 18px;" class="ms-rounded">award_star</span>`
+    };
+
+    const commentElement = document.createElement("div");
+    commentElement.classList.add("comment");
+    commentElement.dataset.id = commentId;
+    commentElement.innerHTML = `
+      <div class="commenter-info">
+        <img class="commenter-pfp" src="" alt="user_pfp">
+        <span class="commenter-username">
+          ${comment.commenter_username} ${tierMarks[comment.commenter_tier] || ""}
+        </span>
+        <span>•</span>
+        <span class="time-commented" data-id="${commentId}" data-timestamp="${comment.timestamp  ||  Date.now()}">${formatTime(comment.timestamp)}</span>
+      </div>
+      <span class="commenter-comment">${comment.body}</span>
+      <div class="comment-analytics">
+        <div class="ca-option boosts" data-id="${commentId}">
+          <span class="ca boosts boosts-count" data-id="${commentId}">${comment.boosts}</span>
+          <span class="ms-rounded">flash_on</span>
+        </div>
+        <div class="ca-option">
+          <span class="ca views">0</span>
+          <span class="ms-rounded">bar_chart</span>
+        </div>
+        <span class="ms-rounded ca delete-comment data-id=${commentId}">delete</span>
+      </div>
+    `;
+
+    commentsList.appendChild(commentElement);
+  }
+
   // Function to load and display comments
-  
+
   async function loadComments(postId) {
     const commentsList = document.querySelector(".comments-list");
     if (!commentsList) return;
@@ -661,7 +847,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const commentsRef = ref(db, "posts/" + postId + "/comments");
 
     // Tier marks
-    
+
     const tierMarks = {
       T2: `<span style="color: var(--primary); font-size: 16px;" class="ms-rounded">verified</span>`,
       T3: `<span style="color: var(--secondary); font-size: 18px;" class="ms-rounded">award_star</span>`
@@ -670,14 +856,14 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const commentsSnapshot = await get(commentsRef);
       if (!commentsSnapshot.exists()) return;
-      
+
       const commentsData = commentsSnapshot.val();
 
       Object.keys(commentsData).forEach(commentId => {
         const comment = commentsData[commentId];
-        
-        if (document.querySelector(`[data-id="${commentId}"]`)) return;
-        
+
+        if (document.querySelector(`.comment[data-id="${commentId}"]`)) return;
+
         const commentElement = document.createElement("div");
         commentElement.classList.add("comment");
         commentElement.dataset.id = commentId; // Store comment ID for future actions
@@ -692,17 +878,18 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <span class="commenter-comment">${comment.body}</span>
           <div class="comment-analytics">
-            <div class="ca-option">
-              <span class="ca boosts">0</span>
+            <div class="ca-option boosts" data-id="${commentId}">
+              <span class="ca boosts boosts-count" data-id="${commentId}">${comment.boosts}</span>
               <span class="ms-rounded">flash_on</span>
             </div>
             <div class="ca-option">
               <span class="ca views">0</span>
               <span class="ms-rounded">bar_chart</span>
             </div>
-            <span class="ms-rounded ca delete-comment">delete</span>
+            <span class="ms-rounded ca delete-comment" data-id="${commentId}">delete</span>
           </div>
         `;
+
         commentsList.appendChild(commentElement);
       });
 
@@ -883,9 +1070,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Run every second to update times in real-time
 
   setInterval(updatePostTimes, 1000);
-  
+
   // Comment time
-  
+
   function formatCommentTime(timestamp) {
 
     // If no valid/running timestamp return "Just now"
