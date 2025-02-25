@@ -898,7 +898,8 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   gap: 0;
 }
 
-.ca-option .ca {
+.ca-option .ca.boosts,
+.ca-option .ca.views {
   font-size: calc(var(--sm) - 2px);
 }
 
