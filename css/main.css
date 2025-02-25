@@ -689,6 +689,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   display: flex;
   align-items: center;
   justify-content: left;
+  cursor: pointer;
 }
 
 .post-analytics .pa span:nth-child(1) {
@@ -759,6 +760,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   align-items: center;
   justify-content: center;
   opacity: .6;
+  cursor: pointer;
 }
 
 .post:not(:last-child) {
@@ -904,6 +906,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 .ca.delete-comment {
   font-size: var(--lg);
   opacity: .5;
+  cursor: pointer;
 }
 
 .commentForm-wrapper {
@@ -952,6 +955,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 #commentForm .submit-comment span {
@@ -1156,7 +1160,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   }
 
   .post {
-    padding: 15px 20px 15px 0;
+    padding: 10px 20px 10px 0;
     gap: var(--lg2);
   }
 
