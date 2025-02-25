@@ -903,7 +903,10 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   opacity: .5;
 }
 
-.ca.edit-comment,
+.ca span.ms-rounded {
+  font-size: calc(var(--sm) - 2px);
+}
+
 .ca.delete-comment {
   font-size: var(--lg);
   opacity: .5;
