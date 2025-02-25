@@ -1185,7 +1185,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   }
   
   .post-comments.active {
-    height: auto;
+    min-height: 50%;
     border: 2px solid var(--lshade);
     border-radius: 22px 22px 23px 18px;
     top: 50%;
