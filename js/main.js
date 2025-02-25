@@ -691,6 +691,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  // Fix commentForm to bottom of comments div
+
+  function fixCommentFormToBottom() {
+    const fixedDiv = document.querySelector(".post-comments"); // Your fixed div
+    const targetDiv = document.querySelector(".commentsForm-wrapper"); // The div to fix at the bottom
+
+    if (!fixedDiv || !targetDiv) return;
+
+    function updatePosition() {
+      if (window.innerWidth >= 768) {
+        const fixedDivRect = fixedDiv.getBoundingClientRect();
+        targetDiv.style.position = "fixed";
+        targetDiv.style.bottom = "0";
+        targetDiv.style.width = "100%";
+      } else {
+        targetDiv.style.position = ""; // Reset styles on small screens
+      }
+    }
+
+    // Run on load & resize
+    updatePosition();
+    window.addEventListener("resize", updatePosition);
+  }
+
+  // Call the function on page load
+  fixCommentFormToBottom();
+  
   // Close comments and reset functions
 
   document.querySelector(".close-comments").addEventListener("click", () => {
