@@ -1190,12 +1190,11 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
     border-radius: 22px 22px 23px 18px;
     top: 50%;
     left: 50%;
-    transform: translateX(-20%) translateY(-50%);
+    transform: translateX(-50%) translateY(-20%);
   }
   
   .post-comments.active .commentForm-wrapper {
-    bottom: -100%;
-    transform: translateY(100%);
+    bottom: 0;
     z-index: 8;
   }
   
