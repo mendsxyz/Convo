@@ -641,9 +641,6 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   max-height: 300px;
   font-size: var(--sm);
   line-height: 1;
-  display: grid;
-  grid-auto-rows: row;
-  gap: 2px;
   overflow-y: hidden;
   position: relative;
   user-select: none !important;
