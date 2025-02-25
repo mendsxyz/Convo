@@ -1194,7 +1194,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   }
   
   .post-comments.active .commentForm-wrapper {
-    position: sticky;
+    position: fixed;
     bottom: -100%;
     left: 0;
     transform: translateY(100%);
