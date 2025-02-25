@@ -1,8 +1,8 @@
 /* Global font */
 
 @font-face {
-  font-family: "Qsans";
-  src: url("../fonts/Questrial-Regular.ttf");
+  font-family: "Onest";
+  src: url("../fonts/Onest-VariableFont_wght.ttf");
 }
 
 /* Global styles */
@@ -17,7 +17,7 @@ body {
   outline: 0;
   appearance: none;
   -webkit-appearance: none;
-  font-family: "Qsans", sans-serif;
+  font-family: "Onest", sans-serif;
 }
 
 ::-webkit-scrollbar {
@@ -591,7 +591,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   padding: 10px 0;
   display: grid;
   grid-template-columns: auto 2fr;
-  gap: 5px;
+  gap: 10px;
 }
 
 .post-col-1 {
@@ -610,7 +610,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 .post-col-2 {
   display: grid;
   grid-auto-flow: row;
-  gap: 10px;
+  gap: 9px;
 }
 
 .author {
@@ -618,7 +618,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   display: flex;
   align-items: center;
   justify-content: left;
-  gap: 10px;
+  gap: 9px;
 }
 
 .author .author-name {
