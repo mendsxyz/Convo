@@ -527,10 +527,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       console.log("Posts loaded successfully!");
-      
+
       // Run view tracking every 30 seconds
-      
-      setInterval(trackPostViews, 30000);
+
+      setInterval(trackPostViews, 3000);
     }, (error) => {
       console.error("Error fetching posts:", error);
     });
@@ -548,7 +548,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const postId = post.getAttribute("data-id");
 
       // Check if the post is in the middle or above it
-      
+
       if (rect.top > window.innerHeight * 0.25 && rect.top < window.innerHeight * 0.6) {
         if (!viewedPosts.has(postId)) {
           handlePostViews(postId); // Update views in the database
@@ -557,11 +557,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  
+
   // Handle post views
 
   async function handlePostViews(postId) {
     if (!postId) return;
+
+    const userEmail = activeSession.email.replace(/\./g, "_"); // Normalize email
+    const postKey = `${userEmail}_${postId}`; // Unique key for user+post
+    let viewedPosts = JSON.parse(localStorage.getItem("viewedPosts")) || {};
+
+    // Prevent duplicate views
+    if (viewedPosts[postKey]) {
+      console.log("View already recorded for this user:", postId);
+      return;
+    }
 
     const postRef = ref(db, "posts/" + postId);
 
@@ -573,10 +583,13 @@ document.addEventListener("DOMContentLoaded", () => {
       let currentViews = postData.views ?? 0;
 
       // Increase view count
-
       await update(postRef, {
         views: currentViews + 1
       });
+
+      // Mark as viewed & save in localStorage
+      viewedPosts[postKey] = true;
+      localStorage.setItem("viewedPosts", JSON.stringify(viewedPosts));
 
       console.log("Post view updated:", currentViews + 1);
     } catch (error) {
