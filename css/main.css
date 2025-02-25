@@ -1194,8 +1194,9 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   }
   
   .post-comments.active .commentForm-wrapper {
-    position: fixed;
+    position: sticky;
     bottom: 0;
+    left: 0;
     z-index: 8;
   }
   
