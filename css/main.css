@@ -898,13 +898,13 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   gap: 0;
 }
 
+.ca-option .ca {
+  font-size: calc(var(--sm) - 2px);
+}
+
 .ca-option span.ms-rounded {
   font-size: var(--md);
   opacity: .5;
-}
-
-.ca span.ms-rounded {
-  font-size: calc(var(--sm) - 2px);
 }
 
 .ca.delete-comment {
