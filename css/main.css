@@ -693,12 +693,12 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 }
 
 .post-analytics .pa span:nth-child(1) {
-  font-size: var(--md);
+  font-size: calc(var(--sm) - 5px);
   opacity: .8;
 }
 
 .post-analytics .pa span:nth-child(2) {
-  font-size: var(--sm);
+  font-size: var(--md);
   opacity: .6;
 }
 
