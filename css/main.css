@@ -671,6 +671,10 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   background: transparent;
 }
 
+.post-body div {
+  margin-bottom: 2px;
+}
+
 .post-img {
   border-radius: 15px;
   border: 1.8px solid var(--lshade);
