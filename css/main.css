@@ -1197,7 +1197,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
     position: sticky;
     bottom: 0;
     left: 0;
-    transform: translateY(-100px);
+    transform: translateY(100px);
     z-index: 8;
   }
   
