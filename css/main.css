@@ -1167,25 +1167,6 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   .post-col-2 {
     gap: 5px;
   }
-
-  .post-analytics .pa span:nth-child(1) {
-    font-size: var(--sm2);
-    opacity: .8;
-  }
-
-  .post-analytics .pa span:nth-child(2) {
-    font-size: var(--lg2);
-    opacity: .6;
-  }
-
-  .more-post-actions {
-    font-size: var(--lg2);
-  }
-
-  .mpa-options span {
-    font-size: var(--lg2);
-    opacity: .6;
-  }
   
   .post-comments.active {
     height: 400px;
