@@ -859,6 +859,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 .commenter-info img.commenter-pfp {
   width: 23px;
   height: 23px;
+  border: 2px solid var(--lshade);
   border-radius: 100%;
   overflow: hidden;
 }
@@ -1184,7 +1185,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   }
   
   .post-comments.active {
-    height: 700px;
+    height: auto;
     border: 2px solid var(--lshade);
     border-radius: 22px 22px 23px 18px;
     top: 50%;
