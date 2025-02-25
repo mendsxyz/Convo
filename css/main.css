@@ -601,8 +601,8 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 }
 
 .post-col-1 img {
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   border-radius: 100%;
   border: 1.8px solid var(--lshade);
 }
