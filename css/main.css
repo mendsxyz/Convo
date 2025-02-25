@@ -1080,7 +1080,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   }
 
   header .site-id img {
-    width: 34px;
+    width: 1em;
     height: auto;
   }
 
