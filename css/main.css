@@ -692,17 +692,17 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 }
 
 .post-analytics .pa span:nth-child(1) {
-  font-size: var(--sm);
+  font-size: var(--md);
   opacity: .8;
 }
 
 .post-analytics .pa span:nth-child(2) {
-  font-size: var(--sm);
+  font-size: var(--md);
   opacity: .6;
 }
 
 .post-analytics .more-post-actions {
-  font-size: var(--xl);
+  font-size: var(--lg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -754,7 +754,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 .mpa-options .update-post,
 .mpa-options .delete-post {
   padding: 5px;
-  font-size: var(--sm);
+  font-size: var(--md);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -896,13 +896,13 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 }
 
 .ca-option span.ms-rounded {
-  font-size: var(--sm);
+  font-size: var(--md);
   opacity: .5;
 }
 
 .ca.edit-comment,
 .ca.delete-comment {
-  font-size: var(--xl);
+  font-size: var(--lg);
   opacity: .5;
 }
 
