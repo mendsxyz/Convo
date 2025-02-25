@@ -1080,7 +1080,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   }
 
   header .site-id img {
-    width: 1.3em;
+    width: 1.4em;
     height: auto;
   }
 
@@ -1194,7 +1194,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   }
   
   .post-comments.active .commentForm-wrapper {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     z-index: 8;
   }
