@@ -320,8 +320,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (postBodies) {
           postBodies.forEach(postBody => {
             postBody.addEventListener("click", () => {
-              postBody.classList.toggle("expand");
+              postBody.classList.toggle("expandY");
             });
+            
+            if (postBody.offsetHeight > 150) {
+              postBody.classList.add("expand");
+            }
           });
         }
 
@@ -568,6 +572,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let viewedPosts = JSON.parse(localStorage.getItem("viewedPosts")) || {};
 
     // Prevent duplicate views
+    
     if (viewedPosts[postKey]) {
       console.log("View already recorded for this user:", postId);
       return;
@@ -583,11 +588,13 @@ document.addEventListener("DOMContentLoaded", () => {
       let currentViews = postData.views ?? 0;
 
       // Increase view count
+      
       await update(postRef, {
         views: currentViews + 1
       });
 
       // Mark as viewed & save in localStorage
+      
       viewedPosts[postKey] = true;
       localStorage.setItem("viewedPosts", JSON.stringify(viewedPosts));
 
@@ -690,33 +697,6 @@ document.addEventListener("DOMContentLoaded", () => {
       boostBtn.classList.remove("processing");
     });
   };
-
-  // Fix commentForm to bottom of comments div
-
-  function fixCommentFormToBottom() {
-    const fixedDiv = document.querySelector(".post-comments"); // Your fixed div
-    const targetDiv = document.querySelector(".commentsForm-wrapper"); // The div to fix at the bottom
-
-    if (!fixedDiv || !targetDiv) return;
-
-    function updatePosition() {
-      if (window.innerWidth >= 768) {
-        const fixedDivRect = fixedDiv.getBoundingClientRect();
-        targetDiv.style.position = "fixed";
-        targetDiv.style.bottom = "0";
-        targetDiv.style.width = "100%";
-      } else {
-        targetDiv.style.position = ""; // Reset styles on small screens
-      }
-    }
-
-    // Run on load & resize
-    updatePosition();
-    window.addEventListener("resize", updatePosition);
-  }
-
-  // Call the function on page load
-  fixCommentFormToBottom();
   
   // Close comments and reset functions
 
