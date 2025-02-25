@@ -697,7 +697,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 }
 
 .post-analytics .pa span:nth-child(2) {
-  font-size: var(--lg);
+  font-size: var(--sm);
   opacity: .6;
 }
 
@@ -754,7 +754,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 .mpa-options .update-post,
 .mpa-options .delete-post {
   padding: 5px;
-  font-size: var(--xl);
+  font-size: var(--sm);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -896,7 +896,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 }
 
 .ca-option span.ms-rounded {
-  font-size: var(--lg);
+  font-size: var(--sm);
   opacity: .5;
 }
 
