@@ -17,88 +17,55 @@ const firebaseConfig = {
   measurementId: "G-FE8WF5H6XV"
 };
 
-// Initialize Firebase
-
+// Initialize Firebase  
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
-const db = getDatabase();
-
-let refreshPage;
+const auth = getAuth(app);
+const db = getDatabase(app);
 
 const authSignupForm = document.querySelector("#authForm");
-authSignupForm.addEventListener("submit", (e) => {
+console.log("authSignupForm found:", authSignupForm); // Debugging
+
+authSignupForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const UI = {
-    loader: document.querySelector("#loader"),
-    header_auth_state: document.querySelector("#userName"),
-    nav_links: document.querySelectorAll(".nav-link"),
-    nl_collapsibles: document.querySelectorAll(".nl-collapsible"),
-    current_username: document.querySelector(".current-userName"),
-    animation_wrapper: document.querySelector("#loader .animation-wrapper"),
-    nav: document.querySelector("nav.auto"),
-    hero: document.querySelector(".hero"),
-    authform_wrapper: document.querySelector(".authForm-wrapper"),
-    auth_content: document.querySelector(".auth-content")
-  }
 
   const userEmail = document.querySelector("#userEmail").value;
   const userPassword = document.querySelector("#userPassword").value;
 
-  signInWithEmailAndPassword(auth, userEmail, userPassword)
-  .then((userCredential) => {
+  console.log("Attempting sign-in:", userEmail); // Debugging
 
-    // If user is signed in
-
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, userEmail, userPassword);
     const user = userCredential.user;
 
-    let signinSuccess;
+    console.log("Sign-in successful:", user);
+
     document.querySelector("#loader").classList.add("active");
-    
-    signinSuccess = setTimeout(() => {
+
+    setTimeout(() => {
       document.querySelector("#loader").classList.remove("active");
-      clearTimeout(signinSuccess);
     }, 5000);
 
-    // Set user active session
-
-    UI.header_auth_state.textContent = userEmail.replace(/@.*/, "");
-    UI.nav.classList.remove("active");
-    UI.hero.style.display = "none";
-    UI.authform_wrapper.classList.remove("active");
+    // Set user session
+    document.querySelector("#userName").textContent = userEmail.replace(/@.*/, "");
 
     let states = JSON.parse(localStorage.getItem("states")) || [];
+    const safeEmail = userEmail.replace(/\./g, "_");
 
-    try {
-      const safeEmail = userEmail.replace(/\./g, "_");
+    // Fetch user tier from Firebase
+    const snapshot = await get(ref(db, "users/" + safeEmail));
 
-      // Get User Tier from Database
-      
-      get(ref(db, "users/" + safeEmail)).then((snapshot) => {
-        let userTier = "T1"; // Default to Basic Tier if not found
-        if (snapshot.exists()) {
-          userTier = snapshot.val().tier || "T1";
-        }
-
-        const newState = {
-          email: userEmail.trim(),
-          state: "signedin",
-          tier: userTier // Store tier inside states object
-        };
-
-        states.push(newState);
-        localStorage.setItem("states", JSON.stringify(states));
-      });
-    } catch (error) {
-      console.error("Error saving state:", error);
+    let userTier = "T1"; // Default to Basic Tier
+    if (snapshot.exists()) {
+      userTier = snapshot.val().tier || "T1";
     }
 
-    refreshPage = setTimeout(() => {
-      location.reload();
-      clearTimeout(refreshPage);
-    }, 3000);
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-  });
+    console.log("Fetched user tier:", userTier); // Debugging
+
+    states.push({ email: userEmail.trim(), state: "signedin", tier: userTier });
+    localStorage.setItem("states", JSON.stringify(states));
+
+    setTimeout(() => location.reload(), 3000);
+  } catch (error) {
+    console.error("Sign-in error:", error);
+  }
 });

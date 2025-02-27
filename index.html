@@ -5,13 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-signin-client_id" content="754387532769-2vrnrga8vunfjk7hbislp168u36hjsr2.apps.googleusercontent.com">
-  <title>Convo - Your decentralized news feed</title>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   
+  <title>Convo - Read | write | connect</title>
+
   <!-- stylesheets -->
   <link rel="shortcut icon" href="img/Convo-favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="icons/icon.css" type="text/css" media="all" />
   <link rel="stylesheet" href="css/main.css" type="text/css" media="all" />
-  
+
   <!-- scripts -->
   <script type="module" src="js/auth/signup.js" defer></script>
   <script type="module" src="js/auth/signin.js" defer></script>
@@ -20,10 +22,10 @@
 
 <body>
   <header>
-    <div class="user-avatar active">
-      <img src="" alt="avatar">
+    <div class="user-avatar">
+      <img id="avatar" src="" alt="avatar">
     </div>
-    
+
     <div class="site-id">
       <img src="img/Convo-logo.png" alt="Convo-logo">
     </div>
@@ -46,15 +48,15 @@
         </div>
 
         <div class="input">
-          <input type="email" name="userEmail" id="userEmail" placeholder="Email address">
+          <input type="email" name="userEmail" id="userEmail" placeholder="Email address" required>
         </div>
 
         <div class="input">
-          <input type="password" name="userPassword" id="userPassword" placeholder="Password">
+          <input type="password" name="userPassword" id="userPassword" placeholder="Password" required>
         </div>
 
         <div class="input">
-          <input type="submit" value="Sign In">
+          <button class="sign-in" type="submit">Sign in</button>
         </div>
 
         <div class="forgot-password" style="text-align: center;margin-top: 10px;">
@@ -79,7 +81,7 @@
         </div>
 
         <div class="input">
-          <input type="submit" value="Send reset link">
+          <button class="send-reset-link" type="submit">Send reset link</button>
         </div>
 
         <div class="back-to-signin" style="text-align: center;margin-top: 10px;">
@@ -87,7 +89,7 @@
         </div>
       </form>
     </div>
-    
+
     <div class="nav-link">
       <span id="userName"></span>
     </div>
@@ -130,22 +132,16 @@
   </nav>
 
   <main>
-    <div id="loader">
-      <div class="animation-wrapper">
-        <span class="ms-rounded refresh">progress_activity</span>
-      </div>
-    </div>
-
     <div class="hero">
       <div class="overlay">
-        <span class="title">Your Decentralized News Feed for Web3 & Crypto</span>
+        <span class="title">Your Personalized Feed of Whatever is Worth Digesting lol</span>
         <span class="body-content">
-          Get the latest updates on blockchain stuff — everything crypto, web3, NFTs, and more
+          Be in the know of what is happening around you—read, write and connect on politics, crypto, web3 and more
         </span>
 
         <div id="ctaBtn">
           <span class="ms-rounded">book_5</span>
-          <span>Start reading</span>
+          <span>Start <span class="changing-text">reading</span></span>
         </div>
       </div>
     </div>
@@ -153,19 +149,15 @@
     <div class="auth-content">
       <div class="feed">
         <div class="content-nav">
-          <div class="cn-icon">
-            <span class="ms-rounded">switch_right</span>
-          </div>
-          
           <div class="cn-link active" data-tab="for-you-posts">
-            <span>For you</span>
+            <span class="ms-rounded">for_you</span>
           </div>
-          
+
           <div class="cn-link" data-tab="saved-posts">
-            <span>Saved</span>
+            <span class="ms-rounded">bookmark</span>
           </div>
         </div>
-        
+
         <div class="posts-container">
           <div class="posts-wrapper for-you-posts active">
             <h3 style="text-align: center; margin-top: 4rem;">Fetching posts...</h3>
@@ -175,12 +167,12 @@
             <h3 style="text-align: center; margin-top: 4rem;">Fetching saved posts...</h3>
           </div>
         </div>
-        
+
         <a href="/post.html" class="edit-post">
           <span class="ms-rounded">edit</span>
         </a>
       </div>
-      
+
       <div class="utility">
         <div class="ut user-info">
           <div class="ui-avatar00name">
@@ -188,32 +180,34 @@
             <span class="ui-name"></span>
           </div>
           <div class="ui-status">
-            
+
           </div>
         </div>
-        
+
         <div class="ut user-followers00following">
-          
+
         </div>
-        
+
         <div class="ut user-posts">
-          
+
         </div>
-        
+
         <div class="ut other">
-          
+
         </div>
       </div>
 
-      <div class="post-comments">
-        <div class="close-comments">
-          <button>Cancel</button>
-        </div>
+      <div class="post-comments-overlay">
+        <div class="post-comments">
+          <div class="close-comments">
+            <button>Cancel</button>
+          </div>
 
-        <div class="post-header"></div>
+          <div class="post-header"></div>
 
-        <div class="comments-list">
-          <h3 style="text-align: center;"></h3>
+          <div class="comments-list">
+            <h3 style="text-align: center;"></h3>
+          </div>
         </div>
 
         <div class="commentForm-wrapper">
@@ -224,6 +218,12 @@
             </button>
           </form>
         </div>
+      </div>
+    </div>
+
+    <div id="loader">
+      <div class="animation-wrapper">
+        <span class="ms-rounded refresh">progress_activity</span>
       </div>
     </div>
   </main>

@@ -143,8 +143,8 @@ document.addEventListener("DOMContentLoaded", () => {
       // Tier-based limits
 
       const tierLimits = {
-        T1: { maxPosts: 5, maxImages: 5, maxChars: 250 },
-        T2: { maxPosts: 50, maxImages: 25, maxChars: 1020 },
+        T1: { maxPosts: 5, maxImages: 5, maxChars: 2500 },
+        T2: { maxPosts: 50, maxImages: 25, maxChars: 100200 },
         T3: { maxPosts: Infinity, maxImages: Infinity, maxChars: Infinity }
       };
 
@@ -154,6 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (body.length > maxChars) {
         throw new Error(`Post exceeds character limit of ${maxChars} for your tier.`);
+        return;
       }
 
       // Fetch user's existing post count
@@ -164,6 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (userPosts.length >= maxPosts) {
         throw new Error(`You have reached your daily post limit of ${maxPosts} for your tier.`);
+        return;
       }
 
       // Ensure `localStorage` contains valid post data

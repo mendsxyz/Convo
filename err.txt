@@ -1,0 +1,85 @@
+/* Initialize Firebase
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getDatabase();
+
+let refreshPage;
+
+const authSignupForm = document.querySelector("#authForm");
+authSignupForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const UI = {
+    loader: document.querySelector("#loader"),
+    auth_ok_userName: document.querySelector("#userName"),
+    nav_links: document.querySelectorAll(".nav-link"),
+    nl_collapsibles: document.querySelectorAll(".nl-collapsible"),
+    current_username: document.querySelector(".current-userName"),
+    animation_wrapper: document.querySelector("#loader .animation-wrapper"),
+    nav: document.querySelector("nav.auto"),
+    hero: document.querySelector(".hero"),
+    authform_wrapper: document.querySelector(".authForm-wrapper"),
+    auth_content: document.querySelector(".auth-content")
+  }
+
+  const userEmail = document.querySelector("#userEmail").value;
+  const userPassword = document.querySelector("#userPassword").value;
+
+  signInWithEmailAndPassword(auth, userEmail, userPassword)
+  .then((userCredential) => {
+
+    // If user is signed in
+
+    const user = userCredential.user;
+
+    let signinSuccess;
+    document.querySelector("#loader").classList.add("active");
+    
+    signinSuccess = setTimeout(() => {
+      document.querySelector("#loader").classList.remove("active");
+      clearTimeout(signinSuccess);
+    }, 5000);
+
+    // Set user active session
+
+    UI.auth_ok_userName.textContent = userEmail.replace(/@.*/, "");
+    UI.nav.classList.remove("active");
+    UI.hero.style.display = "none";
+    UI.authform_wrapper.classList.remove("active");
+
+    let states = JSON.parse(localStorage.getItem("states")) || [];
+
+    try {
+      const safeEmail = userEmail.replace(/\./g, "_");
+
+      // Get User Tier from Database
+      
+      get(ref(db, "users/" + safeEmail)).then((snapshot) => {
+        let userTier = "T1"; // Default to Basic Tier if not found
+        if (snapshot.exists()) {
+          userTier = snapshot.val().tier || "T1";
+        }
+
+        const newState = {
+          email: userEmail.trim(),
+          state: "signedin",
+          tier: userTier // Store tier inside states object
+        };
+
+        states.push(newState);
+        localStorage.setItem("states", JSON.stringify(states));
+      });
+    } catch (error) {
+      console.error("Error saving state:", error);
+    }
+
+    refreshPage = setTimeout(() => {
+      location.reload();
+      clearTimeout(refreshPage);
+    }, 3000);
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+});

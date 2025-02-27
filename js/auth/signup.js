@@ -1,7 +1,7 @@
 // Import fn
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signOut } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
 // Config
@@ -28,10 +28,10 @@ let refreshPage;
 const authSignupForm = document.querySelector("#authForm");
 authSignupForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  
+
   const UI = {
     loader: document.querySelector("#loader"),
-    header_auth_state: document.querySelector("#userName"),
+    auth_ok_userName: document.querySelector("#userName"),
     nav_links: document.querySelectorAll(".nav-link"),
     nl_collapsibles: document.querySelectorAll(".nl-collapsible"),
     current_username: document.querySelector(".current-userName"),
@@ -41,71 +41,42 @@ authSignupForm.addEventListener("submit", (e) => {
     authform_wrapper: document.querySelector(".authForm-wrapper"),
     auth_content: document.querySelector(".auth-content")
   }
-  
+
   const userEmail = document.querySelector("#userEmail").value;
   const userPassword = document.querySelector("#userPassword").value;
 
   createUserWithEmailAndPassword(auth, userEmail, userPassword)
-  .then((userCredential) => {
-      
-    // Signed up
-      
-    const user = userCredential.user;
-    
-    document.querySelector("#loader").classList.add("active");
+    .then((userCredential) => {
 
-    // Display success message
-      
-    let welcomeScr = `
-      <span class="action-message title"></span>
-      <span class="action-message body-content" hidden></span>
-    `;
-      
-    UI.animation_wrapper.innerHTML = `${welcomeScr}`;
-      
-    // Set user active session
-      
-    UI.header_auth_state.textContent = userEmail.replace(/@.*/, "");
-    UI.nav.classList.remove("active");
-    UI.hero.style.display = "none";
-    UI.authform_wrapper.classList.remove("active");
+      // Signed up
 
-    let states = JSON.parse(localStorage.getItem("states")) || [];
+      const user = userCredential.user;
 
-    try {
-      const safeEmail = userEmail.replace(/\./g, "_");
+      // Send verification email
 
-      // Default tier for new users is "T1"
-      
-      const userTier = "T1";
+      sendEmailVerification(user)
+        .then(() => {
+          alert("Verification email sent! Please check your inbox.");
 
-      // Store user data in Firebase Realtime Database
-      
-      set(ref(db, "users/" + safeEmail), {
-        email: userEmail,
-        tier: userTier
-      });
+          // Sign out the user immediately after signup to prevent access
 
-      const newState = {
-        email: userEmail.trim(),
-        state: "signedup",
-        tier: userTier // Store tier inside states object
-      };
+          signOut(auth).then(() => {
+            console.log("User signed out after registration. Awaiting verification.");
+            window.location.href = "/await-verification.html";
+          });
+        }).catch((error) => {
+          console.error("Error sending verification email:", error);
+        });
 
-      states.push(newState);
-      localStorage.setItem("states", JSON.stringify(states));
+      // Set user active session
 
-    } catch (error) {
-      console.error("Error saving state:", error);
-    }
-      
-    refreshPage = setTimeout(() => {
-      location.reload();
-      clearTimeout(refreshPage);
-    }, 3000);
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-  });
+      UI.auth_ok_userName.textContent = userEmail.replace(/@.*/, "");
+      UI.nav.classList.remove("active");
+      UI.hero.style.display = "none";
+      UI.authform_wrapper.classList.remove("active");
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
 });
