@@ -39,31 +39,44 @@ authSignupForm?.addEventListener("submit", async (e) => {
 
     console.log("Sign-in successful:", user);
 
-    document.querySelector("#loader").classList.add("active");
+    document.querySelector("#loader")?.classList.add("active");
 
     setTimeout(() => {
-      document.querySelector("#loader").classList.remove("active");
-    }, 5000);
+      document.querySelector("#loader .refresh")?.textContent = "check_circle";
+      document.querySelector("#loader .refresh")?.classList.remove("rotate");
+      document.querySelector("#loader .refresh")?.classList.add("popup");
+    }, 3000);
 
     // Set user session
-    
-    document.querySelector("#userName").textContent = userEmail.replace(/@.*/, "");
 
     let states = JSON.parse(localStorage.getItem("states")) || [];
+    const existingState = states.find(obj => obj.state === "signedup");
+
+    if (existingState) existingState.state = "signedin";
+
+    localStorage.setItem("states", JSON.stringify(states));
+
     const safeEmail = userEmail.replace(/\./g, "_");
 
     // Fetch user tier from Firebase
-    
+
     const snapshot = await get(ref(db, "users/" + safeEmail));
 
-    let userTier = "T1"; // Default to Basic Tier
-    
+    let userTier = "T1";
+
     if (snapshot.exists()) {
       userTier = snapshot.val().tier || "T1";
     }
     
-    setTimeout(() => location.reload(), 1000);
-  } catch (error) {
+    setTimeout(() => {
+      document.querySelector("#loader")?.classList.remove("active");
+    }, 5000);
+    
+    setTimeout(() => {
+      location.reload();
+    }, 5000);
+  }
+  catch (error) {
     console.error("Sign-in error:", error);
   }
 });

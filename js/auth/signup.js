@@ -23,23 +23,14 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getDatabase();
 
-let refreshPage;
-
 const authSignupForm = document.querySelector("#authForm");
 authSignupForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const UI = {
-    loader: document.querySelector("#loader"),
-    auth_ok_userName: document.querySelector("#userName"),
-    nav_links: document.querySelectorAll(".nav-link"),
-    nl_collapsibles: document.querySelectorAll(".nl-collapsible"),
-    current_username: document.querySelector(".current-userName"),
-    animation_wrapper: document.querySelector("#loader .animation-wrapper"),
     nav: document.querySelector("nav.auto"),
     hero: document.querySelector(".hero"),
-    authform_wrapper: document.querySelector(".authForm-wrapper"),
-    auth_content: document.querySelector(".auth-content")
+    authform_wrapper: document.querySelector(".authForm-wrapper")
   }
 
   const userEmail = document.querySelector("#userEmail").value;
@@ -61,16 +52,15 @@ authSignupForm.addEventListener("submit", (e) => {
           // Sign out the user immediately after signup to prevent access
 
           signOut(auth).then(() => {
-            console.log("User signed out after registration. Awaiting verification.");
+            console.log("awaiting email verification.");
             window.location.href = "/await-verification.html";
           });
         }).catch((error) => {
           console.error("Error sending verification email:", error);
         });
 
-      // Set user active session
-
-      UI.auth_ok_userName.textContent = userEmail.replace(/@.*/, "");
+      // Set user session
+      
       UI.nav.classList.remove("active");
       UI.hero.style.display = "none";
       UI.authform_wrapper.classList.remove("active");

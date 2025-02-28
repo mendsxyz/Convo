@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
   
   const states = JSON.parse(localStorage.getItem("states")) || [];
   const main = document.querySelector("main");
-  const hero = document.querySelector(".hero");
 
   const signInBtn = document.querySelector(".sign-in");
   const resetPasswordBtn = document.querySelector(".send-reset-link");
@@ -116,8 +115,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   onAuthStateChanged(auth, (user) => {
     let userEmail;
-    
-    hero.classList.add("await-auth");
 
     if (user) {
       user.reload().then(() => {
@@ -482,7 +479,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const emailUsername = activeSession.username || activeSession.email.replace(/@.*/, "");
           
           if (activeSession) {
-
+           
             // Hide welcome screen
 
             if (passedAccSetup) {
@@ -525,14 +522,10 @@ document.addEventListener("DOMContentLoaded", () => {
             UI.nav_links.forEach(link => {
               if (link.classList.contains("signOutBtn")) {
                 link.addEventListener("click", () => {
-                  localStorage.removeItem("states");
+                  states[states.length - 1].state = "";
+                  localStorage.setItem("states", JSON.stringify(states));
 
                   UI.loader.classList.add("active");
-                  if (!UI.refresh.classList.contains("rotate")) {
-                    UI.refresh.classList.add("rotate");
-                  }
-
-                  UI.refresh.textContent = "refresh";
 
                   setTimeout(() => {
                     UI.loader.classList.remove("active");
@@ -555,6 +548,8 @@ document.addEventListener("DOMContentLoaded", () => {
             UI.auth_content.classList.add("active");
             UI.authform_wrapper.classList.remove("active");
             UI.current_username.textContent = activeSession.email;
+          } else {
+            UI.hero.classList.remove("await-auth");
           }
 
           // Retrieve posts
@@ -1540,7 +1535,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Show hero
 
-      hero.classList.remove("await-auth");
+      document.querySelector(".hero")?.classList.remove("await-auth");
 
       // Remove loader
 
