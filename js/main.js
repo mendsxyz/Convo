@@ -199,9 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             </div>
           `;
-
-          document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScr);
-
+          
           /* Account setup */
 
           // Avatar uploads
