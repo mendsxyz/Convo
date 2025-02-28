@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Show loader on page load
 
   document.querySelector("#loader").classList.add("active");
-  document.querySelector("#loader .refresh").classList.add("rotate");
 
   // Assign public functions
   
@@ -395,7 +394,10 @@ document.addEventListener("DOMContentLoaded", () => {
               
               localStorage.setItem("states", JSON.stringify(states));
               
-              setTimeout(() => { document.querySelector(".welcome-screen").remove() }, 1000);
+              setTimeout(() => { 
+                document.querySelector(".welcome-screen")?.remove()
+              }, 1000);
+              
               document.querySelector("#loader .animation-wrapper").style.display = "flex";
               
               setTimeout(() => {
@@ -428,9 +430,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
           // UI action load time and page refresh animation
 
-          if (UI.loader && UI.refresh) {
+          if (UI.loader) {
             UI.loader.classList.add("active");
-            UI.refresh.classList.add("rotate");
 
             window.addEventListener("load", () => {
 
@@ -482,7 +483,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // Check user session
           
           const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
-          const emailUsername = activeSession.username || activeSession.email.replace(/@.*/, "");
+          const emailUsername = activeSession.email.replace(/@.*/, "");
           
           if (activeSession) {
            
@@ -490,7 +491,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (passedAccSetup) {
               UI.loader.classList.remove("active");
-              document.querySelector(".welcome-screen").style.display = "none";
+              document.querySelector(".welcome-screen")?.remove();
             }
             
             // Show user avatar
@@ -528,7 +529,7 @@ document.addEventListener("DOMContentLoaded", () => {
             UI.nav_links.forEach(link => {
               if (link.classList.contains("signOutBtn")) {
                 link.addEventListener("click", () => {
-                  const newState = states.find(obj => obj.state === "signedin" || obj.state === "signedup");
+                  const newState = states.find(state => state.state === "signedin" || state.state === "signedup");
                   if (newState) newState.state = "signedout";
                   
                   localStorage.setItem("states", JSON.stringify(states));
@@ -711,7 +712,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     deletePost.addEventListener("click", () => {
                       if (confirm("Delete post?")) {
-                        const postIdToDelete = deletePost.getAttribute("data-id"); // ✅ Get the correct post ID
+                        const postIdToDelete = deletePost.getAttribute("data-id");
                         const deleteRef = ref(db, "posts/" + postIdToDelete);
 
                         remove(deleteRef)
@@ -732,7 +733,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     // Boosts
 
-                    const safeEmail = activeSession?.email.replace(/\./g, "_");
+                    const safeEmail = activeSession.email.replace(/\./g, "_");
 
                     async function handleBoosts(postId, userEmail) {
                       const postRef = ref(db, "posts/" + postId);
