@@ -203,6 +203,13 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           `;
           
+          alert("200: user");
+          
+          /*
+          document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScr);
+          document.querySelector("#loader .animation-wrapper").style.display = "none";
+          */
+          
           /* Account setup */
 
           // Avatar uploads
@@ -1539,11 +1546,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     } else {
-
-      // Show hero
-
-      document.querySelector(".hero").classList.remove("await-auth");
-
+      
       // Ensure content is hidden if logged out
 
       document.querySelector(".auth-content").classList.remove("active");
