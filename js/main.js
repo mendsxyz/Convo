@@ -118,6 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#loader").classList.remove("active");
     
     const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
+    
     let userEmail;
 
     if (user) {
@@ -1541,13 +1542,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Show hero
 
-      document.querySelector(".hero")?.classList.remove("await-auth");
-
-      // Remove loader
-
-      setTimeout(() => {
-        document.querySelector("#loader").classList.remove("active");
-      }, 1000);
+      document.querySelector(".hero").classList.remove("await-auth");
 
       // Ensure content is hidden if logged out
 
