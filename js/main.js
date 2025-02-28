@@ -493,7 +493,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Toggle welcome screen
             
-            alert("200: ", welcomeScrHTML);
+            alert("session active, welcomeScr: ", welcomeScrHTML);
 
             if (passedAccSetup) {
               document.querySelector("#loader .animation-wrapper").style.display = "flex";
