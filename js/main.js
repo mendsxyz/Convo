@@ -28,10 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#loader").classList.add("active");
 
   // Assign public functions
-  
+
   const states = JSON.parse(localStorage.getItem("states")) || [];
   const main = document.querySelector("main");
-  
+
   // Force reset
 
   const signInBtn = document.querySelector(".sign-in");
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (user) {
       user.reload().then(() => {
         userEmail = user.email;
-        
+
         if (user.emailVerified) {
 
           // Display success message
@@ -199,16 +199,9 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             </div>
           `;
-          
-          if (passedAccSetup) {
-            document.querySelector("#loader .animation-wrapper").style.display = "flex";
-            document.querySelector(".welcome-screen")?.remove();
-          } else {
-            document.querySelector("#loader").classList.remove("active");
-            document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScr);
-            document.querySelector("#loader .animation-wrapper").style.display = "none";
-          }
-          
+
+          document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScr);
+
           /* Account setup */
 
           // Avatar uploads
@@ -357,10 +350,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
               console.log(userEmail);
-              
+
               const safeEmail = userEmail.replace(/\./g, "_");
               const emailUsername = userEmail.replace(/@.*/, "");
-              
+
               // Default tier for new users is "T1"
 
               const userTier = "T1";
@@ -393,15 +386,15 @@ document.addEventListener("DOMContentLoaded", () => {
               }
 
               states.push(userSetup);
-              
+
               localStorage.setItem("states", JSON.stringify(states));
-              
-              setTimeout(() => { 
+
+              setTimeout(() => {
                 document.querySelector(".welcome-screen")?.remove()
               }, 1000);
-              
+
               document.querySelector("#loader .animation-wrapper").style.display = "flex";
-              
+
               setTimeout(() => {
                 location.reload();
               }, 2000);
@@ -483,16 +476,16 @@ document.addEventListener("DOMContentLoaded", () => {
           }
 
           // Check user session
-          
+
           const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
           const emailUsername = activeSession.email.replace(/@.*/, "");
-          
+
           if (activeSession) {
-           
+
             // Hide welcome screen
 
             if (passedAccSetup) {
-              UI.loader.classList.remove("active");
+              document.querySelector("#loader .animation-wrapper").style.display = "flex";
               document.querySelector(".welcome-screen")?.remove();
             }
             
@@ -533,7 +526,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 link.addEventListener("click", () => {
                   const newState = states.find(state => state.state === "signedin" || state.state === "signedup");
                   if (newState) newState.state = "signedout";
-                  
+
                   localStorage.setItem("states", JSON.stringify(states));
 
                   UI.loader.classList.add("active");
