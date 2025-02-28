@@ -21,11 +21,17 @@ const auth = getAuth();
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+// Show loader on page load
+
+document.querySelector("#loader")?.classList.add("active");
+document.querySelector("#loader .refresh")?.classList.add("rotate");
+
 document.addEventListener("DOMContentLoaded", () => {
 
   // Assign public functions
 
   const main = document.querySelector("main");
+  const hero = document.querySelector(".hero");
   
   const signInBtn = document.querySelector(".sign-in");
   const resetPasswordBtn = document.querySelector(".send-reset-link");
@@ -109,14 +115,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   onAuthStateChanged(auth, (user) => {
     console.log(user);
-
-    // Show loader on page load
-
-    document.querySelector("#loader").classList.add("active");
-    document.querySelector("#loader .refresh").classList.add("rotate");
-
+    
+    hero.classList.add("await-auth");
+    
     if (user) {
-      user.reload().then(() => { // Refresh user status
+      user.reload().then(() => {
         if (user.emailVerified) {
 
           // Display success message
@@ -195,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           `;
 
-          document.querySelector("#loader").innerHTML = welcomeScr;
+          document.querySelector("#loader")?.innerHTML = welcomeScr;
 
           /* Account setup */
 
@@ -385,7 +388,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               setTimeout(() => {
                 location.reload();
-              }, 3000);
+              }, 1000);
 
             } catch (error) {
               console.error("Error saving state:", error);
@@ -1520,6 +1523,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     } else {
+      
+      // Show hero
+      
+      hero.classList.remove("await-auth");
 
       // Remove loader
 

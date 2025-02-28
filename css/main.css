@@ -655,7 +655,6 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
   gap: 15px;
 }
 
@@ -696,6 +695,13 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 1;
+  visibility: visible;
+}
+
+.hero.await-auth {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .hero .overlay {
