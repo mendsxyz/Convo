@@ -21,24 +21,24 @@ const auth = getAuth();
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Show loader on page load
-
-document.querySelector("#loader").classList.add("active");
-document.querySelector("#loader .refresh").classList.add("rotate");
-
 document.addEventListener("DOMContentLoaded", () => {
+
+  // Show loader on page load
+
+  document.querySelector("#loader").classList.add("active");
+  document.querySelector("#loader .refresh").classList.add("rotate");
 
   // Assign public functions
 
   const main = document.querySelector("main");
   const hero = document.querySelector(".hero");
-  
+
   const signInBtn = document.querySelector(".sign-in");
   const resetPasswordBtn = document.querySelector(".send-reset-link");
   const postBtn = document.querySelector(".send-post");
-  
+
   // Request processes load animation
-  
+
   function btnLoader() {
     return `
       <div class="btn-loader"></div>
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("One or more req processes elements not loaded yet!");
   } else {
     console.log("Req processes elements loaded!");
-    
+
     signInBtn.addEventListener("click", () => {
       signInBtn.innerHTML = btnLoader();
     });
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
       postBtn.innerHTML = btnLoader();
     });
   }
-  
+
   // Other public functions
 
   const nav = document.querySelector("nav.auto");
@@ -115,9 +115,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   onAuthStateChanged(auth, (user) => {
     console.log(user);
-    
+
     hero.classList.add("await-auth");
-    
+
     if (user) {
       user.reload().then(() => {
         if (user.emailVerified) {
@@ -1523,9 +1523,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     } else {
-      
+
       // Show hero
-      
+
       hero.classList.remove("await-auth");
 
       // Remove loader
