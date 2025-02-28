@@ -24,7 +24,6 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 
 const authSignupForm = document.querySelector("#authForm");
-console.log("authSignupForm found:", authSignupForm); // Debugging
 
 authSignupForm?.addEventListener("submit", async (e) => {
   e.preventDefault();

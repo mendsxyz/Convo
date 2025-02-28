@@ -29,7 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#loader .refresh").classList.add("rotate");
 
   // Assign public functions
-
+  
+  const states = JSON.parse(localStorage.getItem("states")) || [];
   const main = document.querySelector("main");
   const hero = document.querySelector(".hero");
 
@@ -334,11 +335,9 @@ document.addEventListener("DOMContentLoaded", () => {
           // Set user account
 
           const accountSetupForm = document.querySelector("#accountSetupForm");
-          accountSetupForm.addEventListener("submit", (e) => {
+          accountSetupForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             e.stopPropagation();
-
-            let settings = [];
 
             const genders = document.querySelectorAll(".set-gender");
             const interests = document.querySelectorAll(".set-interest");
@@ -350,14 +349,12 @@ document.addEventListener("DOMContentLoaded", () => {
               interests: [...interests].filter(el => el.classList.contains("active")).map(el => el.dataset.interest) || []
             }
 
-            settings.push(setting);
-
-            console.log(setting.interests);
+            console.log(setting);
 
             try {
               console.log(userEmail);
               
-              const safeEmail = userEmail.replace(/\./g, "_");
+              const safeEmail__ = userEmail.replace(/\./g, "_");
 
               // Default tier for new users is "T1"
 
@@ -365,15 +362,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
               // Store user data in Firebase Realtime Database
 
-              set(ref(db, "users/" + safeEmail), {
+              await set(ref(db, "users/" + safeEmail__), {
                 email: userEmail.trim(),
                 tier: userTier,
                 avatar: setting.avatarUrl,
                 gender: setting.gender,
                 birthday: setting.birthday,
                 interests: setting.interests,
-                date_joined: new Date.now().toLocaleString,
+                date_joined: new Date.now().toLocaleString(),
                 passedAccSetup: "yes"
+              }).catch((error) => {
+                console.error("Firebase set() error:", error)
               });
 
               const userSetup = {
@@ -384,11 +383,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 gender: setting.gender,
                 birthday: setting.birthday,
                 interests: setting.interests,
-                date_joined: new Date.now().toLocaleString,
+                date_joined: new Date.now().toLocaleString(),
                 passedAccSetup: "yes"
               }
 
               states.push(userSetup);
+              
               localStorage.setItem("states", JSON.stringify(states));
 
               setTimeout(() => { document.querySelector(".welcome-screen").remove() }, 1000);
@@ -396,7 +396,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               setTimeout(() => {
                 location.reload();
-              }, 1000);
+              }, 2000);
 
             } catch (error) {
               console.error("Error saving state:", error);
@@ -476,8 +476,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
 
           // Check user session
-
-          const states = JSON.parse(localStorage.getItem("states")) || [];
+          
           const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
           const passedAccSetup = states.find(state => state.setup === "yes");
           
@@ -637,10 +636,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="more-post-actions ms-rounded">more_horiz</span>
                         
                         <div class="mpa-options">
-                          <span class="block-user ms-rounded" style="display: ${post.user_email !== activeSession.email ? "flex" : "none"};" id="${post.user_email}">block</span>
-                          <span class="report-post ms-rounded" style="display: ${post.user_email !== activeSession.email ? "flex" : "none"};" id="${postId}">report</span>
-                          <span class="update-post ms-rounded" data-id=${postId} style="display: ${post.user_email ===activeSession.email ? "flex" : "none"};" id="${postId}">edit</span>
-                          <span class="delete-post ms-rounded" data-id=${postId} style="display: ${post.user_email ===activeSession.email ? "flex" : "none"};" id="${postId}">delete</span>
+                          <span class="block-user ms-rounded" style="display: ${post.user_email !== activeSession?.email ? "flex" : "none"};" id="${post.user_email}">block</span>
+                          <span class="report-post ms-rounded" style="display: ${post.user_email !== activeSession?.email ? "flex" : "none"};" id="${postId}">report</span>
+                          <span class="update-post ms-rounded" data-id=${postId} style="display: ${post.user_email === activeSession?.email ? "flex" : "none"};" id="${postId}">edit</span>
+                          <span class="delete-post ms-rounded" data-id=${postId} style="display: ${post.user_email === activeSession?.email ? "flex" : "none"};" id="${postId}">delete</span>
                         </div>
                       </div>
                     </div>
@@ -725,7 +724,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     // Boosts
 
-                    const safeEmail = activeSession.email.replace(/\./g, "_");
+                    const safeEmail = activeSession?.email.replace(/\./g, "_");
 
                     async function handleBoosts(postId, userEmail) {
                       const postRef = ref(db, "posts/" + postId);
@@ -1408,7 +1407,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           }
 
-          const safeEmail = activeSession.email.replace(/\./g, "_");
+          const safeEmail = activeSession?.email.replace(/\./g, "_");
           getSavedPosts(safeEmail);
 
           // Remove saved post
