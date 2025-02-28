@@ -387,10 +387,12 @@ document.addEventListener("DOMContentLoaded", () => {
               states.push(userSetup);
               
               localStorage.setItem("states", JSON.stringify(states));
-
+              
+              /*
               setTimeout(() => { document.querySelector(".welcome-screen").remove() }, 1000);
               document.querySelector("#loader .animation-wrapper").style.display = "flex";
-
+              */
+              
               setTimeout(() => {
                 location.reload();
               }, 2000);
