@@ -49,7 +49,12 @@ authSignupForm.addEventListener("submit", async (e) => {
 
     // Start user session
     
-    if (localStorage.getItem("userKey")) alert("200: user signup initiated");
+    const states = JSON.parse(localStorage.getItem("states")) || [];
+    const userState = states.find(state => state.state === "signedin" || state.state === "signedup" || state.state === "signedout");
+    
+    if (userState) userState.state = "signedin";
+    
+    localStorage.setItem("states", JSON.stringify(states));
 
     const safeEmail = userEmail.replace(/\./g, "_");
 

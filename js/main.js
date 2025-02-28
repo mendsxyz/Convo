@@ -207,6 +207,8 @@ document.addEventListener("DOMContentLoaded", () => {
           
           welcomeScrHTML = welcomeScr;
           
+          alert(welcomeScrHTML);
+          
           /*
           document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScr);
           document.querySelector("#loader .animation-wrapper").style.display = "none";
