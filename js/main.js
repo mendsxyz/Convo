@@ -23,8 +23,8 @@ const db = getDatabase(app);
 
 // Show loader on page load
 
-document.querySelector("#loader")?.classList.add("active");
-document.querySelector("#loader .refresh")?.classList.add("rotate");
+document.querySelector("#loader").classList.add("active");
+document.querySelector("#loader .refresh").classList.add("rotate");
 
 document.addEventListener("DOMContentLoaded", () => {
 
