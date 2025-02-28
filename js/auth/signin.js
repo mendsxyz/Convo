@@ -17,7 +17,8 @@ const firebaseConfig = {
   measurementId: "G-FE8WF5H6XV"
 };
 
-// Initialize Firebase  
+// Initialize Firebase 
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
@@ -46,25 +47,23 @@ authSignupForm?.addEventListener("submit", async (e) => {
     }, 5000);
 
     // Set user session
+    
     document.querySelector("#userName").textContent = userEmail.replace(/@.*/, "");
 
     let states = JSON.parse(localStorage.getItem("states")) || [];
     const safeEmail = userEmail.replace(/\./g, "_");
 
     // Fetch user tier from Firebase
+    
     const snapshot = await get(ref(db, "users/" + safeEmail));
 
     let userTier = "T1"; // Default to Basic Tier
+    
     if (snapshot.exists()) {
       userTier = snapshot.val().tier || "T1";
     }
-
-    console.log("Fetched user tier:", userTier); // Debugging
-
-    states.push({ email: userEmail.trim(), state: "signedin", tier: userTier });
-    localStorage.setItem("states", JSON.stringify(states));
-
-    setTimeout(() => location.reload(), 3000);
+    
+    setTimeout(() => location.reload(), 1000);
   } catch (error) {
     console.error("Sign-in error:", error);
   }

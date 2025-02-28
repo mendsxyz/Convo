@@ -198,7 +198,8 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           `;
 
-          document.querySelector("#loader")?.innerHTML = welcomeScr;
+          document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScr);
+          document.querySelector("#loader .animation-wrapper").style.display = "none";
 
           /* Account setup */
 
@@ -384,7 +385,8 @@ document.addEventListener("DOMContentLoaded", () => {
               states.push(userSetup);
               localStorage.setItem("states", JSON.stringify(states));
 
-              welcomeScr.remove();
+              document.querySelector(".welcome-screen").remove();
+              document.querySelector("#loader .animation-wrapper").style.display = "flex";
 
               setTimeout(() => {
                 location.reload();
@@ -476,7 +478,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Hide welcome screen
 
-            welcomeScr.remove();
+            document.querySelector(".welcome-screen").style.display = "none";
 
             // Show user avatar
 
