@@ -528,6 +528,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   localStorage.setItem("states", JSON.stringify(states));
 
                   UI.loader.classList.add("active");
+                  document.querySelector("#loader .animation-wrapper").style.display = "flex";
 
                   setTimeout(() => {
                     UI.loader.classList.remove("active");
@@ -552,6 +553,7 @@ document.addEventListener("DOMContentLoaded", () => {
             UI.current_username.textContent = activeSession.email;
           } else {
             UI.hero.classList.remove("await-auth");
+            document.querySelector(".welcome-screen")?.remove();
           }
 
           // Retrieve posts
