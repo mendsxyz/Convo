@@ -61,6 +61,8 @@ authSignupForm.addEventListener("submit", (e) => {
 
       // Set user session
       
+      localStorage.setItem("userKey", "key");
+      
       UI.nav.classList.remove("active");
       UI.hero.style.display = "none";
       UI.authform_wrapper.classList.remove("active");

@@ -47,14 +47,9 @@ authSignupForm.addEventListener("submit", async (e) => {
       document.querySelector("#loader .refresh")?.classList.add("popup");
     }, 3000);
 
-    // Set user session
-
-    const states = JSON.parse(localStorage.getItem("states")) || [];
-    const existingState = states.find(state => state.state === "signedup");
-
-    if (existingState) existingState.state = "signedin";
-
-    localStorage.setItem("states", JSON.stringify(states));
+    // Start user session
+    
+    if (localStorage.getItem("userKey")) alert("200: user signup initiated");
 
     const safeEmail = userEmail.replace(/\./g, "_");
 
