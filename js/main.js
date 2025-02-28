@@ -355,6 +355,8 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(setting.interests);
 
             try {
+              console.log(userEmail);
+              
               const safeEmail = userEmail.replace(/\./g, "_");
 
               // Default tier for new users is "T1"
@@ -370,7 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 gender: setting.gender,
                 birthday: setting.birthday,
                 interests: setting.interests,
-                date_joined: Date.now().toLocaleString,
+                date_joined: new Date.now().toLocaleString,
                 passedAccSetup: "yes"
               });
 
@@ -389,7 +391,7 @@ document.addEventListener("DOMContentLoaded", () => {
               states.push(userSetup);
               localStorage.setItem("states", JSON.stringify(states));
 
-              document.querySelector(".welcome-screen").remove();
+              setTimeout(() => { document.querySelector(".welcome-screen").remove() }, 1000);
               document.querySelector("#loader .animation-wrapper").style.display = "flex";
 
               setTimeout(() => {
