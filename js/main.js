@@ -114,6 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Check user verification
 
   onAuthStateChanged(auth, (user) => {
+    const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
     let userEmail;
 
     if (user) {
@@ -197,10 +198,16 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             </div>
           `;
-
-          document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScr);
-          document.querySelector("#loader .animation-wrapper").style.display = "none";
-
+          
+          if (passedAccSetup) {
+            UI.loader.classList.remove("active");
+            document.querySelector("#loader .animation-wrapper").style.display = "flex";
+            document.querySelector(".welcome-screen")?.remove();
+          } else {
+            document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScr);
+            document.querySelector("#loader .animation-wrapper").style.display = "none";
+          }
+          
           /* Account setup */
 
           // Avatar uploads
@@ -475,13 +482,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // Check user session
           
           const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
-          const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
           const emailUsername = activeSession.username || activeSession.email.replace(/@.*/, "");
-          
-          if (passedAccSetup) {
-            UI.loader.classList.remove("active");
-            document.querySelector(".welcome-screen").style.display = "none";
-          }
           
           if (activeSession) {
            
@@ -1542,8 +1543,6 @@ document.addEventListener("DOMContentLoaded", () => {
       // Show hero
 
       document.querySelector(".hero")?.classList.remove("await-auth");
-      document.querySelector("#loader")?.classList.remove("active");
-      document.querySelector(".welcome-screen")?.remove();
 
       // Remove loader
 
