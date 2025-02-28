@@ -115,6 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Check user verification
 
   onAuthStateChanged(auth, (user) => {
+    document.querySelector("#loader").classList.remove("active");
+    
     const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
     let userEmail;
 
