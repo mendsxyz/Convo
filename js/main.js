@@ -479,7 +479,7 @@ document.addEventListener("DOMContentLoaded", () => {
           
           const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
           const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
-          const emailUsername = activeSession.username || user;
+          const emailUsername = activeSession.username || activeSession.email.replace(/@.*/, "");
           
           if (activeSession) {
 
