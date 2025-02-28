@@ -551,9 +551,6 @@ document.addEventListener("DOMContentLoaded", () => {
             UI.auth_content.classList.add("active");
             UI.authform_wrapper.classList.remove("active");
             UI.current_username.textContent = activeSession.email;
-          } else {
-            UI.hero.classList.remove("await-auth");
-            document.querySelector(".welcome-screen")?.remove();
           }
 
           // Retrieve posts
