@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
     const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
-    const emailUsername = activeSession.email.replace(/@.*/, "");
+    const emailUsername = activeSession?.email.replace(/@.*/, "");
     
     let welcomeScrHTML, userEmail;
 

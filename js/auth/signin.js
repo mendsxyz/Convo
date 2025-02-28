@@ -20,12 +20,12 @@ const firebaseConfig = {
 // Initialize Firebase 
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getDatabase(app);
+const auth = getAuth();
+const db = getDatabase();
 
 const authSignupForm = document.querySelector("#authForm");
 
-authSignupForm?.addEventListener("submit", async (e) => {
+authSignupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const userEmail = document.querySelector("#userEmail").value;
