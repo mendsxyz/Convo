@@ -1540,6 +1540,8 @@ document.addEventListener("DOMContentLoaded", () => {
       // Show hero
 
       document.querySelector(".hero")?.classList.remove("await-auth");
+      document.querySelector("#loader")?.classList.remove("active");
+      document.querySelector(".welcome-screen")?.remove();
 
       // Remove loader
 
