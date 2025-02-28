@@ -335,8 +335,8 @@ document.addEventListener("DOMContentLoaded", () => {
           // Set user account
 
           const accountSetupForm = document.querySelector("#accountSetupForm");
-          accountSetupForm.addEventListener("submit", async function(e) {
-            e.preventDefault();
+          accountSetupForm.addEventListener("submit", async function(event) {
+            event.preventDefault();
 
             const genders = document.querySelectorAll(".set-gender");
             const interests = document.querySelectorAll(".set-interest");
@@ -368,7 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 gender: setting.gender,
                 birthday: setting.birthday,
                 interests: setting.interests,
-                date_joined: new Date.now().toLocaleString(),
+                date_joined: new Date().toLocaleString(),
                 passedAccSetup: "yes"
               });
 
@@ -380,7 +380,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 gender: setting.gender,
                 birthday: setting.birthday,
                 interests: setting.interests,
-                date_joined: new Date.now().toLocaleString(),
+                date_joined: new Date().toLocaleString(),
                 passedAccSetup: "yes"
               }
 
@@ -388,10 +388,8 @@ document.addEventListener("DOMContentLoaded", () => {
               
               localStorage.setItem("states", JSON.stringify(states));
               
-              /*
               setTimeout(() => { document.querySelector(".welcome-screen").remove() }, 1000);
               document.querySelector("#loader .animation-wrapper").style.display = "flex";
-              */
               
               setTimeout(() => {
                 location.reload();
