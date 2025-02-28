@@ -478,6 +478,11 @@ document.addEventListener("DOMContentLoaded", () => {
           const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
           const emailUsername = activeSession.username || activeSession.email.replace(/@.*/, "");
           
+          if (passedAccSetup) {
+            UI.loader.classList.remove("active");
+            document.querySelector(".welcome-screen").style.display = "none";
+          }
+          
           if (activeSession) {
            
             // Hide welcome screen
