@@ -481,8 +481,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Hide welcome screen
 
-            if (passedAccSetup) document.querySelector(".welcome-screen").style.display = "none";
-
+            if (passedAccSetup) {
+              UI.loader.style.background = "red";
+              document.querySelector(".welcome-screen").style.display = "none";
+            }
+            
             // Show user avatar
 
             UI.auth_ok_avatar.classList.add("active");
