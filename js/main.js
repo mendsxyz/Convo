@@ -475,10 +475,12 @@ document.addEventListener("DOMContentLoaded", () => {
           const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
 
           if (activeSession) {
+            
+            localStorage.removeItem("states");
 
             // Hide welcome screen
 
-            document.querySelector(".welcome-screen").style.display = "none";
+            // document.querySelector(".welcome-screen").style.display = "none";
 
             // Show user avatar
 
