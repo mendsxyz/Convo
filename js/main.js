@@ -118,8 +118,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#loader").classList.remove("active");
     
     const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
+    const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
+    const emailUsername = activeSession.email.replace(/@.*/, "");
     
-    let userEmail;
+    let welcomeScrHTML, userEmail;
 
     if (user) {
       user.reload().then(() => {
@@ -203,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           `;
           
-          alert("200: user");
+          welcomeScrHTML = welcomeScr;
           
           /*
           document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScr);
@@ -484,13 +486,12 @@ document.addEventListener("DOMContentLoaded", () => {
           }
 
           // Check user session
-
-          const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
-          const emailUsername = activeSession.email.replace(/@.*/, "");
-
+          
           if (activeSession) {
 
-            // Hide welcome screen
+            // Toggle welcome screen
+            
+            alert("200: ", welcomeScrHTML);
 
             if (passedAccSetup) {
               document.querySelector("#loader .animation-wrapper").style.display = "flex";

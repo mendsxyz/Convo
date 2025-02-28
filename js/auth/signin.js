@@ -50,7 +50,7 @@ authSignupForm?.addEventListener("submit", async (e) => {
     // Set user session
 
     const states = JSON.parse(localStorage.getItem("states")) || [];
-    const existingState = states.find(state => obj.state === "signedup");
+    const existingState = states.find(state => state.state === "signedup");
 
     if (existingState) existingState.state = "signedin";
 
