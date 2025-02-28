@@ -33,8 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const main = document.querySelector("main");
   
   // Force reset
-  
-  localStorage.removeItem("states");
 
   const signInBtn = document.querySelector(".sign-in");
   const resetPasswordBtn = document.querySelector(".send-reset-link");
@@ -203,10 +201,10 @@ document.addEventListener("DOMContentLoaded", () => {
           `;
           
           if (passedAccSetup) {
-            UI.loader.classList.remove("active");
             document.querySelector("#loader .animation-wrapper").style.display = "flex";
             document.querySelector(".welcome-screen")?.remove();
           } else {
+            document.querySelector("#loader").classList.remove("active");
             document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScr);
             document.querySelector("#loader .animation-wrapper").style.display = "none";
           }
