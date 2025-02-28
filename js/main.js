@@ -482,7 +482,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Hide welcome screen
 
             if (passedAccSetup) {
-              UI.loader.style.background = "red";
+              UI.loader.classList.remove("active");
               document.querySelector(".welcome-screen").style.display = "none";
             }
             
