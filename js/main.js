@@ -353,15 +353,17 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
               console.log(userEmail);
               
-              const safeEmail__ = userEmail.replace(/\./g, "_");
-
+              const safeEmail = userEmail.replace(/\./g, "_");
+              const emailUsername = userEmail.replace(/@.*/, "");
+              
               // Default tier for new users is "T1"
 
               const userTier = "T1";
 
               // Store user data in Firebase Realtime Database
 
-              await set(ref(db, "users/" + safeEmail__), {
+              await set(ref(db, "users/" + safeEmail), {
+                username: emailUsername,
                 email: userEmail.trim(),
                 tier: userTier,
                 avatar: setting.avatarUrl,
@@ -373,6 +375,7 @@ document.addEventListener("DOMContentLoaded", () => {
               });
 
               const userSetup = {
+                username: emailUsername,
                 email: userEmail.trim(),
                 state: "signedup",
                 tier: userTier,
@@ -476,6 +479,7 @@ document.addEventListener("DOMContentLoaded", () => {
           
           const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
           const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
+          const emailUsername = activeSession.username || user;
           
           if (activeSession) {
 
@@ -508,9 +512,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (UI.auth_ok_userName) {
 
               if (activeSession.tier === "T2") {
-                UI.auth_ok_userName.innerHTML = `${safeEmail_ + " " + tierMarks.T2}`;
+                UI.auth_ok_userName.innerHTML = `${emailUsername + " " + tierMarks.T2}`;
               } else if (activeSession.tier === "T3") {
-                UI.auth_ok_userName.innerHTML = `${safeEmail_ + " " + tierMarks.T3}`;
+                UI.auth_ok_userName.innerHTML = `${emailUsername + " " + tierMarks.T3}`;
+              } else {
+                UI.auth_ok_userName.innerHTML = emailUsername;
               }
 
               UI.auth_ok_userName.classList.add("active");
