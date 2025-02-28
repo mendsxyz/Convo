@@ -399,7 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
               }, 2000);
 
             } catch (error) {
-              console.error("Error saving state:", error);
+              alert("Error saving state:", error);
             }
           });
 
