@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(() => {
       changingTxt.textContent = words[index];
       index = (index + 1) % words.length; // Loops back to 0 after last word
-    }, 1000);
+    }, 2000);
 
     // Close nav menu by clicking away from it
 
@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   </div>
         
                   <div class="input">
-                    <input type="submit" value="Continue">
+                    <button type="submit">Continue</button>
                   </div>
                 </form>
               </div>
