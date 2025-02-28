@@ -368,7 +368,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 gender: setting.gender,
                 birthday: setting.birthday,
                 interests: setting.interests,
-                date_joined: Date.now().toLocaleString
+                date_joined: Date.now().toLocaleString,
+                passedAccSetup: "yes"
               });
 
               const userSetup = {
@@ -379,7 +380,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 gender: setting.gender,
                 birthday: setting.birthday,
                 interests: setting.interests,
-                date_joined: new Date.now().toLocaleString
+                date_joined: new Date.now().toLocaleString,
+                passedAccSetup: "yes"
               }
 
               states.push(userSetup);
@@ -473,14 +475,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const states = JSON.parse(localStorage.getItem("states")) || [];
           const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
-
+          const passedAccSetup = states.find(state => state.setup === "yes");
+          
           if (activeSession) {
-            
-            localStorage.removeItem("states");
 
             // Hide welcome screen
 
-            // document.querySelector(".welcome-screen").style.display = "none";
+            if (passedAccSetup) document.querySelector(".welcome-screen").style.display = "none";
 
             // Show user avatar
 
