@@ -522,7 +522,9 @@ document.addEventListener("DOMContentLoaded", () => {
             UI.nav_links.forEach(link => {
               if (link.classList.contains("signOutBtn")) {
                 link.addEventListener("click", () => {
-                  states[states.length - 1].state = "";
+                  const newState = states.find(obj => obj.state === "signedin" || obj.state === "signedup");
+                  if (newState) newState.state = "signedout";
+                  
                   localStorage.setItem("states", JSON.stringify(states));
 
                   UI.loader.classList.add("active");
