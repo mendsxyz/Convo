@@ -335,9 +335,8 @@ document.addEventListener("DOMContentLoaded", () => {
           // Set user account
 
           const accountSetupForm = document.querySelector("#accountSetupForm");
-          accountSetupForm.addEventListener("submit", async (e) => {
+          accountSetupForm.addEventListener("submit", async function(e) {
             e.preventDefault();
-            e.stopPropagation();
 
             const genders = document.querySelectorAll(".set-gender");
             const interests = document.querySelectorAll(".set-interest");
@@ -371,8 +370,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 interests: setting.interests,
                 date_joined: new Date.now().toLocaleString(),
                 passedAccSetup: "yes"
-              }).catch((error) => {
-                console.error("Firebase set() error:", error)
               });
 
               const userSetup = {
