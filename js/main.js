@@ -114,12 +114,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // Check user verification
 
   onAuthStateChanged(auth, (user) => {
-    console.log(user);
-
+    let userEmail;
+    
     hero.classList.add("await-auth");
 
     if (user) {
       user.reload().then(() => {
+        userEmail = user.email;
+        
         if (user.emailVerified) {
 
           // Display success message
@@ -353,7 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(setting.interests);
 
             try {
-              const safeEmail = user.email.replace(/\./g, "_");
+              const safeEmail = userEmail.replace(/\./g, "_");
 
               // Default tier for new users is "T1"
 
@@ -362,7 +364,7 @@ document.addEventListener("DOMContentLoaded", () => {
               // Store user data in Firebase Realtime Database
 
               set(ref(db, "users/" + safeEmail), {
-                email: user.email,
+                email: userEmail.trim(),
                 tier: userTier,
                 avatar: setting.avatarUrl,
                 gender: setting.gender,
