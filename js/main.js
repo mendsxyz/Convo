@@ -475,7 +475,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // Check user session
           
           const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
-          const passedAccSetup = states.find(state => state.setup === "yes");
+          const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
           
           if (activeSession) {
 
