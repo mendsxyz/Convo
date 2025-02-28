@@ -1532,6 +1532,9 @@ document.addEventListener("DOMContentLoaded", () => {
           // Restrict auth content
 
           alert("Please verify your email to access content.");
+          
+          document.querySelector("#loader").classList.remove("active");
+          document.querySelector(".welcome-screen")?.remove();
         }
       });
     } else {
