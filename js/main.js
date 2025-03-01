@@ -487,13 +487,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
           if (activeSession) {
 
-            alert("session active");
+            alert("Session active");
 
             if (passedAccSetup) {
               document.querySelector("#loader .animation-wrapper").style.display = "flex";
               document.querySelector(".welcome-screen")?.remove();
             } else {
-              document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScr);
+              document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScrHTML);
               document.querySelector("#loader .animation-wrapper").style.display = "none";
             }
 
