@@ -207,8 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
           
           welcomeScrHTML = welcomeScr;
           
-          alert(welcomeScrHTML);
-          
           /*
           document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScr);
           document.querySelector("#loader .animation-wrapper").style.display = "none";
@@ -564,6 +562,8 @@ document.addEventListener("DOMContentLoaded", () => {
             UI.auth_content.classList.add("active");
             UI.authform_wrapper.classList.remove("active");
             UI.current_username.textContent = activeSession.email;
+          } else {
+            alert("Session inactive", welcomeScrHTML);
           }
 
           // Retrieve posts
