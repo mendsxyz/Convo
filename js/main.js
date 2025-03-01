@@ -565,6 +565,8 @@ document.addEventListener("DOMContentLoaded", () => {
           } else {
             alert("Session inactive", welcomeScrHTML);
           }
+          
+          alert("ActiveSession neither in nor out", welcomeScrHTML);
 
           // Retrieve posts
 
