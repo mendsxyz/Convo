@@ -116,11 +116,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   onAuthStateChanged(auth, (user) => {
     document.querySelector("#loader").classList.remove("active");
-    
+
     const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
     const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
     const emailUsername = activeSession?.email.replace(/@.*/, "");
-    
+
     let welcomeScrHTML, userEmail;
 
     if (user) {
@@ -204,210 +204,213 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             </div>
           `;
-          
+
           welcomeScrHTML = welcomeScr;
-          
-          // Account setup //
 
-          // Avatar uploads
+          // Welcome screen and functions
 
-          setTimeout(() => {
-            const setPfp = document.querySelector(".set-profile-picture");
+          const welcomeScr_ = document.querySelector(".welcome-screen");
 
-            document.querySelector(".upload-pfp").addEventListener("click", (event) => {
-              event.preventDefault();
+          if (welcomeScr_) {
 
-              document.getElementById("setAvatar").click();
-            });
+            setTimeout(() => {
+              const setPfp = document.querySelector(".set-profile-picture");
 
-            document.getElementById("setAvatar").addEventListener("change", (event) => {
-              event.preventDefault();
+              document.querySelector(".upload-pfp")?.addEventListener("click", (event) => {
+                event.preventDefault();
 
-              const file = event.target.files[0];
-              if (!file) return;
+                document.getElementById("setAvatar")?.click();
+              });
 
-              const reader = new FileReader();
-              reader.onload = function(e) {
-                insertImage(e.target.result);
-              };
-              reader.readAsDataURL(file);
-            });
+              document.getElementById("setAvatar")?.addEventListener("change", (event) => {
+                event.preventDefault();
 
-            function insertImage(imageSrc) {
-              const img = document.querySelector(".avatar-holder");
-              img.src = imageSrc;
+                const file = event.target.files[0];
+                if (!file) return;
 
-              const labels = document.querySelectorAll("label.pfp");
-              labels.forEach(label => label.classList.add("complete"));
-            }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                  insertImage(e.target.result);
+                };
+                reader.readAsDataURL(file);
+              });
 
-            // Gender selection
+              function insertImage(imageSrc) {
+                const img = document.querySelector(".avatar-holder");
+                img.src = imageSrc;
 
-            const genders = document.querySelectorAll("#setGender .set-gender");
-            genders.forEach(gender => {
-              gender.addEventListener("click", () => {
-                genders.forEach(gender => gender.classList.remove("active"));
-                gender.classList.add("active");
-                const labels = document.querySelectorAll("label.gender");
+                const labels = document.querySelectorAll("label.pfp");
                 labels.forEach(label => label.classList.add("complete"));
+              }
+
+              // Gender selection
+
+              const genders = document.querySelectorAll("#setGender .set-gender");
+              genders.forEach(gender => {
+                gender.addEventListener("click", () => {
+                  genders.forEach(gender => gender.classList.remove("active"));
+                  gender.classList.add("active");
+                  const labels = document.querySelectorAll("label.gender");
+                  labels.forEach(label => label.classList.add("complete"));
+                });
               });
-            });
 
-            // Birthday
+              // Birthday
 
-            const setBirthday = document.querySelector("#setBirthday");
-            const label_b = document.querySelector("label.birthday");
+              const setBirthday = document.querySelector("#setBirthday");
+              const label_b = document.querySelector("label.birthday");
 
-            setBirthday.addEventListener("input", () => {
-              let ddValue, mmValue;
+              setBirthday.addEventListener("input", () => {
+                let ddValue, mmValue;
 
-              if (setBirthday.value.length === 2) {
-                ddValue = setBirthday.value;
-                setBirthday.value = ddValue + "-";
-              }
-
-              if (setBirthday.value.length === 5) {
-                mmValue = setBirthday.value;
-                setBirthday.value = mmValue + "-";
-              }
-
-              if (setBirthday.value.length === 10) {
-                label_b.classList.add("complete");
-              } else {
-                label_b.classList.remove("complete");
-              }
-            });
-
-            // Interests
-
-            const setInterests = document.querySelector("#setInterests");
-            const label_i = document.querySelector("label.interests");
-
-            setInterests.innerHTML = "";
-
-            let interests = [
-            "Sports", "Tech", "Crypto", "Food", "Travel", "Fashion",
-            "Remote jobs", "Ghostwriting", "Hiking", "Tv shows",
-            "Soccer", "DIY tutorials", "Carnivals", "Knitting",
-            "Basketball", "Religion", "Celebrities", "Music", "Rap",
-            "Outdoor", "Affiliate marketing", "Graphic designs",
-            "Forex", "Finance", "Military", "Cycling", "Content creation",
-            "Blogging", "Vlogging", "POV reads", "Fiction", "Non-fiction",
-            "Afrobeats", "Hip-hop", "Reggae", "Baseball", "NASA", "Internships",
-            "Apple", "IBM", "Smartphones", "Laptops", "Accessories",
-            "Naija", "News", "Movies", "Hangouts", "Cooking",
-            "Poetry", "Politics"
-            ];
-
-            const interestsWrapper = [];
-
-            for (let i = 0; i < interests.length; i++) {
-              const interest = {
-                "interest": interests[i]
-              }
-
-              interestsWrapper.push(interest);
-
-              const interestHTML = `<div class="set-interest" data-interest="${interests[i]}">${interests[i]}</div>`;
-
-              setInterests.innerHTML += interestHTML;
-            }
-
-            const interestEls = setInterests.querySelectorAll(".set-interest");
-            let activeCount = 0;
-
-            interestEls.forEach(el => {
-              el.addEventListener("click", () => {
-                el.classList.toggle("active");
-
-                if (!el.classList.contains("active")) {
-                  activeCount--;
-                } else {
-                  activeCount += 1;
+                if (setBirthday.value.length === 2) {
+                  ddValue = setBirthday.value;
+                  setBirthday.value = ddValue + "-";
                 }
 
-                if (activeCount > 2) {
-                  label_i.classList.add("complete");
+                if (setBirthday.value.length === 5) {
+                  mmValue = setBirthday.value;
+                  setBirthday.value = mmValue + "-";
+                }
+
+                if (setBirthday.value.length === 10) {
+                  label_b.classList.add("complete");
                 } else {
-                  label_i.classList.remove("complete");
+                  label_b.classList.remove("complete");
                 }
               });
-            });
-          }, 1000);
 
-          // Set user account
+              // Interests
 
-          const accountSetupForm = document.querySelector("#accountSetupForm");
-          accountSetupForm.addEventListener("submit", async function(event) {
-            event.preventDefault();
+              const setInterests = document.querySelector("#setInterests");
+              const label_i = document.querySelector("label.interests");
 
-            const genders = document.querySelectorAll(".set-gender");
-            const interests = document.querySelectorAll(".set-interest");
+              setInterests.innerHTML = "";
 
-            const setting = {
-              avatarUrl: document.querySelector(".avatar-holder").src,
-              gender: [...genders].find(el => el.classList.contains("active"))?.dataset.gender || "not set",
-              birthday: document.querySelector("#setBirthday").value,
-              interests: [...interests].filter(el => el.classList.contains("active")).map(el => el.dataset.interest) || []
-            }
+              let interests = [
+                "Sports", "Tech", "Crypto", "Food", "Travel", "Fashion",
+                "Remote jobs", "Ghostwriting", "Hiking", "Tv shows",
+                "Soccer", "DIY tutorials", "Carnivals", "Knitting",
+                "Basketball", "Religion", "Celebrities", "Music", "Rap",
+                "Outdoor", "Affiliate marketing", "Graphic designs",
+                "Forex", "Finance", "Military", "Cycling", "Content creation",
+                "Blogging", "Vlogging", "POV reads", "Fiction", "Non-fiction",
+                "Afrobeats", "Hip-hop", "Reggae", "Baseball", "NASA", "Internships",
+                "Apple", "IBM", "Smartphones", "Laptops", "Accessories",
+                "Naija", "News", "Movies", "Hangouts", "Cooking",
+                "Poetry", "Politics"
+              ];
 
-            console.log(setting);
+              const interestsWrapper = [];
 
-            try {
-              console.log(userEmail);
+              for (let i = 0; i < interests.length; i++) {
+                const interest = {
+                  "interest": interests[i]
+                }
 
-              const safeEmail = userEmail.replace(/\./g, "_");
-              const emailUsername = userEmail.replace(/@.*/, "");
+                interestsWrapper.push(interest);
 
-              // Default tier for new users is "T1"
+                const interestHTML = `<div class="set-interest" data-interest="${interests[i]}">${interests[i]}</div>`;
 
-              const userTier = "T1";
-
-              // Store user data in Firebase Realtime Database
-
-              await set(ref(db, "users/" + safeEmail), {
-                username: emailUsername,
-                email: userEmail.trim(),
-                tier: userTier,
-                avatar: setting.avatarUrl,
-                gender: setting.gender,
-                birthday: setting.birthday,
-                interests: setting.interests,
-                date_joined: new Date().toLocaleString(),
-                passedAccSetup: "yes"
-              });
-
-              const userSetup = {
-                username: emailUsername,
-                email: userEmail.trim(),
-                state: "signedup",
-                tier: userTier,
-                avatar: setting.avatarUrl,
-                gender: setting.gender,
-                birthday: setting.birthday,
-                interests: setting.interests,
-                date_joined: new Date().toLocaleString(),
-                passedAccSetup: "yes"
+                setInterests.innerHTML += interestHTML;
               }
 
-              states.push(userSetup);
+              const interestEls = setInterests.querySelectorAll(".set-interest");
+              let activeCount = 0;
 
-              localStorage.setItem("states", JSON.stringify(states));
+              interestEls.forEach(el => {
+                el.addEventListener("click", () => {
+                  el.classList.toggle("active");
 
-              setTimeout(() => {
-                document.querySelector(".welcome-screen")?.remove()
-              }, 1000);
+                  if (!el.classList.contains("active")) {
+                    activeCount--;
+                  } else {
+                    activeCount += 1;
+                  }
 
-              document.querySelector("#loader .animation-wrapper").style.display = "flex";
+                  if (activeCount > 2) {
+                    label_i.classList.add("complete");
+                  } else {
+                    label_i.classList.remove("complete");
+                  }
+                });
+              });
+            }, 1000);
 
-              setTimeout(() => {
-                location.reload();
-              }, 2000);
+            // Set user account
 
-            } catch (error) {
-              alert("Error saving state:", error);
-            }
-          });
+            const accountSetupForm = document.querySelector("#accountSetupForm");
+            accountSetupForm.addEventListener("submit", async function(event) {
+              event.preventDefault();
+
+              const genders = document.querySelectorAll(".set-gender");
+              const interests = document.querySelectorAll(".set-interest");
+
+              const setting = {
+                avatarUrl: document.querySelector(".avatar-holder").src,
+                gender: [...genders].find(el => el.classList.contains("active"))?.dataset.gender || "not set",
+                birthday: document.querySelector("#setBirthday").value,
+                interests: [...interests].filter(el => el.classList.contains("active")).map(el => el.dataset.interest) || []
+              }
+
+              console.log(setting);
+
+              try {
+                console.log(userEmail);
+
+                const safeEmail = userEmail.replace(/\./g, "_");
+                const emailUsername = userEmail.replace(/@.*/, "");
+
+                // Default tier for new users is "T1"
+
+                const userTier = "T1";
+
+                // Store user data in Firebase Realtime Database
+
+                await set(ref(db, "users/" + safeEmail), {
+                  username: emailUsername,
+                  email: userEmail.trim(),
+                  tier: userTier,
+                  avatar: setting.avatarUrl,
+                  gender: setting.gender,
+                  birthday: setting.birthday,
+                  interests: setting.interests,
+                  date_joined: new Date().toLocaleString(),
+                  passedAccSetup: "yes"
+                });
+
+                const userSetup = {
+                  username: emailUsername,
+                  email: userEmail.trim(),
+                  state: "signedup",
+                  tier: userTier,
+                  avatar: setting.avatarUrl,
+                  gender: setting.gender,
+                  birthday: setting.birthday,
+                  interests: setting.interests,
+                  date_joined: new Date().toLocaleString(),
+                  passedAccSetup: "yes"
+                }
+
+                states.push(userSetup);
+
+                localStorage.setItem("states", JSON.stringify(states));
+
+                setTimeout(() => {
+                  document.querySelector(".welcome-screen").remove()
+                }, 1000);
+
+                document.querySelector("#loader .animation-wrapper").style.display = "flex";
+
+                setTimeout(() => {
+                  location.reload();
+                }, 2000);
+
+              } catch (error) {
+                alert("Error saving state:", error);
+              }
+            });
+          }
 
           // UI actions
 
@@ -481,9 +484,9 @@ document.addEventListener("DOMContentLoaded", () => {
           }
 
           // Check user session
-          
+
           if (activeSession) {
-            
+
             alert("session active");
 
             if (passedAccSetup) {
@@ -493,7 +496,7 @@ document.addEventListener("DOMContentLoaded", () => {
               document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScr);
               document.querySelector("#loader .animation-wrapper").style.display = "none";
             }
-            
+
             // Show user avatar
 
             UI.auth_ok_avatar.classList.add("active");
@@ -1539,13 +1542,13 @@ document.addEventListener("DOMContentLoaded", () => {
           // Restrict auth content
 
           alert("Please verify your email to access content.");
-          
+
           document.querySelector("#loader").classList.remove("active");
           document.querySelector(".welcome-screen")?.remove();
         }
       });
     } else {
-      
+
       // Ensure content is hidden if logged out
 
       document.querySelector(".auth-content").classList.remove("active");
