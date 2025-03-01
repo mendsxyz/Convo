@@ -491,7 +491,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Toggle welcome screen
             
-            alert("session active, welcomeScr: ", welcomeScrHTML);
+            alert("session active, welcomeScr: " + welcomeScrHTML);
 
             if (passedAccSetup) {
               document.querySelector("#loader .animation-wrapper").style.display = "flex";
@@ -563,10 +563,8 @@ document.addEventListener("DOMContentLoaded", () => {
             UI.authform_wrapper.classList.remove("active");
             UI.current_username.textContent = activeSession.email;
           } else {
-            alert("Session inactive", welcomeScrHTML);
+            alert("Session inactive: " + welcomeScrHTML);
           }
-          
-          alert("ActiveSession neither in nor out", welcomeScrHTML);
 
           // Retrieve posts
 
