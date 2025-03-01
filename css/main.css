@@ -1468,7 +1468,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   }
 
   .hero .body-content {
-    margin: 0 10%;
+    margin: 0 20%;
     font-size: var(--lg2);
     font-weight: 300;
     line-height: 1.4;
