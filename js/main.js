@@ -207,12 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
           
           welcomeScrHTML = welcomeScr;
           
-          /*
-          document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScr);
-          document.querySelector("#loader .animation-wrapper").style.display = "none";
-          */
-          
-          /* Account setup */
+        // Account setup //
 
           // Avatar uploads
 
@@ -491,11 +486,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Toggle welcome screen
             
-            alert("session active, welcomeScr: " + welcomeScrHTML);
+            alert("session active");
 
             if (passedAccSetup) {
               document.querySelector("#loader .animation-wrapper").style.display = "flex";
               document.querySelector(".welcome-screen")?.remove();
+            } else {
+              document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScr);
+              document.querySelector("#loader .animation-wrapper").style.display = "none";
             }
             
             // Show user avatar
@@ -563,7 +561,7 @@ document.addEventListener("DOMContentLoaded", () => {
             UI.authform_wrapper.classList.remove("active");
             UI.current_username.textContent = activeSession.email;
           } else {
-            alert("Session inactive: " + welcomeScrHTML);
+            alert("Session inactive");
           }
 
           // Retrieve posts
