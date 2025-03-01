@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
           
           welcomeScrHTML = welcomeScr;
           
-        // Account setup //
+          // Account setup //
 
           // Avatar uploads
 
@@ -483,8 +483,6 @@ document.addEventListener("DOMContentLoaded", () => {
           // Check user session
           
           if (activeSession) {
-
-            // Toggle welcome screen
             
             alert("session active");
 
