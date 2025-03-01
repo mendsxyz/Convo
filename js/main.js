@@ -128,6 +128,8 @@ document.addEventListener("DOMContentLoaded", () => {
         userEmail = user.email;
 
         if (user.emailVerified) {
+          
+          alert("email verified");
 
           // Display success message
 
