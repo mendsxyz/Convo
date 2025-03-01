@@ -42,9 +42,9 @@ authSignupForm.addEventListener("submit", async (e) => {
     document.querySelector("#loader")?.classList.add("active");
 
     setTimeout(() => {
-      document.querySelector("#loader .refresh")?.textContent = "check_circle";
-      document.querySelector("#loader .refresh")?.classList.remove("rotate");
-      document.querySelector("#loader .refresh")?.classList.add("popup");
+      document.querySelector("#loader .refresh").textContent = "check_circle";
+      document.querySelector("#loader .refresh").classList.remove("rotate");
+      document.querySelector("#loader .refresh").classList.add("popup");
     }, 3000);
 
     // Start user session
