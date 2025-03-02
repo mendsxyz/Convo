@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let welcomeScrHTML, userEmail;
 
-    /* Force reset
+    //* Force reset
     
     if (localStorage.getItem("states")) {
       localStorage.removeItem("states");
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem("sessionCache");
     }
     
-    */
+    //*/
 
     if (user) {
       user.reload().then(() => {
