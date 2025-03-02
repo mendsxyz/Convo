@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
   removeLoader = setTimeout(() => {
     UI.loader.classList.remove("active");
     clearTimeout(removeLoader);
-  }, 3000);
+  }, 10000);
 
   // Check if the elements exist
 
@@ -202,7 +202,15 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             </div>
           `;
-
+          
+          const userRef_ = ref(db, "users/" + safeEmail);
+          const userSnapshot_ = await get(userRef_);
+          
+          if (userSnapshot_.exists()) {
+            UI.loader.querySelector(".welcome-screen")?.remove();
+            UI.animation_wrapper.style.display = "flex";
+          }
+          
           if (!activeSession) {
             alert("Session not started");
 
@@ -210,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
             UI.animation_wrapper.style.display = "none";
           }
 
-          // Welcome screen and fn
+          // Welcome screen
 
           const welcomeScr_present = UI.loader.querySelector(".welcome-screen");
 
