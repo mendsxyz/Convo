@@ -554,7 +554,7 @@ document.addEventListener("DOMContentLoaded", () => {
               }
             });
 
-            UI.loader.querySelector(".welcome-screen")?.style.display = "none";
+            document.querySelector(".welcome-screen")?.style.display = "none";
             UI.animation_wrapper.style.display = "flex";
             UI.loader.classList.remove("active");
             UI.hero.style.display = "none";
