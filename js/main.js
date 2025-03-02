@@ -115,8 +115,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Check user verification
 
   onAuthStateChanged(auth, (user) => {
-    document.querySelector("#loader").classList.remove("active");
-
     const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
     const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
     const emailUsername = activeSession?.email.replace(/@.*/, "");
