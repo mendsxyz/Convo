@@ -22,25 +22,23 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 document.addEventListener("DOMContentLoaded", () => {
-  
+
   // Assign public functions
 
   const states = JSON.parse(localStorage.getItem("states")) || [];
   const main = document.querySelector("main");
 
-  // Force reset
+  // Force reset //
 
   const signInBtn = document.querySelector(".sign-in");
   const resetPasswordBtn = document.querySelector(".send-reset-link");
   const postBtn = document.querySelector(".send-post");
 
-  // Other public functions
+  // UI components
 
   const nav = document.querySelector("nav.auto");
   const nav_toggle = document.querySelector(".nav-toggle");
   const cta_btn = document.querySelector("#ctaBtn");
-
-  // UI components
 
   const UI = {
     loader: document.querySelector("#loader"),
@@ -59,16 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     post_wrappers: document.querySelectorAll(".posts-wrapper")
   }
   
-  // Force remove loader
-  
-  let removeLoader;
-  
-  removeLoader = setTimeout(() => {
-    UI.loader?.classList.remove("active");
-    clearTimeout(removeLoader);
-  }, 10000);
-
-  // Check if the elements exist
+  // Check for existence
 
   if (!nav || !nav_toggle || !cta_btn) {
     console.error("One or more elements not found in the DOM.");
@@ -89,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // Changing text effect on cta btn
+    // Changing text effect on hero > cta btn
 
     const changingTxt = cta_btn.querySelector(".changing-text");
     const words = ["writing", "connecting", "reading"];
@@ -113,22 +102,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // Check user verification
 
   onAuthStateChanged(auth, (user) => {
-    const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
     const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
     const emailUsername = activeSession?.email.replace(/@.*/, "");
-    
+
     let welcomeScrHTML, userEmail;
 
     if (user) {
       user.reload().then(() => {
         userEmail = user.email;
-        
+
         const safeEmail = userEmail.replace(/\./g, "_");
         const emailUsername = userEmail.replace(/@.*/, "");
 
         if (user.emailVerified) {
-
-          // alert("email verified");
 
           // Display success message
 
@@ -205,28 +191,28 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             </div>
           `;
-          
+
           async function checkUser() {
             const userRef_ = ref(db, "users/" + safeEmail);
             const userSnapshot_ = await get(userRef_);
-            
+
             if (userSnapshot_.exists()) {
               UI.loader.querySelector(".welcome-screen")?.remove();
               UI.animation_wrapper.style.display = "flex";
+            } else {
+              alert("Email verified successfully!");
             }
           }
-          
+
           checkUser();
-          
+
           if (!activeSession) {
-            // alert("Session not started");
-            
             UI.hero.classList.remove("await-auth");
             UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
             UI.animation_wrapper.style.display = "none";
           }
 
-          // Welcome screen
+          // Welcome screen for new users
 
           const welcomeScr_present = UI.loader.querySelector(".welcome-screen");
 
@@ -376,7 +362,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               try {
                 console.log(userEmail);
-                
+
                 // Default tier for new users is "T1"
 
                 const userTier = "T1";
@@ -427,21 +413,10 @@ document.addEventListener("DOMContentLoaded", () => {
               }
             });
           }
+          
+          // Page loaded and page refresh: remove loader
 
-          // UI action load time and page refresh animation
-
-          if (UI.loader) {
-            UI.loader.classList.add("active");
-
-            window.addEventListener("load", () => {
-
-              // Stop loader after full page load
-
-              setTimeout(() => {
-                UI.loader.classList.remove("active");
-              }, 3000);
-            });
-          }
+          UI.loader.classList.remove("active");
 
           // Hide user avatar
 
@@ -484,8 +459,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
           if (activeSession) {
 
-            // alert("Session started!");
-
             // Show user avatar
 
             UI.auth_ok_avatar.classList.add("active");
@@ -517,9 +490,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
               UI.auth_ok_userName.classList.add("active");
             }
-            
+
             // Signing Out
-            
+
             UI.nav_links.forEach(link => {
               if (link.classList.contains("signOutBtn")) {
                 link.addEventListener("click", () => {
@@ -528,7 +501,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                   localStorage.setItem("states", JSON.stringify(states));
                   if (localStorage.getItem("sessionCache")) localStorage.removeItem("sessionCache");
-                  
+
                   UI.loader.classList.add("active");
                   UI.animation_wrapper.style.display = "flex";
 
@@ -548,7 +521,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
               }
             });
-            
+
             UI.loader.querySelector(".welcome-screen")?.remove();
             UI.animation_wrapper.style.display = "flex";
 
