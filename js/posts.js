@@ -145,19 +145,12 @@ document.addEventListener("DOMContentLoaded", () => {
       // Tier-based limits
 
       const tierLimits = {
-        T1: { maxPosts: 5, maxImages: 5, maxChars: 250000 },
-        T2: { maxPosts: 50, maxImages: 25, maxChars: 100000200 },
-        T3: { maxPosts: Infinity, maxImages: Infinity, maxChars: Infinity }
+        T1: { maxPosts: 5, maxImages: 5 },
+        T2: { maxPosts: 50, maxImages: 25 },
+        T3: { maxPosts: Infinity, maxImages: Infinity }
       };
 
-      const { maxPosts, maxImages, maxChars } = tierLimits[userTier];
-
-      // Check character limit
-
-      if (body.length > maxChars) {
-        throw new Error(`Post exceeds character limit of ${maxChars} for your tier.`);
-        return;
-      }
+      const { maxPosts, maxImages } = tierLimits[userTier];
 
       // Fetch user's existing post count
 
