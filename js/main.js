@@ -229,9 +229,9 @@ document.addEventListener("DOMContentLoaded", () => {
           checkUser();
 
           if (!activeSession) {
-            /*UI.hero.classList.remove("await-auth");
+            UI.hero.classList.remove("await-auth");
             UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
-            UI.animation_wrapper.style.display = "none";*/
+            UI.animation_wrapper.style.display = "none";
           }
 
           // Welcome screen for new users
@@ -550,7 +550,7 @@ document.addEventListener("DOMContentLoaded", () => {
               }
             });
 
-            // UI.loader.querySelector(".welcome-screen")?.remove();
+            UI.loader.querySelector(".welcome-screen")?.remove();
             UI.animation_wrapper.style.display = "flex";
 
             UI.hero.classList.add("await-auth");
