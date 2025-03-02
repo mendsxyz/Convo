@@ -23,10 +23,6 @@ const db = getDatabase(app);
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  // Show loader on page load
-
-  document.querySelector("#loader").classList.add("active");
-
   // Assign public functions
 
   const states = JSON.parse(localStorage.getItem("states")) || [];
@@ -225,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
           `;
 
           if (!activeSession) {
-            alert("Session ended");
+            alert("Session not started");
             
             UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
             UI.animation_wrapper.style.display = "none";
@@ -421,10 +417,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem("states", JSON.stringify(states));
 
                 setTimeout(() => {
-                  document.querySelector(".welcome-screen").remove()
+                  document.querySelector(".welcome-screen").style.display = "none";
                 }, 1000);
 
-                document.querySelector("#loader .animation-wrapper").style.display = "flex";
+                UI.loader.querySelector(".animation-wrapper").style.display = "flex";
 
                 setTimeout(() => {
                   location.reload();
@@ -447,7 +443,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               setTimeout(() => {
                 UI.loader.classList.remove("active");
-              }, 5000);
+              }, 3000);
             });
           }
 
@@ -556,7 +552,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             UI.loader.querySelector(".welcome-screen").style.display = "none";
             UI.animation_wrapper.style.display = "flex";
-            UI.loader.classList.remove("active");
+            
             UI.hero.style.display = "none";
             UI.auth_content.classList.add("active");
             UI.authform_wrapper.classList.remove("active");
