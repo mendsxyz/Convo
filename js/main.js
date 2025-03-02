@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
               alert("Email verified successfully!" + welcomeScr);
               
               setTimeout(() => {
-                UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
+                UI.loader?.insertAdjacentHTML("afterbegin", welcomeScr);
                 UI.animation_wrapper.style.display = "none";
               }, 500);
             }
@@ -550,7 +550,7 @@ document.addEventListener("DOMContentLoaded", () => {
               }
             });
 
-            UI.loader.querySelector(".welcome-screen")?.remove();
+            // UI.loader.querySelector(".welcome-screen")?.remove();
             UI.animation_wrapper.style.display = "flex";
 
             UI.hero.classList.add("await-auth");
