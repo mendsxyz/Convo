@@ -1,7 +1,7 @@
 // Import fn
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
 import { getDatabase, ref, get, set, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
 // Config
@@ -28,12 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const states = JSON.parse(localStorage.getItem("states")) || [];
   const main = document.querySelector("main");
 
-  //* Force reset
+  /* Force reset
   
   localStorage.removeItem("states");
   localStorage.removeItem("sessionCache");
   
-  // */
+  */
 
   const signInBtn = document.querySelector(".sign-in");
   const resetPasswordBtn = document.querySelector(".send-reset-link");
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cn_links: document.querySelectorAll(".cn-link"),
     post_wrappers: document.querySelectorAll(".posts-wrapper")
   }
-  
+
   // Check for existence
 
   if (!nav || !nav_toggle || !cta_btn) {
@@ -433,7 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
               }
             });
           }
-          
+
           // Page loaded and page refresh: remove loader
 
           UI.loader.classList.remove("active");
@@ -517,28 +517,30 @@ document.addEventListener("DOMContentLoaded", () => {
             UI.nav_links.forEach(link => {
               if (link.classList.contains("signOutBtn")) {
                 link.addEventListener("click", () => {
-                  const newState = states.find(state => state.state === "signedin" || state.state === "signedup");
-                  if (newState) newState.state = "signedout";
+                  signOut(auth).then(() => {
+                    const newState = states.find(state => state.state === "signedin" || state.state === "signedup");
+                    if (newState) newState.state = "signedout";
 
-                  localStorage.setItem("states", JSON.stringify(states));
-                  if (localStorage.getItem("sessionCache")) localStorage.removeItem("sessionCache");
+                    localStorage.setItem("states", JSON.stringify(states));
+                    if (localStorage.getItem("sessionCache")) localStorage.removeItem("sessionCache");
 
-                  UI.loader.classList.add("active");
-                  UI.animation_wrapper.style.display = "flex";
+                    UI.loader.classList.add("active");
+                    UI.animation_wrapper.style.display = "flex";
 
-                  setTimeout(() => {
-                    UI.loader.classList.remove("active");
-                  }, 5000);
+                    setTimeout(() => {
+                      UI.loader.classList.remove("active");
+                    }, 5000);
 
-                  setTimeout(() => {
-                    UI.refresh.textContent = "check_circle";
-                    UI.refresh.classList.remove("rotate");
-                    UI.refresh.classList.add("popup");
-                  }, 2500);
+                    setTimeout(() => {
+                      UI.refresh.textContent = "check_circle";
+                      UI.refresh.classList.remove("rotate");
+                      UI.refresh.classList.add("popup");
+                    }, 2500);
 
-                  setTimeout(() => {
-                    location.reload();
-                  }, 5000);
+                    setTimeout(() => {
+                      location.reload();
+                    }, 5000);
+                  });
                 });
               }
             });
