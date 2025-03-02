@@ -28,7 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const states = JSON.parse(localStorage.getItem("states")) || [];
   const main = document.querySelector("main");
 
-  // Force reset //
+  //* Force reset
+  
+  localStorage.removeItem("states");
+  localStorage.removeItem("sessionCache");
+  
+  // */
 
   const signInBtn = document.querySelector(".sign-in");
   const resetPasswordBtn = document.querySelector(".send-reset-link");
