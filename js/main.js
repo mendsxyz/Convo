@@ -116,12 +116,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
     const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
     const emailUsername = activeSession?.email.replace(/@.*/, "");
-
+    
     let welcomeScrHTML, userEmail;
 
     if (user) {
       user.reload().then(() => {
         userEmail = user.email;
+        
+        const safeEmail = userEmail.replace(/\./g, "_");
+        const emailUsername = userEmail.replace(/@.*/, "");
 
         if (user.emailVerified) {
 
@@ -203,13 +206,17 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           `;
           
-          const userRef_ = ref(db, "users/" + safeEmail);
-          const userSnapshot_ = await get(userRef_);
-          
-          if (userSnapshot_.exists()) {
-            UI.loader.querySelector(".welcome-screen")?.remove();
-            UI.animation_wrapper.style.display = "flex";
+          async function checkUser() {
+            const userRef_ = ref(db, "users/" + safeEmail);
+            const userSnapshot_ = await get(userRef_);
+            
+            if (userSnapshot_.exists()) {
+              UI.loader.querySelector(".welcome-screen")?.remove();
+              UI.animation_wrapper.style.display = "flex";
+            }
           }
+          
+          checkUser();
           
           if (!activeSession) {
             alert("Session not started");
@@ -368,10 +375,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               try {
                 console.log(userEmail);
-
-                const safeEmail = userEmail.replace(/\./g, "_");
-                const emailUsername = userEmail.replace(/@.*/, "");
-
+                
                 // Default tier for new users is "T1"
 
                 const userTier = "T1";
@@ -723,7 +727,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     // Boosts
 
-                    const safeEmail = activeSession.email.replace(/\./g, "_");
+                    // const safeEmail = activeSession.email.replace(/\./g, "_");
 
                     async function handleBoosts(postId, userEmail) {
                       const postRef = ref(db, "posts/" + postId);
@@ -1132,7 +1136,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let refreshComments;
 
             const commentsList = document.querySelector(".comments-list");
-            const safeEmail = activeSession.email.replace(/\./g, "_");
+            // const safeEmail = activeSession.email.replace(/\./g, "_");
             const userName = activeSession.email.replace(/@.*/, "");
 
             const userRef = ref(db, "users/" + safeEmail);
@@ -1396,7 +1400,7 @@ document.addEventListener("DOMContentLoaded", () => {
               btn.addEventListener("click", handleUnsave);
             });
 
-            const safeEmail = activeSession.email.replace(/\./g, "_");
+            // const safeEmail = activeSession.email.replace(/\./g, "_");
 
             // Unsave post
 
@@ -1406,7 +1410,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           }
 
-          const safeEmail = activeSession?.email.replace(/\./g, "_");
+          // const safeEmail = activeSession?.email.replace(/\./g, "_");
           getSavedPosts(safeEmail);
 
           // Remove saved post
