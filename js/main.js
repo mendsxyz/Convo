@@ -219,8 +219,10 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
               alert("Email verified successfully!");
               
-              UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
-              UI.animation_wrapper.style.display = "none";
+              setTimeout(() => {
+                UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
+                UI.animation_wrapper.style.display = "none";
+              }, 500);
             }
           }
 
