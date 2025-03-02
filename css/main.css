@@ -319,7 +319,7 @@ html:has(.resetPasswordForm-wrapper.active) .nav-link {
   border-left-color: var(--lshade);
   border-right-color: var(--lshade);
   border-bottom-color: var(--lshade);
-  animation: spin2 .3s linear forwards;
+  animation: spin2 .5s linear infinite;
 }
 
 @keyframes spin2 {

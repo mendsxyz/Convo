@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const emailUsername = activeSession?.email.replace(/@.*/, "");
 
     let welcomeScrHTML, userEmail;
-    
+
     /* Force reset
     
     if (localStorage.getItem("states")) {
@@ -214,7 +214,9 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           `;
 
-          async function checkUser() {
+          let welcomeScrLoaded;
+
+          async function userSetup() {
             const userRef_ = ref(db, "users/" + safeEmail);
             const userSnapshot_ = await get(userRef_);
 
@@ -222,100 +224,97 @@ document.addEventListener("DOMContentLoaded", () => {
               UI.loader.querySelector(".welcome-screen")?.remove();
               UI.animation_wrapper.style.display = "flex";
             } else {
-              alert("Email verified successfully!")
-              
-              // localStorage.getItem("states") ? localStorage.removeItem("states") : alert("no states");
+              alert("Email verified successfully!");
 
-              setTimeout(() => {
-                UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
-                UI.animation_wrapper.style.display = "none";
-              }, 500);
+              UI.loader.classList.add("active");
+              UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
+              UI.animation_wrapper.style.display = "none";
+
+              welcomeScrLoaded = document.querySelector(".welcome-screen");
             }
           }
 
-          checkUser();
-          
-          // Welcome screen for new users
+          // Account setup for new users
 
-          const welcomeScr_present = UI.loader.querySelector(".welcome-screen");
+          async function initialize() {
+            await userSetup();
+            
+            if (welcomeScrLoaded) {
+              setTimeout(() => {
+                const setPfp = document.querySelector(".set-profile-picture");
 
-          if (welcomeScr_present) {
+                document.querySelector(".upload-pfp")?.addEventListener("click", (event) => {
+                  event.preventDefault();
 
-            setTimeout(() => {
-              const setPfp = document.querySelector(".set-profile-picture");
-
-              document.querySelector(".upload-pfp")?.addEventListener("click", (event) => {
-                event.preventDefault();
-
-                document.getElementById("setAvatar")?.click();
-              });
-
-              document.getElementById("setAvatar")?.addEventListener("change", (event) => {
-                event.preventDefault();
-
-                const file = event.target.files[0];
-                if (!file) return;
-
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                  insertImage(e.target.result);
-                };
-                reader.readAsDataURL(file);
-              });
-
-              function insertImage(imageSrc) {
-                const img = document.querySelector(".avatar-holder");
-                img.src = imageSrc;
-
-                const labels = document.querySelectorAll("label.pfp");
-                labels.forEach(label => label.classList.add("complete"));
-              }
-
-              // Gender selection
-
-              const genders = document.querySelectorAll("#setGender .set-gender");
-              genders.forEach(gender => {
-                gender.addEventListener("click", () => {
-                  genders.forEach(gender => gender.classList.remove("active"));
-                  gender.classList.add("active");
-                  const labels = document.querySelectorAll("label.gender");
-                  labels.forEach(label => label.classList.add("complete"));
+                  document.getElementById("setAvatar")?.click();
                 });
-              });
 
-              // Birthday
+                document.getElementById("setAvatar")?.addEventListener("change", (event) => {
+                  event.preventDefault();
 
-              const setBirthday = document.querySelector("#setBirthday");
-              const label_b = document.querySelector("label.birthday");
+                  const file = event.target.files[0];
+                  if (!file) return;
 
-              setBirthday.addEventListener("input", () => {
-                let ddValue, mmValue;
+                  const reader = new FileReader();
+                  reader.onload = function(e) {
+                    insertImage(e.target.result);
+                  };
+                  reader.readAsDataURL(file);
+                });
 
-                if (setBirthday.value.length === 2) {
-                  ddValue = setBirthday.value;
-                  setBirthday.value = ddValue + "-";
+                function insertImage(imageSrc) {
+                  const img = document.querySelector(".avatar-holder");
+                  img.src = imageSrc;
+
+                  const labels = document.querySelectorAll("label.pfp");
+                  labels.forEach(label => label.classList.add("complete"));
                 }
 
-                if (setBirthday.value.length === 5) {
-                  mmValue = setBirthday.value;
-                  setBirthday.value = mmValue + "-";
-                }
+                // Gender selection
 
-                if (setBirthday.value.length === 10) {
-                  label_b.classList.add("complete");
-                } else {
-                  label_b.classList.remove("complete");
-                }
-              });
+                const genders = document.querySelectorAll("#setGender .set-gender");
+                genders.forEach(gender => {
+                  gender.addEventListener("click", () => {
+                    genders.forEach(gender => gender.classList.remove("active"));
+                    gender.classList.add("active");
+                    const labels = document.querySelectorAll("label.gender");
+                    labels.forEach(label => label.classList.add("complete"));
+                  });
+                });
 
-              // Interests
+                // Birthday
 
-              const setInterests = document.querySelector("#setInterests");
-              const label_i = document.querySelector("label.interests");
+                const setBirthday = document.querySelector("#setBirthday");
+                const label_b = document.querySelector("label.birthday");
 
-              setInterests.innerHTML = "";
+                setBirthday.addEventListener("input", () => {
+                  let ddValue, mmValue;
 
-              let interests = [
+                  if (setBirthday.value.length === 2) {
+                    ddValue = setBirthday.value;
+                    setBirthday.value = ddValue + "-";
+                  }
+
+                  if (setBirthday.value.length === 5) {
+                    mmValue = setBirthday.value;
+                    setBirthday.value = mmValue + "-";
+                  }
+
+                  if (setBirthday.value.length === 10) {
+                    label_b.classList.add("complete");
+                  } else {
+                    label_b.classList.remove("complete");
+                  }
+                });
+
+                // Interests
+
+                const setInterests = document.querySelector("#setInterests");
+                const label_i = document.querySelector("label.interests");
+
+                setInterests.innerHTML = "";
+
+                let interests = [
                 "Sports", "Tech", "Crypto", "Food", "Travel", "Fashion",
                 "Remote jobs", "Ghostwriting", "Hiking", "Tv shows",
                 "Soccer", "DIY tutorials", "Carnivals", "Knitting",
@@ -329,116 +328,119 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Poetry", "Politics"
               ];
 
-              const interestsWrapper = [];
+                const interestsWrapper = [];
 
-              for (let i = 0; i < interests.length; i++) {
-                const interest = {
-                  "interest": interests[i]
+                for (let i = 0; i < interests.length; i++) {
+                  const interest = {
+                    "interest": interests[i]
+                  }
+
+                  interestsWrapper.push(interest);
+
+                  const interestHTML = `<div class="set-interest" data-interest="${interests[i]}">${interests[i]}</div>`;
+
+                  setInterests.innerHTML += interestHTML;
                 }
 
-                interestsWrapper.push(interest);
+                const interestEls = setInterests.querySelectorAll(".set-interest");
+                let activeCount = 0;
 
-                const interestHTML = `<div class="set-interest" data-interest="${interests[i]}">${interests[i]}</div>`;
+                interestEls.forEach(el => {
+                  el.addEventListener("click", () => {
+                    el.classList.toggle("active");
 
-                setInterests.innerHTML += interestHTML;
-              }
+                    if (!el.classList.contains("active")) {
+                      activeCount--;
+                    } else {
+                      activeCount += 1;
+                    }
 
-              const interestEls = setInterests.querySelectorAll(".set-interest");
-              let activeCount = 0;
-
-              interestEls.forEach(el => {
-                el.addEventListener("click", () => {
-                  el.classList.toggle("active");
-
-                  if (!el.classList.contains("active")) {
-                    activeCount--;
-                  } else {
-                    activeCount += 1;
-                  }
-
-                  if (activeCount > 2) {
-                    label_i.classList.add("complete");
-                  } else {
-                    label_i.classList.remove("complete");
-                  }
+                    if (activeCount > 2) {
+                      label_i.classList.add("complete");
+                    } else {
+                      label_i.classList.remove("complete");
+                    }
+                  });
                 });
+              }, 1000);
+
+              // Set user account
+
+              const accountSetupForm = document.querySelector("#accountSetupForm");
+              accountSetupForm.addEventListener("submit", async function(event) {
+                event.preventDefault();
+
+                const genders = document.querySelectorAll(".set-gender");
+                const interests = document.querySelectorAll(".set-interest");
+
+                const setting = {
+                  name: document.querySelector("#setName").value,
+                  avatarUrl: document.querySelector(".avatar-holder").src,
+                  gender: [...genders].find(el => el.classList.contains("active"))?.dataset.gender || "not set",
+                  birthday: document.querySelector("#setBirthday").value,
+                  interests: [...interests].filter(el => el.classList.contains("active")).map(el => el.dataset.interest) || []
+                }
+
+                console.log(setting);
+
+                try {
+                  console.log(userEmail);
+
+                  // Default tier for new users is "T1"
+
+                  const userTier = "T1";
+
+                  // Store user data in Firebase Realtime Database
+
+                  await set(ref(db, "users/" + safeEmail), {
+                    name: setting.name,
+                    tagname: emailUsername,
+                    email: userEmail.trim(),
+                    tier: userTier,
+                    avatar: setting.avatarUrl,
+                    gender: setting.gender,
+                    birthday: setting.birthday,
+                    interests: setting.interests,
+                    date_joined: new Date().toLocaleString(),
+                    passedAccSetup: "yes"
+                  });
+
+                  const userSetup = {
+                    name: setting.name,
+                    tagname: emailUsername,
+                    email: userEmail.trim(),
+                    state: "signedup",
+                    tier: userTier,
+                    avatar: setting.avatarUrl,
+                    gender: setting.gender,
+                    birthday: setting.birthday,
+                    interests: setting.interests,
+                    date_joined: new Date().toLocaleString(),
+                    passedAccSetup: "yes"
+                  }
+
+                  states.push(userSetup);
+
+                  localStorage.setItem("states", JSON.stringify(states));
+
+                  setTimeout(() => {
+                    UI.loader.querySelector(".welcome-screen")?.remove();
+                  }, 1000);
+
+                  UI.animation_wrapper.style.display = "flex";
+
+                  setTimeout(() => {
+                    location.reload();
+                  }, 2000);
+
+                } catch (error) {
+                  alert("Error saving state:", error);
+                }
               });
-            }, 1000);
-
-            // Set user account
-
-            const accountSetupForm = document.querySelector("#accountSetupForm");
-            accountSetupForm.addEventListener("submit", async function(event) {
-              event.preventDefault();
-
-              const genders = document.querySelectorAll(".set-gender");
-              const interests = document.querySelectorAll(".set-interest");
-
-              const setting = {
-                name: document.querySelector("#setName").value,
-                avatarUrl: document.querySelector(".avatar-holder").src,
-                gender: [...genders].find(el => el.classList.contains("active"))?.dataset.gender || "not set",
-                birthday: document.querySelector("#setBirthday").value,
-                interests: [...interests].filter(el => el.classList.contains("active")).map(el => el.dataset.interest) || []
-              }
-
-              console.log(setting);
-
-              try {
-                console.log(userEmail);
-
-                // Default tier for new users is "T1"
-
-                const userTier = "T1";
-
-                // Store user data in Firebase Realtime Database
-
-                await set(ref(db, "users/" + safeEmail), {
-                  name: setting.name,
-                  tagname: emailUsername,
-                  email: userEmail.trim(),
-                  tier: userTier,
-                  avatar: setting.avatarUrl,
-                  gender: setting.gender,
-                  birthday: setting.birthday,
-                  interests: setting.interests,
-                  date_joined: new Date().toLocaleString(),
-                  passedAccSetup: "yes"
-                });
-
-                const userSetup = {
-                  name: setting.name,
-                  tagname: emailUsername,
-                  email: userEmail.trim(),
-                  state: "signedup",
-                  tier: userTier,
-                  avatar: setting.avatarUrl,
-                  gender: setting.gender,
-                  birthday: setting.birthday,
-                  interests: setting.interests,
-                  date_joined: new Date().toLocaleString(),
-                  passedAccSetup: "yes"
-                }
-
-                states.push(userSetup);
-
-                localStorage.setItem("states", JSON.stringify(states));
-
-                setTimeout(() => {
-                  UI.loader.querySelector(".welcome-screen")?.remove();
-                }, 1000);
-
-                UI.animation_wrapper.style.display = "flex";
-
-                setTimeout(() => {
-                  location.reload();
-                }, 2000);
-
-              } catch (error) {
-                alert("Error saving state:", error);
-              }
-            });
-          }
+            }
+          };
+          
+          initialize();
 
           // Page loaded and page refresh: remove loader
 
