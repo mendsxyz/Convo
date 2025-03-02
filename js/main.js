@@ -28,12 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const states = JSON.parse(localStorage.getItem("states")) || [];
   const main = document.querySelector("main");
 
-  /* Force reset
+  //* Force reset
   
   localStorage.removeItem("states");
   localStorage.removeItem("sessionCache");
   
-  */
+  //*/
 
   const signInBtn = document.querySelector(".sign-in");
   const resetPasswordBtn = document.querySelector(".send-reset-link");
@@ -230,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           if (!activeSession) {
             UI.hero.classList.remove("await-auth");
-            UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
+            UI.loader?.insertAdjacentHTML("afterbegin", welcomeScr);
             UI.animation_wrapper.style.display = "none";
           }
 
