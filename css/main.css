@@ -684,24 +684,23 @@ main {
 }
 
 #loader .animation-wrapper {
-  background: var(--light);
+  background: var(--dark);
   width: 40px;
   height: 40px;
   border-radius: 100%;
-  border: 1px solid var(--lshade);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 15px;
 }
 
-#loader .refresh {
-  animation: none;
-}
-
-#loader .refresh.rotate {
-  font-size: 30px;
-  animation: spin .75s linear infinite;
+#loader.active .page-loader {
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  border: 3px solid var(--light);
+  border-top-color: transparent;
+  animation: spin .5s linear infinite;
 }
 
 @keyframes spin {
@@ -711,16 +710,6 @@ main {
 
   to {
     transform: rotate(360deg);
-  }
-}
-
-#loader .refresh.popup {
-  animation: .3s popup linear forwards;
-}
-
-@keyframes popup {
-  to {
-    font-size: 35px;
   }
 }
 

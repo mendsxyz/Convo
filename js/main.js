@@ -39,7 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const UI = {
     loader: document.querySelector("#loader"),
     animation_wrapper: document.querySelector("#loader .animation-wrapper"),
-    refresh: document.querySelector("#loader .refresh"),
     auth_ok_avatar: document.querySelector("#avatar"),
     auth_ok_navToggle: document.querySelector(".nav-toggle"),
     auth_ok_userName: document.querySelector("#userName"),
@@ -552,12 +551,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     setTimeout(() => {
                       UI.loader.classList.remove("active");
                     }, 5000);
-
-                    setTimeout(() => {
-                      UI.refresh.textContent = "check_circle";
-                      UI.refresh.classList.remove("rotate");
-                      UI.refresh.classList.add("popup");
-                    }, 2500);
 
                     setTimeout(() => {
                       location.reload();
