@@ -913,7 +913,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   font-weight: 600;
 }
 
-.author .author-tag-name {
+.author .author-tagname {
   font-size: var(--sm);
   font-weight: 300;
   opacity: .5;
@@ -1174,12 +1174,21 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   overflow: hidden;
 }
 
-.commenter-info .commenter-username {
+.commenter-info .commenter-name {
   font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: left;
   gap: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.commenter-info .commenter-tagname {
+  font-weight: 300;
+  opacity: .5;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .commenter-comment {
@@ -1189,6 +1198,8 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 .time-commented {
   font-weight: 300;
   opacity: .5;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .comment-analytics {

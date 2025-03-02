@@ -486,7 +486,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // Check user session
 
           if (activeSession) {
-
+            
             // Show user avatar
 
             UI.auth_ok_avatar.classList.add("active");
@@ -630,7 +630,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           : (post.author_tier === "T3") ?
                           post.author_name + " " + tierMarks.T3 
                           : post.author_name) || "loading..."}
-                          <span class="author-tag-name">${"@" + post.author_tagname}</span>
+                          <span class="author-tagname">${"@" + post.author_tagname}</span>
                         </span>
                         <span>•</span>
                         <span class="time-posted" data-id="${postId}" data-timestamp="${post.time_posted  ||  Date.now()}">${formatTime(post.time_posted)}</span>
@@ -1108,12 +1108,15 @@ document.addEventListener("DOMContentLoaded", () => {
             postComments.classList.remove("active");
 
             // Reset active post ID
+            
             activePostId = null;
 
             // Clear comment input
+            
             commentBody.innerHTML = "";
 
             // Clear comments list
+            
             const commentsList = postComments.querySelector(".comments-list");
             commentsList.innerHTML = "";
           });
@@ -1123,6 +1126,7 @@ document.addEventListener("DOMContentLoaded", () => {
           commentForm.addEventListener("submit", handleSubmitComment);
 
           // Helper function for handling comments
+          
           async function handleSubmitComment(event) {
             event.preventDefault();
             event.stopPropagation();
@@ -1145,7 +1149,6 @@ document.addEventListener("DOMContentLoaded", () => {
             let refreshComments;
 
             const commentsList = document.querySelector(".comments-list");
-            const userName = activeSession.name;
             const tagName = activeSession.email.replace(/@.*/, "");
 
             const userRef = ref(db, "users/" + safeEmail);
@@ -1161,6 +1164,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               const userData = userSnapshot.val();
               const userTier = userData.tier;
+              const userName = userData.name;
               const userAvatar = userData.avatar;
 
               // Fetch current post data
@@ -1240,9 +1244,9 @@ document.addEventListener("DOMContentLoaded", () => {
             commentElement.innerHTML = `
               <div class="commenter-info">
                 <img class="commenter-pfp" src="${comment.commenter_avatar}" alt="user_pfp">
-                <span class="commenter-username">
-                  ${comment.commenter_username} ${tierMarks[comment.commenter_tier] || ""}
-                  <span class="commenter-tag-name">${comment.commenter_tagname}</span>
+                <span class="commenter-name">
+                  ${comment.commenter_name} ${tierMarks[comment.commenter_tier] || ""}
+                  <span class="commenter-tagname">${comment.commenter_tagname}</span>
                 </span>
                 <span>•</span>
                 <span class="time-commented" data-id="${commentId}" data-timestamp="${comment.timestamp  ||  Date.now()}">${formatTime(comment.timestamp)}</span>
@@ -1298,9 +1302,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 commentElement.innerHTML = `
                   <div class="commenter-info">
                     <img class="commenter-pfp" src="${comment.commenter_avatar}" alt="user_pfp">
-                    <span class="commenter-username">
-                      ${comment.commenter_username} ${tierMarks[comment.commenter_tier] || ""}
-                      <span class="commenter-tag-name">${comment.commenter_tagname}</span>
+                    <span class="commenter-name">
+                      ${comment.commenter_name} ${tierMarks[comment.commenter_tier] || ""}
+                      <span class="commenter-tagname">${comment.commenter_tagname}</span>
                     </span>
                     <span>•</span>
                     <span class="time-commented" data-id="${commentId}" data-timestamp="${comment.timestamp  ||  Date.now()}">${formatTime(comment.timestamp)}</span>
@@ -1378,7 +1382,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       : (post.author_tier === "T3") ?
                       post.author_name + " " + tierMarks.T3 
                       : post.author_name) || "loading..."}
-                      <span class="author-tag-name">${post.author_tagname}</span>
+                      <span class="author-tagname">${post.author_tagname}</span>
                     </span>
                     <span>•</span>
                     <span class="time-posted" data-id="${postId}" data-timestamp="${post.time_posted  ||  Date.now()}">${formatTime(post.time_posted)}</span>
@@ -1514,13 +1518,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const now = Date.now();
             const seconds = Math.floor((now - timestamp) / 1000);
 
-            if (seconds < 60) return `${seconds}s ago`;
+            if (seconds < 60) return `${seconds}s`;
             const minutes = Math.floor(seconds / 60);
-            if (minutes < 60) return `${minutes}m ago`;
+            if (minutes < 60) return `${minutes}m`;
             const hours = Math.floor(minutes / 60);
-            if (hours < 24) return `${hours}h ago`;
+            if (hours < 24) return `${hours}h`;
             const days = Math.floor(hours / 24);
-            if (days <= 6) return `${days}d ago`;
+            if (days <= 6) return `${days}d`;
 
             return new Date(timestamp).toLocaleDateString("en-GB"); // dd/mm/yyyy
           }
