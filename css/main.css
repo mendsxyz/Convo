@@ -64,7 +64,6 @@ body {
 
 body {
   background: var(--light);
-  overflow: hidden;
 }
 
 header {
@@ -653,7 +652,6 @@ main {
   width: 100%;
   min-height: 90vh;
   padding: 0;
-  overflow: hidden;
 }
 
 #loader {
@@ -785,7 +783,8 @@ main {
   display: grid;
   grid-template-columns: 100% 0;
   gap: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .auth-content .feed {
@@ -794,7 +793,6 @@ main {
   display: grid;
   grid-auto-flow: row;
   position: relative;
-  overflow-x: hidden;
   overflow-y: auto;
 }
 
