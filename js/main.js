@@ -34,32 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const resetPasswordBtn = document.querySelector(".send-reset-link");
   const postBtn = document.querySelector(".send-post");
 
-  // Request processes load animation
-
-  function btnLoader() {
-    return `
-      <div class="btn-loader"></div>
-    `;
-  }
-
-  if (!signInBtn || !resetPasswordBtn || !postBtn) {
-    console.log("One or more req processes elements not loaded yet!");
-  } else {
-    console.log("Req processes elements loaded!");
-
-    signInBtn.addEventListener("click", () => {
-      signInBtn.innerHTML = btnLoader();
-    });
-
-    resetPasswordBtn.addEventListener("click", () => {
-      resetPasswordBtn.innerHTML = btnLoader();
-    });
-
-    postBtn.addEventListener("click", () => {
-      postBtn.innerHTML = btnLoader();
-    });
-  }
-
   // Other public functions
 
   const nav = document.querySelector("nav.auto");
