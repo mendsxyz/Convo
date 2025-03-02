@@ -531,7 +531,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   localStorage.setItem("states", JSON.stringify(states));
 
                   UI.loader.classList.add("active");
-                  document.querySelector("#loader .animation-wrapper").style.display = "flex";
+                  UI.animation_wrapper.style.display = "flex";
 
                   setTimeout(() => {
                     UI.loader.classList.remove("active");
@@ -550,14 +550,14 @@ document.addEventListener("DOMContentLoaded", () => {
               }
             });
 
-            UI.loader.querySelector(".welcome-screen").style.display = "none";
+            document.querySelector("#loader .welcome-screen").style.display = "none";
             UI.animation_wrapper.style.display = "flex";
 
             UI.hero.style.display = "none";
             UI.auth_content.classList.add("active");
             UI.authform_wrapper.classList.remove("active");
             UI.current_username.textContent = activeSession.email;
-          }
+          };
 
           // Retrieve posts
 
