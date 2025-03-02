@@ -913,6 +913,12 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   font-weight: 600;
 }
 
+.author .author-tag-name {
+  font-size: var(--sm);
+  font-weight: 300;
+  opacity: .5;
+}
+
 .author .time-posted {
   font-size: var(--sm);
   font-weight: 300;

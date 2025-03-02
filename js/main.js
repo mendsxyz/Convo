@@ -630,7 +630,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           : (post.author_tier === "T3") ?
                           post.author_name + " " + tierMarks.T3 
                           : post.author_name) || "loading..."}
-                          <span class="author-tag-name">${post.author_tagname}</span>
+                          <span class="author-tag-name">${"@" + post.author_tagname}</span>
                         </span>
                         <span>•</span>
                         <span class="time-posted" data-id="${postId}" data-timestamp="${post.time_posted  ||  Date.now()}">${formatTime(post.time_posted)}</span>
