@@ -417,7 +417,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem("states", JSON.stringify(states));
 
                 setTimeout(() => {
-                  document.querySelector(".welcome-screen").style.display = "none";
+                  UI.loader.querySelector(".welcome-screen").remove();
                 }, 1000);
 
                 UI.loader.querySelector(".animation-wrapper").style.display = "flex";
@@ -549,8 +549,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
               }
             });
-
-            document.querySelector("#loader .welcome-screen").style.display = "none";
+            
+            UI.loader.querySelector(".welcome-screen")?.remove();
             UI.animation_wrapper.style.display = "flex";
 
             UI.hero.style.display = "none";
