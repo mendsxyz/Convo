@@ -28,10 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const states = JSON.parse(localStorage.getItem("states")) || [];
   const main = document.querySelector("main");
 
-  const signInBtn = document.querySelector(".sign-in");
-  const resetPasswordBtn = document.querySelector(".send-reset-link");
-  const postBtn = document.querySelector(".send-post");
-
+  const awaitBtns = document.querySelectorAll("button.awaitable");
+  
   // UI components
 
   const nav = document.querySelector("nav.auto");
@@ -57,9 +55,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Check for existence
 
-  if (!nav || !nav_toggle || !cta_btn) {
+  if (!awaitBtns || !nav || !nav_toggle || !cta_btn) {
     console.error("One or more elements not found in the DOM.");
   } else {
+    awaitBtns.forEach(btn => {
+      let awaitSpan;
+      
+      btn.addEventListener("click", () => {
+        btn.classList.add("active");
+        
+        awaitSpan = setTimeout(() => {
+          btn.classList.remove("active");
+          
+          clearTimeout(awaitSpan);
+        }, 5000);
+      });
+    });
+    
     nav_toggle.addEventListener("click", () => {
       nav.classList.toggle("active");
       if (nav.classList.contains("active")) {
@@ -444,15 +456,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
           // Page loaded and page refresh: remove loader
 
-          UI.loader.classList.remove("active");
+          UI.loader?.classList.remove("active");
 
           // Hide user avatar
 
-          UI.auth_ok_avatar.classList.remove("active");
+          UI.auth_ok_avatar?.classList.remove("active");
 
           // Hide nav toggle
 
-          UI.auth_ok_navToggle.classList.remove("active");
+          UI.auth_ok_navToggle?.classList.remove("active");
 
           // Collapsible nav menu links
 
@@ -489,12 +501,14 @@ document.addEventListener("DOMContentLoaded", () => {
             
             // Show user avatar
 
-            UI.auth_ok_avatar.classList.add("active");
-            UI.auth_ok_avatar.src = activeSession.avatar;
+            if (UI.auth_ok_avatar) {
+              UI.auth_ok_avatar.classList.add("active");
+              UI.auth_ok_avatar.src = activeSession.avatar;
+            }
 
             // Show nav toggle
 
-            UI.auth_ok_navToggle.classList.add("active");
+            UI.auth_ok_navToggle?.classList.add("active");
 
             // Tier marks
 
@@ -1563,6 +1577,23 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Toggle password visibility
+
+const togglePasswordVisibility = document.querySelector(".toggle-password-visibility");
+const visualSwitch = togglePasswordVisibility.querySelector(".visual-switch");
+
+togglePasswordVisibility.addEventListener("click", (event) => {
+  const inputWrapper = event.target.closest(".input");
+  const input = inputWrapper.querySelector("input");
+  if (input.type === "password") {
+    input.type = "text";
+    visualSwitch.textContent = "visibility";
+  } else {
+    input.type = "password";
+    visualSwitch.textContent = "visibility_off";
+  }
+});
+
 // Reset password
 
 const resetPasswordFormWrapper = document.querySelector(".resetPasswordForm-wrapper");
@@ -1579,6 +1610,6 @@ if (forgotPassword) {
 const backToSignin = document.querySelector(".back-to-signin");
 if (backToSignin) {
   backToSignin.addEventListener("click", () => {
-    resetPasswordForm.classList.remove("active");
+    resetPasswordFormWrapper.classList.remove("active");
   });
 }

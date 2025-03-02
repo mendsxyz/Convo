@@ -64,6 +64,7 @@ body {
 
 body {
   background: var(--light);
+  overflow: hidden;
 }
 
 header {
@@ -252,6 +253,13 @@ html:has(nav.auto.active) main::after {
   font-size: var(--sm);
 }
 
+.authForm-wrapper form .input,
+.resetPasswordForm-wrapper form .input,
+.accountSetupForm-wrapper form .input,
+.createPostForm-wrapper form .input {
+  position: relative;
+}
+
 .authForm-wrapper form input,
 .resetPasswordForm-wrapper form input,
 .accountSetupForm-wrapper form input,
@@ -261,6 +269,15 @@ html:has(nav.auto.active) main::after {
   padding: 12px 5%;
   border: 1px solid var(--lshade);
   border-radius: 10px;
+}
+
+.toggle-password-visibility {
+  background: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-40%);
+  right: 15px;
+  opacity: .5;
 }
 
 .authForm-wrapper form button[type="submit"],
@@ -309,16 +326,16 @@ html:has(.resetPasswordForm-wrapper.active) .nav-link {
 /* Btn loader animation for network request processes */
 
 .btn-loader {
-  width: 25px;
-  height: 25px;
+  width: 24px;
+  height: 24px;
   display: none;
   border-radius: 100%;
   border-width: 3px;
   border-style: solid;
   border-top-color: transparent;
-  border-left-color: var(--lshade);
-  border-right-color: var(--lshade);
-  border-bottom-color: var(--lshade);
+  border-left-color: var(--light);
+  border-right-color: var(--light);
+  border-bottom-color: var(--light);
   animation: spin2 .5s linear infinite;
 }
 
@@ -332,8 +349,12 @@ html:has(.resetPasswordForm-wrapper.active) .nav-link {
   }
 }
 
-button:has(.btn-loader):hover .btn-loader {
+button.awaitable.active .btn-loader {
   display: flex;
+}
+
+button.awaitable.active span:first-child {
+  display: none;
 }
 
 /* Welcome screen for new users */
@@ -632,7 +653,7 @@ main {
   width: 100%;
   min-height: 90vh;
   padding: 0;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 #loader {
@@ -775,7 +796,7 @@ main {
   display: grid;
   grid-template-columns: 100% 0;
   gap: 0;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 .auth-content .feed {
@@ -784,6 +805,7 @@ main {
   display: grid;
   grid-auto-flow: row;
   position: relative;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -838,6 +860,7 @@ main {
   padding: 0 5%;
   display: grid;
   grid-template-columns: 100% 0;
+  overflow-y: auto;
 }
 
 html:has(.posts-wrapper.saved-posts.active) .posts-container {
@@ -1302,6 +1325,10 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   justify-content: space-between;
 }
 
+.createPostForm-wrapper button.awaitable {
+  color: var(--light);
+}
+
 .createPostForm-wrapper .toolbar {
   background: var(--lshade);
   width: 100%;
@@ -1417,13 +1444,14 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 
 .utility {
   width: 100%;
+  height: fit-content;
   padding: 50px 0;
   display: none;
   border-top: 2px solid var(--lshade);
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
-.utility .ut {
+.utility .card {
   background: var(--light);
   width: 100%;
   min-height: 200px;
@@ -1518,7 +1546,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
     gap: var(--sm2);
   }
 
-  .auth-content .feed .content-nav div:first-child {
+  .auth-content .content-nav div:first-child {
     padding-left: 10%;
   }
 
@@ -1536,6 +1564,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   }
 
   .auth-content .feed {
+    height: 100vh;
     border-right: 2px solid var(--lshade);
   }
 

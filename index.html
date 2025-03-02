@@ -53,10 +53,13 @@
 
         <div class="input">
           <input type="password" name="userPassword" id="userPassword" placeholder="Password" required>
+          <button class="toggle-password-visibility" type="button">
+            <span class="ms-rounded visual-switch">visibility_off</span>
+          </button>
         </div>
 
         <div class="input">
-          <button class="sign-in" type="submit">
+          <button class="awaitable sign-in" type="submit">
             <span>Sign In</span>
             <span class="btn-loader"></span>
           </button>
@@ -84,7 +87,7 @@
         </div>
 
         <div class="input">
-          <button class="send-reset-link" type="submit">
+          <button class="awaitable send-reset-link" type="submit">
             <span>Send link</span>
             <span class="btn-loader"></span>
           </button>
@@ -180,26 +183,29 @@
       </div>
 
       <div class="utility">
-        <div class="ut user-info">
-          <div class="ui-avatar00name">
-            <img src="" alt="avatar" class="ui-avatar">
-            <span class="ui-name"></span>
+        <div class="card user-profileCard">
+          <div class="user-avatarAndName">
+            <img class="user-avatar" src="" alt="avatar">
+            <div class="user-nameAndTagname">
+              <span class="user-name">Anon</span>
+              <span class="user-tagname">@anonuser</span>
+            </div>
           </div>
-          <div class="ui-status">
-
+          <div class="user-metrics">
+            <div class="user-details">
+              <div class="ui-bio">Just a random new user</div>
+              <div class="ui-birthday">DD/MM/YYYY</div>
+              <div class="ui-gender">Not applicable</div>
+            </div>
           </div>
         </div>
 
-        <div class="ut user-followers00following">
-
-        </div>
-
-        <div class="ut user-posts">
-
-        </div>
-
-        <div class="ut other">
-
+        <div class="card user-menu">
+          <div class="user-settings">
+            
+          </div>
+          <div class="help"></div>
+          <div class="sign-out"></div>
         </div>
       </div>
 
