@@ -30,8 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //* Force reset
   
-  localStorage.removeItem("states");
-  localStorage.removeItem("sessionCache");
+  if (localStorage.getItem("states")) localStorage.removeItem("states");
+  if (localStorage.getItem("sessionCache")) localStorage.removeItem("sessionCache");
   
   //*/
 
