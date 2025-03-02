@@ -209,8 +209,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
           welcomeScrHTML = welcomeScr;
           
-          document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScrHTML);
-
+          if (!activeSession) {
+            UI.loader.insertAdjacentHTML("afterbegin", welcomeScrHTML);
+            document.querySelector("#animation-wrapper").style.display = "none";
+          } else {
+            if (passedAccSetup) {
+              document.querySelector("#loader .welcome-screen").remove();
+              document.querySelector("#animation-wrapper").style.display = "flex";
+            }
+          }
+          
           // Welcome screen and functions
 
           const welcomeScr_ = document.querySelector(".welcome-screen");
@@ -492,14 +500,6 @@ document.addEventListener("DOMContentLoaded", () => {
           if (activeSession) {
 
             alert("Session active");
-
-            if (passedAccSetup) {
-              document.querySelector("#loader .animation-wrapper").style.display = "flex";
-              document.querySelector(".welcome-screen")?.remove();
-            } else {
-              document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScrHTML);
-              document.querySelector("#loader .animation-wrapper").style.display = "none";
-            }
 
             // Show user avatar
 
