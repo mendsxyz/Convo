@@ -226,13 +226,16 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           `;
           
-          welcomeScrHTML = welcomeScr;
+          if (!activeSession) {
+            UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
+            UI.animation_wrapper.style.display = "none";
+          }
 
-          // Welcome screen and functions
+          // Welcome screen and fn
 
-          const welcomeScr_ = document.querySelector(".welcome-screen");
+          const welcomeScr_present = UI.loader.querySelector(".welcome-screen");
 
-          if (welcomeScr_) {
+          if (welcomeScr_present) {
 
             setTimeout(() => {
               const setPfp = document.querySelector(".set-profile-picture");
@@ -562,9 +565,6 @@ document.addEventListener("DOMContentLoaded", () => {
             UI.current_username.textContent = activeSession.email;
           } else {
             alert("Session inactive");
-            
-            UI.loader.insertAdjacentHTML("afterbegin", welcomeScrHTML);
-            UI.animation_wrapper.style.display = "none";
           }
 
           // Retrieve posts
