@@ -120,11 +120,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
     const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
     const emailUsername = activeSession?.email.replace(/@.*/, "");
-    
+
     let welcomeScrHTML, userEmail;
-    
+
     // UI components
-    
+
     const UI = {
       loader: document.querySelector("#loader"),
       animation_wrapper: document.querySelector("#loader .animation-wrapper"),
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cn_links: document.querySelectorAll(".cn-link"),
       post_wrappers: document.querySelectorAll(".posts-wrapper")
     }
-    
+
     if (user) {
       user.reload().then(() => {
         userEmail = user.email;
@@ -225,7 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             </div>
           `;
-          
+
           if (!activeSession) {
             UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
             UI.animation_wrapper.style.display = "none";
@@ -553,18 +553,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
               }
             });
-            
+
             if (passedAccSetup) {
               UI.loader.querySelector(".welcome-screen").remove();
               UI.animation_wrapper.style.display = "flex";
+              UI.loader.classList.remove("active");
+              UI.hero.style.display = "none";
+              UI.auth_content.classList.add("active");
+              UI.authform_wrapper.classList.remove("active");
+              UI.current_username.textContent = activeSession.email;
             }
-            
-            UI.hero.style.display = "none";
-            UI.auth_content.classList.add("active");
-            UI.authform_wrapper.classList.remove("active");
-            UI.current_username.textContent = activeSession.email;
           } else {
-            alert("Session inactive");
+            alert("Session ended");
           }
 
           // Retrieve posts
