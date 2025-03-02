@@ -914,6 +914,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 }
 
 .author .author-tagname {
+  margin-left: 2px;
   font-size: var(--sm);
   font-weight: 300;
   opacity: .5;
@@ -1185,6 +1186,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 }
 
 .commenter-info .commenter-tagname {
+  margin-left: 2px;
   font-weight: 300;
   opacity: .5;
   white-space: nowrap;
