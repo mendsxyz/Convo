@@ -227,11 +227,6 @@ document.addEventListener("DOMContentLoaded", () => {
           `;
           
           welcomeScrHTML = welcomeScr;
-          
-          if (!activeSession) {
-            UI.loader.insertAdjacentHTML("afterbegin", welcomeScrHTML);
-            UI.animation_wrapper.style.display = "none";
-          }
 
           // Welcome screen and functions
 
@@ -555,13 +550,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
               }
             });
-
+            
+            if (passedAccSetup) {
+              UI.loader.querySelector(".welcome-screen").remove();
+              UI.animation_wrapper.style.display = "flex";
+            }
+            
             UI.hero.style.display = "none";
             UI.auth_content.classList.add("active");
             UI.authform_wrapper.classList.remove("active");
             UI.current_username.textContent = activeSession.email;
           } else {
             alert("Session inactive");
+            
+            UI.loader.insertAdjacentHTML("afterbegin", welcomeScrHTML);
+            UI.animation_wrapper.style.display = "none";
           }
 
           // Retrieve posts
