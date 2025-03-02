@@ -227,9 +227,9 @@ document.addEventListener("DOMContentLoaded", () => {
           checkUser();
 
           if (!activeSession) {
-            UI.hero.classList.remove("await-auth");
+            /*UI.hero.classList.remove("await-auth");
             UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
-            UI.animation_wrapper.style.display = "none";
+            UI.animation_wrapper.style.display = "none";*/
           }
 
           // Welcome screen for new users
