@@ -1246,7 +1246,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <img class="commenter-pfp" src="${comment.commenter_avatar}" alt="user_pfp">
                 <span class="commenter-name">
                   ${comment.commenter_name} ${tierMarks[comment.commenter_tier] || ""}
-                  <span class="commenter-tagname">${comment.commenter_tagname}</span>
+                  <span class="commenter-tagname">${"@" + comment.commenter_tagname}</span>
                 </span>
                 <span>•</span>
                 <span class="time-commented" data-id="${commentId}" data-timestamp="${comment.timestamp  ||  Date.now()}">${formatTime(comment.timestamp)}</span>
@@ -1304,7 +1304,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <img class="commenter-pfp" src="${comment.commenter_avatar}" alt="user_pfp">
                     <span class="commenter-name">
                       ${comment.commenter_name} ${tierMarks[comment.commenter_tier] || ""}
-                      <span class="commenter-tagname">${comment.commenter_tagname}</span>
+                      <span class="commenter-tagname">${"@" + comment.commenter_tagname}</span>
                     </span>
                     <span>•</span>
                     <span class="time-commented" data-id="${commentId}" data-timestamp="${comment.timestamp  ||  Date.now()}">${formatTime(comment.timestamp)}</span>
@@ -1477,13 +1477,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const now = Date.now();
             const seconds = Math.floor((now - timestamp) / 1000);
 
-            if (seconds < 60) return `${seconds}s ago`;
+            if (seconds < 60) return `${seconds}s`;
             const minutes = Math.floor(seconds / 60);
-            if (minutes < 60) return `${minutes}m ago`;
+            if (minutes < 60) return `${minutes}m`;
             const hours = Math.floor(minutes / 60);
-            if (hours < 24) return `${hours}h ago`;
+            if (hours < 24) return `${hours}h`;
             const days = Math.floor(hours / 24);
-            if (days <= 6) return `${days}d ago`;
+            if (days <= 6) return `${days}d`;
 
             return new Date(timestamp).toLocaleDateString("en-GB"); // dd/mm/yyyy
           }
