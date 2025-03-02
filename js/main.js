@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
               UI.loader.querySelector(".welcome-screen")?.remove();
               UI.animation_wrapper.style.display = "flex";
             } else {
-              alert("Email verified successfully!");
+              alert("Email verified successfully!", welcomeScr);
               
               setTimeout(() => {
                 UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
