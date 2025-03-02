@@ -66,6 +66,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const nav_toggle = document.querySelector(".nav-toggle");
   const cta_btn = document.querySelector("#ctaBtn");
 
+  // UI components
+
+  const UI = {
+    loader: document.querySelector("#loader"),
+    animation_wrapper: document.querySelector("#loader .animation-wrapper"),
+    refresh: document.querySelector("#loader .refresh"),
+    auth_ok_avatar: document.querySelector("#avatar"),
+    auth_ok_navToggle: document.querySelector(".nav-toggle"),
+    auth_ok_userName: document.querySelector("#userName"),
+    authform_wrapper: document.querySelector(".authForm-wrapper"),
+    nav_links: document.querySelectorAll(".nav-link"),
+    nl_collapsibles: document.querySelectorAll(".nl-collapsible"),
+    current_username: document.querySelector(".current-userName"),
+    hero: document.querySelector(".hero"),
+    auth_content: document.querySelector(".auth-content"),
+    cn_links: document.querySelectorAll(".cn-link"),
+    post_wrappers: document.querySelectorAll(".posts-wrapper")
+  }
+
   // Check if the elements exist
 
   if (!nav || !nav_toggle || !cta_btn) {
@@ -116,25 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const emailUsername = activeSession?.email.replace(/@.*/, "");
 
     let welcomeScrHTML, userEmail;
-
-    // UI components
-
-    const UI = {
-      loader: document.querySelector("#loader"),
-      animation_wrapper: document.querySelector("#loader .animation-wrapper"),
-      refresh: document.querySelector("#loader .refresh"),
-      auth_ok_avatar: document.querySelector("#avatar"),
-      auth_ok_navToggle: document.querySelector(".nav-toggle"),
-      auth_ok_userName: document.querySelector("#userName"),
-      authform_wrapper: document.querySelector(".authForm-wrapper"),
-      nav_links: document.querySelectorAll(".nav-link"),
-      nl_collapsibles: document.querySelectorAll(".nl-collapsible"),
-      current_username: document.querySelector(".current-userName"),
-      hero: document.querySelector(".hero"),
-      auth_content: document.querySelector(".auth-content"),
-      cn_links: document.querySelectorAll(".cn-link"),
-      post_wrappers: document.querySelectorAll(".posts-wrapper")
-    }
 
     if (user) {
       user.reload().then(() => {
@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           if (!activeSession) {
             alert("Session not started");
-            
+
             UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
             UI.animation_wrapper.style.display = "none";
           }
@@ -552,7 +552,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             UI.loader.querySelector(".welcome-screen").style.display = "none";
             UI.animation_wrapper.style.display = "flex";
-            
+
             UI.hero.style.display = "none";
             UI.auth_content.classList.add("active");
             UI.authform_wrapper.classList.remove("active");
