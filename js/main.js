@@ -210,8 +210,8 @@ document.addEventListener("DOMContentLoaded", () => {
           welcomeScrHTML = welcomeScr;
           
           //if (!activeSession) {
-            UI.loader.insertAdjacentHTML("afterbegin", welcomeScrHTML);
-            document.querySelector("#animation-wrapper").style.display = "none";
+            document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScrHTML);
+            document.querySelector("#loader animation-wrapper").style.display = "none";
           
           
           // Welcome screen and functions
