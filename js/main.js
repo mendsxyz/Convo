@@ -212,11 +212,6 @@ document.addEventListener("DOMContentLoaded", () => {
           if (!activeSession) {
             UI.loader.insertAdjacentHTML("afterbegin", welcomeScrHTML);
             document.querySelector("#animation-wrapper").style.display = "none";
-          } else {
-            if (passedAccSetup) {
-              document.querySelector("#loader .welcome-screen").remove();
-              document.querySelector("#animation-wrapper").style.display = "flex";
-            }
           }
           
           // Welcome screen and functions
