@@ -218,6 +218,10 @@ document.addEventListener("DOMContentLoaded", () => {
               UI.animation_wrapper.style.display = "flex";
             } else {
               alert("Email verified successfully!");
+
+              UI.hero.classList.remove("await-auth");
+              UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
+              UI.animation_wrapper.style.display = "none";
             }
           }
 
@@ -1546,7 +1550,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
 
       // Signed out
-      
+
       UI.loader.classList.remove("active");
       UI.hero.classList.remove("await-auth");
       UI.auth_content.classList.remove("active");
