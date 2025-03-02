@@ -28,16 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const states = JSON.parse(localStorage.getItem("states")) || [];
   const main = document.querySelector("main");
 
-  //* Force reset
-  
-  if (localStorage.getItem("states")) {
-    alert("states exist");
-  };
-  
-  if (localStorage.getItem("sessionCache")) localStorage.removeItem("sessionCache");
-  
-  //*/
-
   const signInBtn = document.querySelector(".sign-in");
   const resetPasswordBtn = document.querySelector(".send-reset-link");
   const postBtn = document.querySelector(".send-post");
@@ -114,6 +104,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const emailUsername = activeSession?.email.replace(/@.*/, "");
 
     let welcomeScrHTML, userEmail;
+
+    if (localStorage.getItem("states")) {
+      alert("states exist" + activeSession.state);
+    };
+
+    if (localStorage.getItem("sessionCache")) {
+      alert("sessionCache remains");
+      localStorage.removeItem("sessionCache");
+    }
 
     if (user) {
       user.reload().then(() => {
@@ -220,8 +219,9 @@ document.addEventListener("DOMContentLoaded", () => {
               UI.loader.querySelector(".welcome-screen")?.remove();
               UI.animation_wrapper.style.display = "flex";
             } else {
-              alert("Email verified successfully!" + localStorage.getItem("states") ? localStorage.removeItem("states") : "no states");
-              
+              alert("Email verified successfully!")
+              localStorage.getItem("states") ? localStorage.removeItem("states") : alert("no states");
+
               setTimeout(() => {
                 UI.loader?.insertAdjacentHTML("afterbegin", welcomeScr);
                 UI.animation_wrapper.style.display = "none";
