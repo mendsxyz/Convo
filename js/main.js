@@ -208,10 +208,12 @@ document.addEventListener("DOMContentLoaded", () => {
           `;
 
           welcomeScrHTML = welcomeScr;
+          
+          document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScrHTML);
 
           // Welcome screen and functions
 
-          document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScrHTML);
+          const welcomeScr_ = document.querySelector(".welcome-screen");
 
           if (welcomeScr_) {
 
