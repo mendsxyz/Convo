@@ -209,10 +209,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
           welcomeScrHTML = welcomeScr;
           
-          if (!activeSession) {
+          //if (!activeSession) {
             UI.loader.insertAdjacentHTML("afterbegin", welcomeScrHTML);
             document.querySelector("#animation-wrapper").style.display = "none";
-          }
+          
           
           // Welcome screen and functions
 
