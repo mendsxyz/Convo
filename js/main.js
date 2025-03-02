@@ -120,15 +120,34 @@ document.addEventListener("DOMContentLoaded", () => {
     const passedAccSetup = states.find(state => state.passedAccSetup === "yes");
     const activeSession = states.find(state => state.state === "signedin" || state.state === "signedup");
     const emailUsername = activeSession?.email.replace(/@.*/, "");
-
+    
     let welcomeScrHTML, userEmail;
-
+    
+    // UI components
+    
+    const UI = {
+      loader: document.querySelector("#loader"),
+      animation_wrapper: document.querySelector("#loader .animation-wrapper"),
+      refresh: document.querySelector("#loader .refresh"),
+      auth_ok_avatar: document.querySelector("#avatar"),
+      auth_ok_navToggle: document.querySelector(".nav-toggle"),
+      auth_ok_userName: document.querySelector("#userName"),
+      authform_wrapper: document.querySelector(".authForm-wrapper"),
+      nav_links: document.querySelectorAll(".nav-link"),
+      nl_collapsibles: document.querySelectorAll(".nl-collapsible"),
+      current_username: document.querySelector(".current-userName"),
+      hero: document.querySelector(".hero"),
+      auth_content: document.querySelector(".auth-content"),
+      cn_links: document.querySelectorAll(".cn-link"),
+      post_wrappers: document.querySelectorAll(".posts-wrapper")
+    }
+    
     if (user) {
       user.reload().then(() => {
         userEmail = user.email;
 
         if (user.emailVerified) {
-          
+
           alert("email verified");
 
           // Display success message
@@ -206,14 +225,14 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             </div>
           `;
-
+          
           welcomeScrHTML = welcomeScr;
           
-          //if (!activeSession) {
-            document.querySelector("#loader").insertAdjacentHTML("afterbegin", welcomeScrHTML);
-            document.querySelector("#loader animation-wrapper").style.display = "none";
-          
-          
+          if (!activeSession) {
+            UI.loader.insertAdjacentHTML("afterbegin", welcomeScrHTML);
+            UI.animation_wrapper.style.display = "none";
+          }
+
           // Welcome screen and functions
 
           const welcomeScr_ = document.querySelector(".welcome-screen");
@@ -417,25 +436,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Error saving state:", error);
               }
             });
-          }
-
-          // UI actions
-
-          const UI = {
-            loader: document.querySelector("#loader"),
-            animation_wrapper: document.querySelector("#loader .animation-wrapper"),
-            refresh: document.querySelector("#loader .refresh"),
-            auth_ok_avatar: document.querySelector("#avatar"),
-            auth_ok_navToggle: document.querySelector(".nav-toggle"),
-            auth_ok_userName: document.querySelector("#userName"),
-            authform_wrapper: document.querySelector(".authForm-wrapper"),
-            nav_links: document.querySelectorAll(".nav-link"),
-            nl_collapsibles: document.querySelectorAll(".nl-collapsible"),
-            current_username: document.querySelector(".current-userName"),
-            hero: document.querySelector(".hero"),
-            auth_content: document.querySelector(".auth-content"),
-            cn_links: document.querySelectorAll(".cn-link"),
-            post_wrappers: document.querySelectorAll(".posts-wrapper")
           }
 
           // UI action load time and page refresh animation
