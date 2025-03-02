@@ -1530,12 +1530,12 @@ document.addEventListener("DOMContentLoaded", () => {
             });
           }
 
-          // Run every second to update times in real-time
+          // Run every second to update timestamps in real-time
 
           setInterval(updateCommentTimes, 1000);
         } else {
 
-          // Restrict auth content
+          // Restrict content
 
           alert("Please verify your email to access content.");
 
@@ -1545,21 +1545,23 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     } else {
 
-      // Ensure content is hidden if logged out
-
-      document.querySelector(".auth-content").classList.remove("active");
+      // Signed out
+      
+      UI.loader.classList.remove("active");
+      UI.hero.classList.remove("await-auth");
+      UI.auth_content.classList.remove("active");
     }
   });
 });
 
 // Reset password
 
-const resetPasswordForm = document.querySelector(".resetPasswordForm-wrapper");
+const resetPasswordFormWrapper = document.querySelector(".resetPasswordForm-wrapper");
 const forgotPassword = document.querySelector(".forgot-password");
 
 if (forgotPassword) {
   forgotPassword.addEventListener("click", () => {
-    resetPasswordForm.classList.add("active");
+    resetPasswordFormWrapper.classList.add("active");
   });
 }
 
