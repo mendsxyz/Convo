@@ -104,15 +104,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const emailUsername = activeSession?.email.replace(/@.*/, "");
 
     let welcomeScrHTML, userEmail;
-
+    
+    /* Force reset
+    
     if (localStorage.getItem("states")) {
-      alert("states exist" + activeSession.state);
+      localStorage.removeItem("states");
     };
 
     if (localStorage.getItem("sessionCache")) {
-      alert("sessionCache remains");
       localStorage.removeItem("sessionCache");
     }
+    
+    */
 
     if (user) {
       user.reload().then(() => {
@@ -220,23 +223,18 @@ document.addEventListener("DOMContentLoaded", () => {
               UI.animation_wrapper.style.display = "flex";
             } else {
               alert("Email verified successfully!")
-              localStorage.getItem("states") ? localStorage.removeItem("states") : alert("no states");
+              
+              // localStorage.getItem("states") ? localStorage.removeItem("states") : alert("no states");
 
               setTimeout(() => {
-                UI.loader?.insertAdjacentHTML("afterbegin", welcomeScr);
+                UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
                 UI.animation_wrapper.style.display = "none";
               }, 500);
             }
           }
 
           checkUser();
-
-          if (!activeSession) {
-            UI.hero.classList.remove("await-auth");
-            UI.loader?.insertAdjacentHTML("afterbegin", welcomeScr);
-            UI.animation_wrapper.style.display = "none";
-          }
-
+          
           // Welcome screen for new users
 
           const welcomeScr_present = UI.loader.querySelector(".welcome-screen");
