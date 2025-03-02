@@ -145,8 +145,8 @@ document.addEventListener("DOMContentLoaded", () => {
       // Tier-based limits
 
       const tierLimits = {
-        T1: { maxPosts: 5, maxImages: 5, maxChars: 2500 },
-        T2: { maxPosts: 50, maxImages: 25, maxChars: 100200 },
+        T1: { maxPosts: 5, maxImages: 5, maxChars: 250000 },
+        T2: { maxPosts: 50, maxImages: 25, maxChars: 100000200 },
         T3: { maxPosts: Infinity, maxImages: Infinity, maxChars: Infinity }
       };
 
