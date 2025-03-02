@@ -22,7 +22,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 document.addEventListener("DOMContentLoaded", () => {
-
+  
   // Assign public functions
 
   const states = JSON.parse(localStorage.getItem("states")) || [];
@@ -58,6 +58,15 @@ document.addEventListener("DOMContentLoaded", () => {
     cn_links: document.querySelectorAll(".cn-link"),
     post_wrappers: document.querySelectorAll(".posts-wrapper")
   }
+  
+  // Force remove loader
+  
+  let removeLoader;
+  
+  removeLoader = setTimeout(() => {
+    UI.loader.classList.remove("active");
+    clearTimeout(removeLoader);
+  }, 3000);
 
   // Check if the elements exist
 
@@ -391,10 +400,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem("states", JSON.stringify(states));
 
                 setTimeout(() => {
-                  UI.loader.querySelector(".welcome-screen").remove();
+                  UI.loader.querySelector(".welcome-screen")?.remove();
                 }, 1000);
 
-                UI.loader.querySelector(".animation-wrapper").style.display = "flex";
+                UI.animation_wrapper.style.display = "flex";
 
                 setTimeout(() => {
                   location.reload();
@@ -1511,7 +1520,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           alert("Please verify your email to access content.");
 
-          document.querySelector("#loader").classList.remove("active");
+          UI.loader.classList.remove("active");
           document.querySelector(".welcome-screen")?.remove();
         }
       });
