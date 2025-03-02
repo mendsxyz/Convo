@@ -62,8 +62,8 @@ authSignupForm.addEventListener("submit", (e) => {
       // Set user session
       
       UI.nav.classList.remove("active");
-      UI.hero.style.display = "none";
       UI.authform_wrapper.classList.remove("active");
+      UI.hero?.remove();
     })
     .catch((error) => {
       const errorCode = error.code;

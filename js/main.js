@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let removeLoader;
   
   removeLoader = setTimeout(() => {
-    UI.loader.classList.remove("active");
+    UI.loader?.classList.remove("active");
     clearTimeout(removeLoader);
   }, 10000);
 
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (user.emailVerified) {
 
-          alert("email verified");
+          // alert("email verified");
 
           // Display success message
 
@@ -219,8 +219,9 @@ document.addEventListener("DOMContentLoaded", () => {
           checkUser();
           
           if (!activeSession) {
-            alert("Session not started");
-
+            // alert("Session not started");
+            
+            UI.hero.classList.remove("await-auth");
             UI.loader.insertAdjacentHTML("afterbegin", welcomeScr);
             UI.animation_wrapper.style.display = "none";
           }
@@ -483,7 +484,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           if (activeSession) {
 
-            alert("Session active");
+            // alert("Session started!");
 
             // Show user avatar
 
@@ -516,7 +517,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
               UI.auth_ok_userName.classList.add("active");
             }
-
+            
+            // Signing Out
+            
             UI.nav_links.forEach(link => {
               if (link.classList.contains("signOutBtn")) {
                 link.addEventListener("click", () => {
@@ -524,7 +527,8 @@ document.addEventListener("DOMContentLoaded", () => {
                   if (newState) newState.state = "signedout";
 
                   localStorage.setItem("states", JSON.stringify(states));
-
+                  if (localStorage.getItem("sessionCache")) localStorage.removeItem("sessionCache");
+                  
                   UI.loader.classList.add("active");
                   UI.animation_wrapper.style.display = "flex";
 
@@ -548,7 +552,7 @@ document.addEventListener("DOMContentLoaded", () => {
             UI.loader.querySelector(".welcome-screen")?.remove();
             UI.animation_wrapper.style.display = "flex";
 
-            UI.hero.style.display = "none";
+            UI.hero.classList.add("await-auth");
             UI.auth_content.classList.add("active");
             UI.authform_wrapper.classList.remove("active");
             UI.current_username.textContent = activeSession.email;

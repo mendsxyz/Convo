@@ -55,7 +55,8 @@ authSignupForm.addEventListener("submit", async (e) => {
     if (userState) userState.state = "signedin";
     
     localStorage.setItem("states", JSON.stringify(states));
-
+    localStorage.setItem("sessionCache", "active");
+    
     const safeEmail = userEmail.replace(/\./g, "_");
 
     // Fetch user tier from Firebase
