@@ -30,7 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //* Force reset
   
-  if (localStorage.getItem("states")) localStorage.removeItem("states");
+  if (localStorage.getItem("states")) {
+    alert("states exist");
+  };
+  
   if (localStorage.getItem("sessionCache")) localStorage.removeItem("sessionCache");
   
   //*/
@@ -217,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
               UI.loader.querySelector(".welcome-screen")?.remove();
               UI.animation_wrapper.style.display = "flex";
             } else {
-              alert("Email verified successfully!" + localStorage.getItem("states") ? "states exists" : "no states");
+              alert("Email verified successfully!" + localStorage.getItem("states") ? localStorage.removeItem("states") : "no states");
               
               setTimeout(() => {
                 UI.loader?.insertAdjacentHTML("afterbegin", welcomeScr);
