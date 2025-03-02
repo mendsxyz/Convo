@@ -153,6 +153,15 @@ document.addEventListener("DOMContentLoaded", () => {
                       <input type="file" id="setAvatar" accept="image/*" hidden>
                     </div>
                   </div>
+                  
+                  <div class="input">
+                    <label for="setName" class="name">
+                      <span class="ms-rounded">abc</span>
+                      <span>Set name</span>
+                    </label>
+                    
+                    <input type="text" id="setName" placeholder="What do we call you?" required>
+                  </div>
         
                   <div class="input">
                     <label for="setGender" class="gender">
@@ -172,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       <span class="ms-rounded">123</span>
                       <span>Set birthday</span>
                     </label>
-                    <input type="tel" id="setBirthday" placeholder="DD-MM-YYYY">
+                    <input type="tel" id="setBirthday" placeholder="DD-MM-YYYY" required>
                   </div>
         
                   <div class="input">
@@ -185,7 +194,10 @@ document.addEventListener("DOMContentLoaded", () => {
                   </div>
         
                   <div class="input">
-                    <button type="submit">Continue</button>
+                    <button type="submit">
+                      <span>Continue</span>
+                      <span class="btn-loader"></span>
+                    </button>
                   </div>
                 </form>
               </div>
@@ -352,6 +364,7 @@ document.addEventListener("DOMContentLoaded", () => {
               const interests = document.querySelectorAll(".set-interest");
 
               const setting = {
+                name: document.querySelector("#setName").value,
                 avatarUrl: document.querySelector(".avatar-holder").src,
                 gender: [...genders].find(el => el.classList.contains("active"))?.dataset.gender || "not set",
                 birthday: document.querySelector("#setBirthday").value,
@@ -370,7 +383,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Store user data in Firebase Realtime Database
 
                 await set(ref(db, "users/" + safeEmail), {
-                  username: emailUsername,
+                  name: setting.name,
+                  tagname: emailUsername,
                   email: userEmail.trim(),
                   tier: userTier,
                   avatar: setting.avatarUrl,
@@ -382,7 +396,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
                 const userSetup = {
-                  username: emailUsername,
+                  name: setting.name,
+                  tagname: emailUsername,
                   email: userEmail.trim(),
                   state: "signedup",
                   tier: userTier,
@@ -462,6 +477,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Show user avatar
 
             UI.auth_ok_avatar.classList.add("active");
+            UI.auth_ok_avatar.src = activeSession.avatar;
 
             // Show nav toggle
 
@@ -588,7 +604,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 postsWrapper.innerHTML += `
                   <div class="post" id="post-${postId}" data-id="${postId}">
                     <div class="post-col-1">
-                      <img src="" alt="author-pfp">
+                      <img src="${post.author_avatar}" alt="author-pfp">
                     </div>
                   
                     <div class="post-col-2">
@@ -599,6 +615,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           : (post.author_tier === "T3") ?
                           post.author_name + " " + tierMarks.T3 
                           : post.author_name) || "loading..."}
+                          <span class="author-tag-name">${post.author_tagname}</span>
                         </span>
                         <span>•</span>
                         <span class="time-posted" data-id="${postId}" data-timestamp="${post.time_posted  ||  Date.now()}">${formatTime(post.time_posted)}</span>
@@ -1113,8 +1130,8 @@ document.addEventListener("DOMContentLoaded", () => {
             let refreshComments;
 
             const commentsList = document.querySelector(".comments-list");
-            // const safeEmail = activeSession.email.replace(/\./g, "_");
-            const userName = activeSession.email.replace(/@.*/, "");
+            const userName = activeSession.name;
+            const tagName = activeSession.email.replace(/@.*/, "");
 
             const userRef = ref(db, "users/" + safeEmail);
             const postRef = ref(db, "posts/" + postId);
@@ -1129,6 +1146,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               const userData = userSnapshot.val();
               const userTier = userData.tier;
+              const userAvatar = userData.avatar;
 
               // Fetch current post data
 
@@ -1150,7 +1168,9 @@ document.addEventListener("DOMContentLoaded", () => {
               const newCommentData = {
                 id: commentId,
                 commenter_tier: userTier,
-                commenter_username: userName,
+                commenter_avatar: userAvatar,
+                commenter_name: userName,
+                commenter_tagname: tagName,
                 body: commentText,
                 boosts: 0,
                 boostedBy: {},
@@ -1204,9 +1224,10 @@ document.addEventListener("DOMContentLoaded", () => {
             commentElement.dataset.id = commentId;
             commentElement.innerHTML = `
               <div class="commenter-info">
-                <img class="commenter-pfp" src="" alt="user_pfp">
+                <img class="commenter-pfp" src="${comment.commenter_avatar}" alt="user_pfp">
                 <span class="commenter-username">
                   ${comment.commenter_username} ${tierMarks[comment.commenter_tier] || ""}
+                  <span class="commenter-tag-name">${comment.commenter_tagname}</span>
                 </span>
                 <span>•</span>
                 <span class="time-commented" data-id="${commentId}" data-timestamp="${comment.timestamp  ||  Date.now()}">${formatTime(comment.timestamp)}</span>
@@ -1261,9 +1282,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 commentElement.dataset.id = commentId; // Store comment ID for future actions
                 commentElement.innerHTML = `
                   <div class="commenter-info">
-                    <img class="commenter-pfp" src="" alt="user_pfp">
+                    <img class="commenter-pfp" src="${comment.commenter_avatar}" alt="user_pfp">
                     <span class="commenter-username">
                       ${comment.commenter_username} ${tierMarks[comment.commenter_tier] || ""}
+                      <span class="commenter-tag-name">${comment.commenter_tagname}</span>
                     </span>
                     <span>•</span>
                     <span class="time-commented" data-id="${commentId}" data-timestamp="${comment.timestamp  ||  Date.now()}">${formatTime(comment.timestamp)}</span>
@@ -1330,7 +1352,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               postElement.innerHTML = `
                 <div class="post-col-1">
-                  <img src="" alt="author-pfp">
+                  <img src="${post.author_avatar}" alt="author-pfp">
                 </div>
                 
                 <div class="post-col-2">
@@ -1341,6 +1363,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       : (post.author_tier === "T3") ?
                       post.author_name + " " + tierMarks.T3 
                       : post.author_name) || "loading..."}
+                      <span class="author-tag-name">${post.author_tagname}</span>
                     </span>
                     <span>•</span>
                     <span class="time-posted" data-id="${postId}" data-timestamp="${post.time_posted  ||  Date.now()}">${formatTime(post.time_posted)}</span>

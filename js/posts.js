@@ -86,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const userEmail = states.find(state => state.email !== "");
   const emailToUsername = userEmail.email.replace(/@.*/, "");
   const userTier = userEmail.tier;
+  const userName = userEmail.name;
   
   const createPostForm = document.querySelector("#createPostForm");
   createPostForm.addEventListener("submit", async (e) => {
@@ -131,7 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const userRef = ref(db, "users/" + safeEmail);
       const userSnapshot = await get(userRef);
-      let userTier;
+      
+      let userTier, userAvatar = userSnapshot.val().avatar;
       
       if (userSnapshot.exists()) {
         userTier = userSnapshot.val().tier || "T1"; // Default to T1 if missing
@@ -196,7 +198,9 @@ document.addEventListener("DOMContentLoaded", () => {
           body,
           imgUrl: imgUrl || existingPost.imgUrl,
           time_posted: existingPost.time_posted,
-          author_name: existingPost.author_name || "Unknown Author"
+          author_avatar: existingPost.author_avatar || "",
+          author_name: existingPost.author_name || "Anon",
+          author_tagname: existingPost.author_tagname || "unknown"
         });
 
         alert("Post updated successfully!");
@@ -218,8 +222,10 @@ document.addEventListener("DOMContentLoaded", () => {
         await set(newPostRef, {
           id: newPostRef.key,
           user_email: userEmail.email,
+          author_avatar: userAvatar,
           author_tier: userTier,
-          author_name: emailToUsername.trim(),
+          author_name: userName,
+          author_tagname: emailToUsername.trim(),
           time_posted: Date.now(),
           body,
           imgUrl,

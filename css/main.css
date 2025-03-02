@@ -311,6 +311,7 @@ html:has(.resetPasswordForm-wrapper.active) .nav-link {
 .btn-loader {
   width: 25px;
   height: 25px;
+  display: none;
   border-radius: 100%;
   border-width: 3px;
   border-style: solid;
@@ -318,6 +319,21 @@ html:has(.resetPasswordForm-wrapper.active) .nav-link {
   border-left-color: var(--lshade);
   border-right-color: var(--lshade);
   border-bottom-color: var(--lshade);
+  animation: spin2 .3s linear forwards;
+}
+
+@keyframes spin2 {
+  from {
+    transform: rotate(0);
+  }
+  
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+button:has(.btn-loader):hover .btn-loader {
+  display: flex;
 }
 
 /* Welcome screen for new users */
