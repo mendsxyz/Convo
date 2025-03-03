@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function insertImage(imageSrc) {
     const img = document.createElement("img");
+    img.classList.add("lazy-load");
     img.src = imageSrc;
     img.style.border = "1px solid #ddd";
     img.style.borderRadius = "15px";

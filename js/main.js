@@ -25,13 +25,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Lazy image load
 
-  const postImages = document.querySelectorAll(".post-body img");
+  const postImages = document.querySelectorAll(".post .lazy-load");
 
   if (postImages) {
     alert("post images present");
     
     postImages.forEach(img => {
-      img.src = "";
+      console.log(img.outerHTML);
     });
   }
 
