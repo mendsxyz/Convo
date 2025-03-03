@@ -800,7 +800,7 @@ main {
   background: var(--light);
   width: 100%;
   height: 32px;
-  border: 2px solid var(--lshade);
+  border-bottom: 2px solid var(--lshade);
   display: flex;
   align-items: center;
   justify-content: left;
@@ -812,7 +812,6 @@ main {
 
 .auth-content .feed .content-nav div {
   height: 100%;
-  border-right: 2px solid var(--lshade);
 }
 
 .auth-content .feed .content-nav div:first-child {
@@ -1532,8 +1531,8 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
     grid-template-columns: 60% 40%;
     gap: var(--sm2);
   }
-
-  .auth-content .content-nav div:first-child {
+  
+  .auth-content .feed .content-nav div:first-child {
     padding-left: 10%;
   }
 

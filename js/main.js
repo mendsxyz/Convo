@@ -23,13 +23,25 @@ const db = getDatabase(app);
 
 document.addEventListener("DOMContentLoaded", () => {
 
+  // Lazy image load
+
+  const postImages = document.querySelectorAll(".post-body img");
+
+  if (postImages) {
+    alert("post images present");
+    
+    postImages.forEach(img => {
+      img.src = "";
+    });
+  }
+
   // Assign public functions
 
   const states = JSON.parse(localStorage.getItem("states")) || [];
   const main = document.querySelector("main");
 
   const awaitBtns = document.querySelectorAll("button.awaitable");
-  
+
   // UI components
 
   const nav = document.querySelector("nav.auto");
@@ -59,18 +71,18 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     awaitBtns.forEach(btn => {
       let awaitSpan;
-      
+
       btn.addEventListener("click", () => {
         btn.classList.add("active");
-        
+
         awaitSpan = setTimeout(() => {
           btn.classList.remove("active");
-          
+
           clearTimeout(awaitSpan);
         }, 5000);
       });
     });
-    
+
     nav_toggle.addEventListener("click", () => {
       nav.classList.toggle("active");
       if (nav.classList.contains("active")) {
@@ -117,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let welcomeScrHTML, userEmail;
 
     /* ⚠️ Force reset ⚠️
-    
+
     if (localStorage.getItem("states")) {
       localStorage.removeItem("states");
     };
@@ -125,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("sessionCache")) {
       localStorage.removeItem("sessionCache");
     }
-    
+
     */
 
     if (user) {
@@ -249,7 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           async function initialize() {
             await userSetup();
-            
+
             if (welcomeScrLoaded) {
               setTimeout(() => {
                 const setPfp = document.querySelector(".set-profile-picture");
@@ -450,7 +462,7 @@ document.addEventListener("DOMContentLoaded", () => {
               });
             }
           };
-          
+
           initialize();
 
           // Page loaded and page refresh: remove loader
@@ -497,7 +509,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // Check user session
 
           if (activeSession) {
-            
+
             // Show user avatar
 
             if (UI.auth_ok_avatar) {
@@ -1115,15 +1127,15 @@ document.addEventListener("DOMContentLoaded", () => {
             postComments.classList.remove("active");
 
             // Reset active post ID
-            
+
             activePostId = null;
 
             // Clear comment input
-            
+
             commentBody.innerHTML = "";
 
             // Clear comments list
-            
+
             const commentsList = postComments.querySelector(".comments-list");
             commentsList.innerHTML = "";
           });
@@ -1133,7 +1145,7 @@ document.addEventListener("DOMContentLoaded", () => {
           commentForm.addEventListener("submit", handleSubmitComment);
 
           // Helper function for handling comments
-          
+
           async function handleSubmitComment(event) {
             event.preventDefault();
             event.stopPropagation();
