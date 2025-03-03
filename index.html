@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-signin-client_id" content="754387532769-2vrnrga8vunfjk7hbislp168u36hjsr2.apps.googleusercontent.com">
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  
+
   <title>Convo - Read | write | connect</title>
 
   <!-- stylesheets -->
@@ -157,16 +157,6 @@
 
     <div class="auth-content">
       <div class="feed">
-        <div class="content-nav">
-          <div class="cn-link active" data-tab="for-you-posts">
-            <span class="ms-rounded">for_you</span>
-          </div>
-
-          <div class="cn-link" data-tab="saved-posts">
-            <span class="ms-rounded">bookmark</span>
-          </div>
-        </div>
-
         <div class="posts-container">
           <div class="posts-wrapper for-you-posts active">
             <h3 style="text-align: center; margin-top: 4rem;">Fetching posts...</h3>
@@ -176,10 +166,6 @@
             <h3 style="text-align: center; margin-top: 4rem;">Fetching saved posts...</h3>
           </div>
         </div>
-
-        <a href="/post.html" class="edit-post">
-          <span class="ms-rounded">edit</span>
-        </a>
       </div>
 
       <div class="utility">
@@ -202,7 +188,7 @@
 
         <div class="card user-menu">
           <div class="user-settings">
-            
+
           </div>
           <div class="help"></div>
           <div class="sign-out"></div>
@@ -236,6 +222,20 @@
     <div id="loader" class="active">
       <div class="animation-wrapper">
         <span class="page-loader"></span>
+      </div>
+    </div>
+
+    <div class="content-nav">
+      <div class="cn-link active" data-tab="for-you-posts">
+        <span class="ms-rounded">for_you</span>
+      </div>
+
+      <a href="/post.html" class="edit-post">
+        <span class="ms-rounded">edit</span>
+      </a>
+
+      <div class="cn-link" data-tab="saved-posts">
+        <span class="ms-rounded">bookmark</span>
       </div>
     </div>
   </main>

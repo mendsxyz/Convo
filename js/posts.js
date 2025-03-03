@@ -55,6 +55,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const file = event.target.files[0];
     if (!file) return;
 
+    const maxSize = 514 * 1024;
+
+    if (file.size > maxSize) {
+      alert("File size exceeds 514KB limit.");
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = function(e) {
       insertImage(e.target.result);
@@ -64,11 +71,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function insertImage(imageSrc) {
     const img = document.createElement("img");
-    img.classList.add("lazy-load");
     img.src = imageSrc;
+    img.style.maxHeight = "300px";
+    img.style.objectFit = "cover";
+    img.style.objectPosition = "center";
     img.style.border = "1px solid #ddd";
     img.style.borderRadius = "15px";
-    img.style.maxWidth = "100%";
+    img.style.marginTop = "5px";
+    img.style.width = "100%";
 
     const selection = window.getSelection();
     if (!selection.rangeCount) {
@@ -83,12 +93,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Build post data
 
   let states = JSON.parse(localStorage.getItem("states")) || [];
-  
+
   const userEmail = states.find(state => state.email !== "");
   const emailToUsername = userEmail.email.replace(/@.*/, "");
   const userTier = userEmail.tier;
   const userName = userEmail.name;
-  
+
   const createPostForm = document.querySelector("#createPostForm");
   createPostForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -128,14 +138,14 @@ document.addEventListener("DOMContentLoaded", () => {
       // Get and sanitize user email
 
       const safeEmail = userEmail.email.replace(/\./g, "_");
-      
+
       // Fetch user tier from Firebase
 
       const userRef = ref(db, "users/" + safeEmail);
       const userSnapshot = await get(userRef);
-      
+
       let userTier, userAvatar = userSnapshot.val().avatar;
-      
+
       if (userSnapshot.exists()) {
         userTier = userSnapshot.val().tier || "T1"; // Default to T1 if missing
         console.log("User tier found:", userTier);
@@ -204,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         localStorage.removeItem("postId");
         localStorage.removeItem("edit");
-        
+
         setTimeout(() => {
           localStorage.removeItem("storedData");
         }, 2000);

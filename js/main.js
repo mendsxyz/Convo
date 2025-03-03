@@ -23,18 +23,6 @@ const db = getDatabase(app);
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  // Lazy image load
-
-  const postImages = document.querySelectorAll(".post .lazy-load");
-
-  if (postImages) {
-    alert("post images present");
-    
-    postImages.forEach(img => {
-      console.log(img.outerHTML);
-    });
-  }
-
   // Assign public functions
 
   const states = JSON.parse(localStorage.getItem("states")) || [];
@@ -676,7 +664,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                   </div>
                 `;
-
+                
                 // Individual post actions
 
                 const posts = document.querySelectorAll(".post");
