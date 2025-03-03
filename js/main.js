@@ -665,6 +665,16 @@ document.addEventListener("DOMContentLoaded", () => {
                   </div>
                 `;
                 
+                // Post image actions
+                
+                const postImages = document.querySelectorAll(".post-body img");
+                
+                postImages.forEach(img => {
+                  img.addEventListener("click", () => {
+                    img.classList.toggle("expanded");
+                  });
+                });
+                
                 // Individual post actions
 
                 const posts = document.querySelectorAll(".post");
