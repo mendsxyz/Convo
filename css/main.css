@@ -1519,7 +1519,22 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   }
 }
 
-@media screen and (min-width: 758px) {
+@media screen and (min-width: 668px) {
+  header {
+    height: 60px;
+    padding: 0 15%;
+  }
+
+  .auth-content.active {
+    padding: 0 15%;
+  }
+
+  .posts-container {
+    padding: 0 !important;
+  }
+}
+
+@media screen and (min-width: 868px) {
   header {
     height: 60px;
     padding: 0 20%;
