@@ -1344,7 +1344,6 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 .utility {
   height: fit-content;
   padding: 50px 0;
-  display: none;
   overflow-y: hidden;
 }
 
@@ -1637,10 +1636,10 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   }
 
   .auth-content.active {
-    padding: 0 1%;
+    padding: 0;
     display: grid;
     align-content: start;
-    grid-template-columns: 18% 64% 18%;
+    grid-template-columns: 20% 58% 20%;
     gap: 1%;
   }
   
@@ -1687,12 +1686,6 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 
   #commentForm {
     padding: 12px;
-  }
-
-  .utility {
-    display: grid;
-    grid-auto-flow: row;
-    gap: var(--sm2);
   }
 
   .utility .card.user-menu {
