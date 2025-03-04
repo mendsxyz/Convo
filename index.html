@@ -158,27 +158,22 @@
     <div class="auth-content">
       <div class="utility">
         <div class="card user-menu">
-          <div class="nav-link cn-link">
+          <div class="nav-link cn-link" data-tab="for-you-posts">
             <span class="ms-rounded">for_you</span>
             <span style="width: 100%">For you</span>
           </div>
-        </div>
-      </div>
 
-      <div class="feed">
-        <div class="posts-container">
-          <div class="posts-wrapper for-you-posts active">
-            <h3 style="text-align: center; margin-top: 4rem;">Fetching posts...</h3>
+          <div class="nav-link cn-link" data-tab="saved-posts">
+            <span class="ms-rounded">bookmark</span>
+            <span style="width: 100%">Saved</span>
           </div>
 
-          <div class="posts-wrapper saved-posts">
-            <h3 style="text-align: center; margin-top: 4rem;">Fetching saved posts...</h3>
-          </div>
-        </div>
-      </div>
-
-      <div class="utility">
-        <div class="card user-menu">
+          <a href="/post.html" class="edit-post">
+            <span class="ms-rounded">edit</span>
+          </a>
+          
+          <!-- Account --->
+          
           <div class="nav-link">
             <span class="userName" id="userName"></span>
           </div>
@@ -218,6 +213,24 @@
             <span class="ms-rounded">logout</span>
             <span>Sign Out</span>
           </div>
+        </div>
+      </div>
+
+      <div class="feed">
+        <div class="posts-container">
+          <div class="posts-wrapper for-you-posts active">
+            <h3 style="text-align: center; margin-top: 4rem;">Fetching posts...</h3>
+          </div>
+
+          <div class="posts-wrapper saved-posts">
+            <h3 style="text-align: center; margin-top: 4rem;">Fetching saved posts...</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="utility">
+        <div class="card user-menu">
+          
         </div>
       </div>
     </div>
