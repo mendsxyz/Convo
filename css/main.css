@@ -1089,7 +1089,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   background: var(--light);
   width: 100%;
   height: 100%;
-  padding: 15px 5% 0 5%;
+  padding: 2rem;
   max-width: 600px;
   overflow-y: auto;
   opacity: 0;
@@ -1660,7 +1660,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 
   .post {
     max-width: 600px;
-    padding: 10px 20px 10px 0;
+    padding: 10px 20px;
     margin: auto;
     gap: var(--md2);
   }
