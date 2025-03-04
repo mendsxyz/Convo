@@ -83,13 +83,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function insertImage(imageSrc) {
     const img = document.createElement("img");
     img.src = imageSrc;
-    
-    // console.log("image height: " + imgHeight);
-    img.setAttribute("data-height", imgHeight);
 
-    setTimeout(() => {
-      localStorage.removeItem("uploadedImgFileHeight");
-    }, 8000);
+    // console.log("image height: " + imgHeight);
+    
+    img.setAttribute("data-height", imgHeight);
 
     img.style.maxHeight = "300px";
     img.style.objectFit = "cover";
