@@ -953,6 +953,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   top: 5%;
   right: 5%;
   z-index: 10;
+  cursor: pointer;
 }
 
 .close-expandedImgView span {
