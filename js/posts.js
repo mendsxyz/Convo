@@ -95,6 +95,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const selection = window.getSelection();
     if (!selection.rangeCount) {
       bodyEditor.appendChild(img);
+
+      setTimeout(() => {
+        localStorage.removeItem("uploadedImgFileHeight");
+      }, 3000);
     } else {
       const range = selection.getRangeAt(0);
       range.deleteContents();
