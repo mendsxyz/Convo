@@ -72,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       imgFile.onload = function() {
         console.log(imgFile.height);
+        localStorage.setItem("uploadedImgFileHeight", imgFile.height);
       }
     };
     reader.readAsDataURL(file);
@@ -80,6 +81,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function insertImage(imageSrc) {
     const img = document.createElement("img");
     img.src = imageSrc;
+
+    const imgHeight = localStorage.getItem("uploadedImgFileHeight");
+    img.setAttribute("data-height", imgHeight);
+
     img.style.maxHeight = "300px";
     img.style.objectFit = "cover";
     img.style.objectPosition = "center";
@@ -91,6 +96,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const selection = window.getSelection();
     if (!selection.rangeCount) {
       bodyEditor.appendChild(img);
+      setTimeout(() => {
+        localStorage.removeItem("uploadedImgFileHeight");
+      }, 500);
     } else {
       const range = selection.getRangeAt(0);
       range.deleteContents();
