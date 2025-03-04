@@ -1373,6 +1373,17 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   font-size: var(--sm)!important;
 }
 
+.utility .card.user-menu .edit-post {
+  background: var(--primary);
+  color: var(--light);
+  width: fit-content;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Posting html */
 
 .createPostForm-wrapper {
