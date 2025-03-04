@@ -78,11 +78,12 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.readAsDataURL(file);
   });
 
+  let imgHeight = localStorage.getItem("uploadedImgFileHeight") || 0;
+
   function insertImage(imageSrc) {
     const img = document.createElement("img");
     img.src = imageSrc;
-
-    let imgHeight = localStorage.getItem("uploadedImgFileHeight") || 0;
+    
     // console.log("image height: " + imgHeight);
     img.setAttribute("data-height", imgHeight);
 
