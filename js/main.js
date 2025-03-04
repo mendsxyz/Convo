@@ -679,7 +679,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     img.classList.add("expanded");
 
                     if (img.dataset.height > 1000) {
-                      alert(img.dataset.height);
+                      img.style.maxWidth = auto;
+                      img.style.height = "100%";
                     }
 
                     const closeExpandedImgViewHTML = document.createElement("div");
