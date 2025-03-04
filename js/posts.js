@@ -77,9 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (imgHeight) {
           localStorage.removeItem("uploadedImgFileHeight");
-          setTimeout(() => {
-            localStorage.setItem("uploadedImgFileHeight", JSON.stringify(imgFile.height));
-          }, 500);
+          localStorage.setItem("uploadedImgFileHeight", JSON.stringify(imgFile.height));
         }
       }
     };
