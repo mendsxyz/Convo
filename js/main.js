@@ -677,6 +677,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                   function expandImg() {
                     img.classList.add("expanded");
+                    img.style.marginTop = "0";
 
                     if (img.dataset.height > 2000) {
                       console.log("image height greater than 2000");
@@ -703,6 +704,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   function imgExpandedOk_close(e) {
                     if (document.querySelector(".close-expandedImgView").contains(e.target)) {
                       img.style.maxWidth = "100%";
+                      img.style.marginTop = "5px";
                       img.classList.remove("expanded");
                       img.addEventListener("click", expandImg);
                       document.querySelector(".close-expandedImgView").removeEventListener("click", imgExpandedOk_close);
