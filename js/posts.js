@@ -83,7 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
     img.src = imageSrc;
 
     let imgHeight = localStorage.getItem("uploadedImgFileHeight") || 0;
-    img.setAttribute("data-height", imgHeight);
+    console.log("image height: " + imgHeight);
+    //img.setAttribute("data-height", imgHeight);
 
     setTimeout(() => {
       localStorage.removeItem("uploadedImgFileHeight");
