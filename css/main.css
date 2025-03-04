@@ -1627,6 +1627,8 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 
   .post-body img.expanded {
     max-width: 600px;
+    object-fit: unset;
+    object-position: unset;
   }
 
   .post-comments-overlay.active .post-comments {
