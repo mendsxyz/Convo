@@ -1382,15 +1382,16 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   color: var(--light);
   width: 100%;
   height: 30px;
+  padding: 0 16px;
   border-radius: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   gap: 10px;
   text-decoration: none;
 }
 
-.utility .card.user-menu .edit-post > span:first-child {
+.utility .card.user-menu .edit-post span.ms-rounded {
   font-size: var(--md)!important;
 }
 
