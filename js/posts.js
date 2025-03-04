@@ -72,17 +72,19 @@ document.addEventListener("DOMContentLoaded", () => {
   function insertImage(imageSrc) {
     const imgFile = new Image();
 
+    let imageheight;
+
     imgFile.onload = function() {
       
       // Get image dimensions
 
       const width = imgFile.width;
       const height = imgFile.height;
-  
-      // Add a data-height attribute to the image
 
-      imgFile.dataset.height = `${height}`;
+      imageheight = height;
     }
+
+    console.log(imageheight);
 
     const img = document.createElement("img");
     img.src = imageSrc;
