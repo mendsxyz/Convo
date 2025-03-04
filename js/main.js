@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       <span class="ms-rounded">123</span>
                       <span>Set birthday</span>
                     </label>
-                    <input type="tel" id="setBirthday" placeholder="DD-MM-YYYY" required>
+                    <input type="tel" id="setBirthday" placeholder="DD-MM-YYYY" minlength="10" maxlength="10" required>
                   </div>
         
                   <div class="input">
