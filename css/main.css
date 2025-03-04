@@ -1343,7 +1343,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 
 .utility {
   height: fit-content;
-  padding: 50px 5% 50px 4%;
+  padding: 50px 10%;
   overflow-y: hidden;
 }
 
@@ -1639,7 +1639,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
     padding: 0;
     display: grid;
     align-content: start;
-    grid-template-columns: 24% 50% 24%;
+    grid-template-columns: 15% 50% 33%;
     gap: 1%;
   }
   
