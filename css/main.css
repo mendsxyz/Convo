@@ -1390,6 +1390,10 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   text-decoration: none;
 }
 
+.utility .card.user-menu .edit-post > span:first-child {
+  font-size: var(--md)!important;
+}
+
 /* Posting html */
 
 .createPostForm-wrapper {
