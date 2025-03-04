@@ -1611,11 +1611,11 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   }
 
   .auth-content.active {
-    padding: 0 3% 0 15%;
+    padding: 0 1% 0 15%;
     display: grid;
     align-content: start;
-    grid-template-columns: 70% 27%;
-    gap: 3%;
+    grid-template-columns: 70% 29%;
+    gap: 1%;
   }
 
   .auth-content .feed {
