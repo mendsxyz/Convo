@@ -72,17 +72,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
       imgFile.onload = function() {
         console.log(imgFile.height);
-        localStorage.setItem("uploadedImgFileHeight", imgFile.height);
+        localStorage.setItem("uploadedImgFileHeight", JSON.stringify(imgFile.height));
       }
     };
     reader.readAsDataURL(file);
   });
 
-  let imgHeight = localStorage.getItem("uploadedImgFileHeight") || 0;
+  let imgHeight = JSON.parse(localStorage.getItem("uploadedImgFileHeight")) || 0;
 
   function insertImage(imageSrc) {
     const img = document.createElement("img");
     img.src = imageSrc;
+    img.dataset.height = imgHeight;
     img.style.maxHeight = "300px";
     img.style.objectFit = "cover";
     img.style.objectPosition = "center";
@@ -94,7 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const selection = window.getSelection();
     if (!selection.rangeCount) {
       bodyEditor.appendChild(img);
-      img.setAttribute("data-height", imgHeight);
     } else {
       const range = selection.getRangeAt(0);
       range.deleteContents();
