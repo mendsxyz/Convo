@@ -702,6 +702,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                   function imgExpandedOk_close(e) {
                     if (document.querySelector(".close-expandedImgView").contains(e.target)) {
+                      img.style.maxWidth = "100%";
                       img.classList.remove("expanded");
                       img.addEventListener("click", expandImg);
                       document.querySelector(".close-expandedImgView").removeEventListener("click", imgExpandedOk_close);
