@@ -152,7 +152,7 @@ nav.auto {
   background: var(--light);
   width: 100%;
   height: 50vh;
-  padding: 6%;
+  padding: 2rem;
   border-radius: 30px 30px 0 0;
   display: flex;
   align-items: center;
@@ -580,7 +580,7 @@ button.awaitable.active span:first-child {
   transform: translateY(-50%);
 }
 
-#userName {
+.userName {
   background: var(--lshade);
   padding: 5px 30px 5px 15px;
   display: none;
@@ -592,11 +592,11 @@ button.awaitable.active span:first-child {
   position: relative;
 }
 
-#userName.active {
+.userName.active {
   display: flex;
 }
 
-#userName.active::after {
+.userName.active::after {
   content: "";
   background: var(--success);
   width: 10px;
@@ -653,7 +653,6 @@ main {
   width: 100%;
   min-height: 90vh;
   padding: 0;
-  overflow: hidden;
 }
 
 #loader {
@@ -795,7 +794,6 @@ main {
   display: grid;
   grid-auto-flow: row;
   position: relative;
-  overflow-y: auto;
 }
 
 .auth-content .posts-container {
@@ -804,7 +802,6 @@ main {
   padding: 0 5%;
   display: grid;
   grid-template-columns: 100% 0;
-  overflow-y: auto;
 }
 
 html:has(.posts-wrapper.saved-posts.active) .posts-container {
@@ -897,8 +894,8 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   width: 100%;
   height: auto;
   display: -webkit-box;
-  line-clamp: 10;
-  -webkit-line-clamp: 10;
+  line-clamp: 8;
+  -webkit-line-clamp: 8;
   -webkit-box-orient: vertical;
   font-size: var(--sm);
   line-height: 1.5;
@@ -935,7 +932,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 
 .post-body:has(img.expanded)::after {
   content: "";
-  background: var(--dark);
+  background: var(--light);
   width: 100%;
   height: 100%;
   position: fixed;
@@ -944,8 +941,28 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   z-index: 9;
 }
 
+.close-expandedImgView {
+  background: var(--lshade);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  position: fixed;
+  top: 5%;
+  right: 5%;
+  z-index: 10;
+}
+
+.close-expandedImgView span {
+  font-size: 25px;
+  margin-top: 1px;
+}
+
 .post-analytics {
   width: 100%;
+  margin-top: 9px;
   display: flex;
   align-items: center;
   justify-content: left;
@@ -1062,7 +1079,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
   background: var(--light);
   width: 100%;
   height: 100%;
-  padding: 15px 5% 50px 5%;
+  padding: 15px 5% 0 5%;
   max-width: 600px;
   overflow-y: auto;
   opacity: 0;
@@ -1206,16 +1223,27 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   background: var(--light);
   width: 100%;
   max-width: 600px;
+  padding: 0 0 5px 0;
 }
 
 #commentForm {
+  background: var(--light);
   width: 100%;
-  padding: 9px 9px 15px;
+  height: auto;
+  padding: 9px;
   border-radius: 0;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   gap: 9px;
+  position: relative;
+}
+
+#commentForm label {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%);
 }
 
 #commentForm .comment-body {
@@ -1252,7 +1280,8 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 .content-nav {
   background: var(--light);
   width: 100%;
-  padding: 7px 5%;
+  height: 45px;
+  padding: 0 5%;
   border-top: 1px solid var(--lshade);
   display: flex;
   align-items: center;
@@ -1262,6 +1291,10 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   bottom: 0;
   left: 0;
   z-index: 8;
+}
+
+.content-nav.hide {
+  bottom: -100%;
 }
 
 .content-nav div {
@@ -1292,8 +1325,8 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 .content-nav .edit-post {
   background: var(--primary);
   color: var(--light);
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1301,6 +1334,40 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   text-decoration: none;
 }
 
+.utility {
+  width: 100%;
+  height: fit-content;
+  padding: 50px 0;
+  display: none;
+  border-top: 2px solid var(--lshade);
+  overflow-y: hidden;
+}
+
+.utility .card {
+  background: var(--light);
+  width: 100%;
+  min-height: 200px;
+  border: 2px solid var(--lshade);
+  border-radius: 15px;
+}
+
+.utility .card.user-menu {
+  padding: 5%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.utility .card.user-menu .nav-link span.ms-rounded,
+.utility .card.user-menu .nl-collapsible span.ms-rounded {
+  font-size: var(--md)!important;
+}
+
+.utility .card.user-menu .nav-link span:not(span.ms-rounded),
+.utility .card.user-menu .nl-collapsible span:not(span.ms-rounded) {
+  font-size: var(--sm)!important;
+}
 
 /* Posting html */
 
@@ -1438,33 +1505,37 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   transform: scale(1.05);
 }
 
-.utility {
-  width: 100%;
-  height: fit-content;
-  padding: 50px 0;
-  display: none;
-  border-top: 2px solid var(--lshade);
-  overflow-y: hidden;
-}
-
-.utility .card {
-  background: var(--light);
-  width: 100%;
-  min-height: 200px;
-  border: 2px solid var(--lshade);
-  border-radius: 15px;
-}
-
 /* Medium screens */
-
-@media screen and (min-width: 768px) {}
-
-/* Wide screens */
 
 @media screen and (min-width: 768px) {
   header {
     height: 60px;
-    padding: 0 10%;
+    padding: 0 20%;
+  }
+  
+  nav.auto.active {
+    width: 60%;
+    height: 50vh;
+    margin-left: 20%;
+    border-radius: 20px;
+    bottom: 25vh;
+  }
+  
+  .auth-content.active {
+    padding: 0 20%;
+  }
+  
+  .posts-container {
+    padding: 0 !important;
+  }
+}
+
+/* Wide screens */
+
+@media screen and (min-width: 1024px) {
+  header {
+    height: 60px;
+    padding: 0 15%;
   }
 
   header .site-id {
@@ -1478,6 +1549,10 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 
   header .site-id #userName {
     font-size: var(--sm2);
+  }
+  
+  header .nav-toggle {
+    display: none;
   }
 
   .welcome-screen {
@@ -1535,11 +1610,11 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   }
 
   .auth-content.active {
-    padding: 0 10%;
+    padding: 0 3% 0 15%;
     display: grid;
     align-content: start;
-    grid-template-columns: 60% 40%;
-    gap: var(--sm2);
+    grid-template-columns: 70% 30%;
+    gap: var(--sm);
   }
 
   .auth-content .feed {
@@ -1575,11 +1650,12 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   }
 
   .commentForm-wrapper {
+    padding: 0;
     border-radius: 0 0 22px 14px;
   }
 
   #commentForm {
-    padding: 5px;
+    padding: 12px;
   }
 
   .utility {
@@ -1587,23 +1663,17 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
     grid-auto-flow: row;
     gap: var(--sm2);
   }
-  
-  .content-nav div:first-child {
-    padding-left: 10%;
-  }
-
-  .content-nav .cn-link {
-    padding: 6px 18px;
-  }
 
   .content-nav .edit-post {
-    width: 33px;
-    height: 33px;
+    width: 35px;
+    height: 35px;
   }
 
   .content-nav .edit-post span {
     font-size: var(--md2);
   }
+  
+  
 
   /* Posting html */
 

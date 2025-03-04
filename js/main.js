@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const nav = document.querySelector("nav.auto");
   const nav_toggle = document.querySelector(".nav-toggle");
+  const content_nav = document.querySelector(".content-nav");
   const cta_btn = document.querySelector("#ctaBtn");
 
   const UI = {
@@ -41,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     animation_wrapper: document.querySelector("#loader .animation-wrapper"),
     auth_ok_avatar: document.querySelector("#avatar"),
     auth_ok_navToggle: document.querySelector(".nav-toggle"),
-    auth_ok_userName: document.querySelector("#userName"),
+    auth_ok_userName: document.querySelectorAll(".userName"),
     authform_wrapper: document.querySelector(".authForm-wrapper"),
     nav_links: document.querySelectorAll(".nav-link"),
     nl_collapsibles: document.querySelectorAll(".nl-collapsible"),
@@ -523,14 +524,14 @@ document.addEventListener("DOMContentLoaded", () => {
             if (UI.auth_ok_userName) {
 
               if (activeSession.tier === "T2") {
-                UI.auth_ok_userName.innerHTML = `${emailUsername + " " + tierMarks.T2}`;
+                UI.auth_ok_userName.forEach(username => username.innerHTML = `${emailUsername + " " + tierMarks.T2}`);
               } else if (activeSession.tier === "T3") {
-                UI.auth_ok_userName.innerHTML = `${emailUsername + " " + tierMarks.T3}`;
+                UI.auth_ok_userName.forEach(username => username.innerHTML = `${emailUsername + " " + tierMarks.T3}`);
               } else {
-                UI.auth_ok_userName.innerHTML = emailUsername;
+                UI.auth_ok_userName.forEach(username => username.innerHTML = emailUsername);
               }
 
-              UI.auth_ok_userName.classList.add("active");
+              UI.auth_ok_userName.forEach(username => username.classList.add("active"));
             }
 
             // Signing Out
@@ -664,17 +665,43 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                   </div>
                 `;
-                
+
                 // Post image actions
-                
+
                 const postImages = document.querySelectorAll(".post-body img");
-                
+
                 postImages.forEach(img => {
-                  img.addEventListener("click", () => {
-                    img.classList.toggle("expanded");
-                  });
+                  img.addEventListener("click", expandImg);
+
+                  function expandImg() {
+                    img.classList.add("expanded");
+
+                    const closeExpandedImgViewHTML = document.createElement("div");
+                    closeExpandedImgViewHTML.classList.add("close-expandedImgView");
+                    closeExpandedImgViewHTML.innerHTML = `
+                      <span class="ms-rounded">close</span>
+                    `;
+
+                    main.appendChild(closeExpandedImgViewHTML);
+
+                    const closeExpandedImgView = document.querySelector(".close-expandedImgView");
+
+                    if (img.classList.contains("expanded")) {
+                      closeExpandedImgView.addEventListener("click", imgExpandedOk_close);
+                      img.removeEventListener("click", expandImg);
+                    }
+                  };
+
+                  function imgExpandedOk_close(e) {
+                    if (document.querySelector(".close-expandedImgView").contains(e.target)) {
+                      img.classList.remove("expanded");
+                      img.addEventListener("click", expandImg);
+                      document.querySelector(".close-expandedImgView").removeEventListener("click", imgExpandedOk_close);
+                      document.querySelector(".close-expandedImgView").remove();
+                    }
+                  }
                 });
-                
+
                 // Individual post actions
 
                 const posts = document.querySelectorAll(".post");
@@ -972,6 +999,8 @@ document.addEventListener("DOMContentLoaded", () => {
           const openComments = (postElement) => {
             if (!postElement) return;
 
+            content_nav.classList.add("hide");
+
             const postId = postElement.dataset.id;
             if (activePostId === postId) return; // Prevent reloading comments for the same post
 
@@ -1122,6 +1151,8 @@ document.addEventListener("DOMContentLoaded", () => {
           // Close comments and reset functions
 
           document.querySelector(".close-comments").addEventListener("click", () => {
+            content_nav.classList.remove("hide");
+
             postComments.classList.remove("active");
 
             // Reset active post ID

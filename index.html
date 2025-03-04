@@ -100,7 +100,7 @@
     </div>
 
     <div class="nav-link">
-      <span id="userName"></span>
+      <span class="userName" id="userName"></span>
     </div>
 
     <div class="nav-link accountBtn" data-expand="account">
@@ -169,29 +169,46 @@
       </div>
 
       <div class="utility">
-        <div class="card user-profileCard">
-          <div class="user-avatarAndName">
-            <img class="user-avatar" src="" alt="avatar">
-            <div class="user-nameAndTagname">
-              <span class="user-name">Anon</span>
-              <span class="user-tagname">@anonuser</span>
-            </div>
-          </div>
-          <div class="user-metrics">
-            <div class="user-details">
-              <div class="ui-bio">Just a random new user</div>
-              <div class="ui-birthday">DD/MM/YYYY</div>
-              <div class="ui-gender">Not applicable</div>
-            </div>
-          </div>
-        </div>
-
         <div class="card user-menu">
-          <div class="user-settings">
-
+          <div class="nav-link">
+            <span class="userName" id="userName"></span>
           </div>
-          <div class="help"></div>
-          <div class="sign-out"></div>
+
+          <div class="nav-link accountBtn" data-expand="account">
+            <span class="ms-rounded">account_circle</span>
+            <span style="width: 100%">Account</span>
+            <span class="ms-rounded">unfold_more</span>
+          </div>
+
+          <div class="nl-collapsible account">
+            <div class="userName-edit">
+              <span class="ms-rounded">edit_note</span>
+              <div class="current-userName" contenteditable="true">user</div>
+            </div>
+          </div>
+
+          <div class="nav-link settingsBtn" data-expand="settings">
+            <span class="ms-rounded">settings</span>
+            <span style="width: 100%">Settings</span>
+            <span class="ms-rounded">unfold_more</span>
+          </div>
+
+          <div class="nl-collapsible settings">
+            <div class="theme-switch">
+              <span class="ms-rounded">dark_mode</span>
+              <span class="theme-state">Dark theme</span>
+            </div>
+          </div>
+
+          <div class="nav-link helpBtn">
+            <span class="ms-rounded">help</span>
+            <span>Help</span>
+          </div>
+
+          <div class="nav-link signOutBtn">
+            <span class="ms-rounded">logout</span>
+            <span>Sign Out</span>
+          </div>
         </div>
       </div>
 
@@ -210,6 +227,7 @@
 
         <div class="commentForm-wrapper">
           <form id="commentForm">
+            <label>Post a comment</label>
             <div class="comment-body" contenteditable="true"></div>
             <button class="submit-comment" type="submit">
               <span class="ms-rounded">send</span>
