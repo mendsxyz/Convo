@@ -92,13 +92,13 @@ document.addEventListener("DOMContentLoaded", () => {
     img.style.marginTop = "5px";
     img.style.width = "100%";
 
+    setTimeout(() => {
+      localStorage.removeItem("uploadedImgFileHeight");
+    }, 5000);
+
     const selection = window.getSelection();
     if (!selection.rangeCount) {
       bodyEditor.appendChild(img);
-
-      setTimeout(() => {
-        localStorage.removeItem("uploadedImgFileHeight");
-      }, 3000);
     } else {
       const range = selection.getRangeAt(0);
       range.deleteContents();
