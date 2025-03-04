@@ -1355,6 +1355,10 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   border-radius: 0;
 }
 
+.utility .card:not(:last-child) {
+  margin-bottom: 50px;
+}
+
 .utility .card.user-menu {
   padding: 0;
   display: flex;
@@ -1383,6 +1387,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   align-items: center;
   justify-content: center;
   gap: 10px;
+  text-decoration: none;
 }
 
 /* Posting html */
