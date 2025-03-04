@@ -64,16 +64,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const reader = new FileReader();
     reader.onload = function(e) {
-      insertImage(e.target.result, file);
+      insertImage(e.target.result);
     };
     reader.readAsDataURL(file);
   });
 
-  function insertImage(imageSrc, file) {
-    let imageheight;
+  function insertImage(imageSrc) {
+    const imgFile = new Image();
 
-    imageheight = file.height;
-    console.log(imageheight);
+    const newReader = new FileReader();
+
+    newReader.onload = function(e) {
+      imgFile.src = e.target.result;
+
+      imgFile.onload() {
+        console.log(imgFile.height);
+      }
+    }
 
     const img = document.createElement("img");
     img.src = imageSrc;
