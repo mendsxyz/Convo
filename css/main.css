@@ -1649,7 +1649,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   }
 
   .auth-content .feed {
-    width: fit-content;
+    width: 100%;
     min-height: 100vh;
     border-left: 1px solid var(--lshade);
     border-right: 1px solid var(--lshade);
