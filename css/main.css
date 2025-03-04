@@ -530,6 +530,7 @@ button.awaitable.active span:first-child {
   border: 1px solid var(--lshade);
   border-radius: 7px;
   position: relative;
+  cursor: pointer;
 }
 
 #setGender .set-gender.active {
@@ -563,6 +564,7 @@ button.awaitable.active span:first-child {
   border: 1px solid var(--lshade);
   border-radius: 7px;
   position: relative;
+  cursor: pointer;
 }
 
 #setInterests .set-interest.active {
