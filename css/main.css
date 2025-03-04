@@ -1342,6 +1342,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 }
 
 .utility {
+  background-color: red;
   height: fit-content;
   padding: 50px 10%;
   overflow-y: hidden;
