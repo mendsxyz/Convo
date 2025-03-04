@@ -1505,6 +1505,11 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 /* Medium screens */
 
 @media screen and (min-width: 568px) {
+  header {
+    height: 60px;
+    padding: 0 10%;
+  }
+
   .auth-content.active {
     padding: 0 10%;
   }
