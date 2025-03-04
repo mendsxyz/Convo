@@ -1343,7 +1343,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 
 .utility {
   height: fit-content;
-  padding: 50px 2% 50px 1%;
+  padding: 50px 5% 50px 4%;
   overflow-y: hidden;
 }
 
