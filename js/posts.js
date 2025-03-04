@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const img = document.createElement("img");
     img.src = imageSrc;
 
-    const imgHeight = localStorage.getItem("uploadedImgFileHeight");
+    let imgHeight = localStorage.getItem("uploadedImgFileHeight") || 0;
     img.setAttribute("data-height", imgHeight);
 
     img.style.maxHeight = "300px";
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
       bodyEditor.appendChild(img);
       setTimeout(() => {
         localStorage.removeItem("uploadedImgFileHeight");
-      }, 500);
+      }, 2000);
     } else {
       const range = selection.getRangeAt(0);
       range.deleteContents();
