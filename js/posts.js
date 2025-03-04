@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       localStorage.removeItem("uploadedImgFileHeight");
-    }, 5000);
+    }, 8000);
 
     const selection = window.getSelection();
     if (!selection.rangeCount) {
