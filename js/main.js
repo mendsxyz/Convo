@@ -678,7 +678,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   function expandImg() {
                     img.classList.add("expanded");
 
-                    if (img.dataset.height > 2400) {
+                    if (img.dataset.height > 2000) {
                       console.log("image height greater than 2400");
                       img.style.maxWidth = "auto";
                       img.style.height = "100%";
