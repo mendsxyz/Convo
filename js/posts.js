@@ -83,11 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function insertImage(imageSrc) {
     const img = document.createElement("img");
     img.src = imageSrc;
-
-    // console.log("image height: " + imgHeight);
-    
-    img.setAttribute("data-height", imgHeight);
-
     img.style.maxHeight = "300px";
     img.style.objectFit = "cover";
     img.style.objectPosition = "center";
@@ -99,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const selection = window.getSelection();
     if (!selection.rangeCount) {
       bodyEditor.appendChild(img);
+      img.setAttribute("data-height", imgHeight);
     } else {
       const range = selection.getRangeAt(0);
       range.deleteContents();
