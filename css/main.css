@@ -789,7 +789,7 @@ main {
 }
 
 .auth-content .feed {
-  width: 100%;
+  min-width: 100%;
   height: fit-content;
   display: grid;
   grid-auto-flow: row;
