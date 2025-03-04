@@ -1639,7 +1639,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
     padding: 0;
     display: grid;
     align-content: start;
-    grid-template-columns: 15% 50% 33%;
+    grid-template-columns: 20% 50% 28%;
     gap: 1%;
   }
   
