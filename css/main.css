@@ -788,6 +788,11 @@ main {
   overflow-y: auto;
 }
 
+.auth-content .utility {
+  width: 0;
+  display: none;
+}
+
 .auth-content .feed {
   height: fit-content;
   display: grid;
