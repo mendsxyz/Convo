@@ -801,7 +801,6 @@ main {
 }
 
 .auth-content .posts-container {
-  max-width: 600px;
   height: fit-content;
   padding: 0 5%;
   display: grid;
