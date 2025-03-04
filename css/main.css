@@ -1608,7 +1608,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 
   .auth-content .feed {
     min-height: 100vh;
-    border-right: 2px solid var(--lshade);
+    border-right: 1px solid var(--lshade);
   }
 
   .posts-container {
@@ -1623,6 +1623,10 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 
   .post-col-2 {
     gap: 5px;
+  }
+
+  .post-body img.expanded {
+    max-width: 600px;
   }
 
   .post-comments-overlay.active .post-comments {
