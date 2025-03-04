@@ -808,6 +808,7 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 }
 
 .posts-wrapper {
+  width: 100%;
   display: grid;
   grid-auto-flow: row;
   gap: 0;
