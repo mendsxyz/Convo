@@ -85,6 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let imgHeight = localStorage.getItem("uploadedImgFileHeight") || 0;
     img.setAttribute("data-height", imgHeight);
 
+    setTimeout(() => {
+      localStorage.removeItem("uploadedImgFileHeight");
+    }, 2000);
+
     img.style.maxHeight = "300px";
     img.style.objectFit = "cover";
     img.style.objectPosition = "center";
@@ -96,9 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const selection = window.getSelection();
     if (!selection.rangeCount) {
       bodyEditor.appendChild(img);
-      setTimeout(() => {
-        localStorage.removeItem("uploadedImgFileHeight");
-      }, 2000);
     } else {
       const range = selection.getRangeAt(0);
       range.deleteContents();
