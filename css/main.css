@@ -1512,9 +1512,13 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 
   .auth-content.active {
     padding: 0 10%;
+    display: grid;
+    grid-template-columns: 0 100% 0;
+    gap: 0;
   }
 
   .posts-container {
+    width: 100%;
     padding: 0 !important;
   }
 }
@@ -1527,9 +1531,13 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 
   .auth-content.active {
     padding: 0 15%;
+    display: grid;
+    grid-template-columns: 0 100% 0;
+    gap: 0;
   }
 
   .posts-container {
+    width: 100%;
     padding: 0 !important;
   }
 }
@@ -1550,9 +1558,13 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   
   .auth-content.active {
     padding: 0 20%;
+    display: grid;
+    grid-template-columns: 0 100% 0;
+    gap: 0;
   }
   
   .posts-container {
+    width: 100%;
     padding: 0 !important;
   }
 
