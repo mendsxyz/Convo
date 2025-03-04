@@ -1579,14 +1579,6 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
     border: 2px solid var(--lshade);
   }
 
-  nav.auto.active {
-    width: 60%;
-    height: 50vh;
-    margin-left: 20%;
-    border-radius: 20px;
-    bottom: 25vh;
-  }
-
   main {
     overflow-y: hidden;
   }
@@ -1664,6 +1656,11 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
     display: grid;
     grid-auto-flow: row;
     gap: var(--sm2);
+  }
+
+  .utility .card.user-menu {
+    border: 0;
+    border-radius: 0;
   }
 
   .content-nav .edit-post {
