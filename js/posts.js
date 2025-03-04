@@ -48,6 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("uploadImage").click();
   });
 
+  let imgHeight = JSON.parse(localStorage.getItem("uploadedImgFileHeight")) || 0;
+
   document.getElementById("uploadImage").addEventListener("change", (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -72,13 +74,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
       imgFile.onload = function() {
         console.log(imgFile.height);
-        localStorage.setItem("uploadedImgFileHeight", JSON.stringify(imgFile.height));
+
+        if (imgHeight) {
+          localStorage.removeItem("uploadedImgFileHeight");
+          setTimeout(() => {
+            localStorage.setItem("uploadedImgFileHeight", JSON.stringify(imgFile.height));
+          }, 500);
+        }
       }
     };
     reader.readAsDataURL(file);
   });
-
-  let imgHeight = JSON.parse(localStorage.getItem("uploadedImgFileHeight")) || 0;
 
   function insertImage(imageSrc) {
     const img = document.createElement("img");
@@ -91,10 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
     img.style.borderRadius = "15px";
     img.style.marginTop = "5px";
     img.style.width = "100%";
-
-    setTimeout(() => {
-      localStorage.removeItem("uploadedImgFileHeight");
-    }, 8000);
 
     const selection = window.getSelection();
     if (!selection.rangeCount) {
