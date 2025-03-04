@@ -1351,15 +1351,15 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   background: var(--light);
   width: 100%;
   min-height: 200px;
-  border: 2px solid var(--lshade);
-  border-radius: 15px;
+  border: 0;
+  border-radius: 0;
 }
 
 .utility .card.user-menu {
-  padding: 5%;
+  padding: 0;
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  align-items: center;
+  justify-content: start;
   flex-direction: column;
 }
 
@@ -1686,11 +1686,6 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 
   #commentForm {
     padding: 12px;
-  }
-
-  .utility .card.user-menu {
-    border: 0;
-    border-radius: 0;
   }
 
   .content-nav .edit-post {
