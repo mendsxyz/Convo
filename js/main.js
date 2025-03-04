@@ -548,6 +548,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     UI.loader.classList.add("active");
                     UI.animation_wrapper.style.display = "flex";
+                    content_nav.classList.add("hide");
 
                     setTimeout(() => {
                       UI.loader.classList.remove("active");
@@ -566,6 +567,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             UI.hero.classList.add("await-auth");
             UI.auth_content.classList.add("active");
+            content_nav.classList.remove("hide");
             UI.authform_wrapper.classList.remove("active");
             UI.current_username.textContent = activeSession.email;
           };
