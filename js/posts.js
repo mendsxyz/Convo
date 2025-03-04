@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       localStorage.removeItem("uploadedImgFileHeight");
-    }, 2000);
+    }, 8000);
 
     img.style.maxHeight = "300px";
     img.style.objectFit = "cover";
