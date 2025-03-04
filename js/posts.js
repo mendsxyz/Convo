@@ -62,26 +62,22 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    const imgFile = new Image();
+
     const reader = new FileReader();
     reader.onload = function(e) {
       insertImage(e.target.result);
+
+      imgFile.src = e.target.result;
+
+      imgFile.onload = function() {
+        console.log(imgFile.height);
+      }
     };
     reader.readAsDataURL(file);
   });
 
   function insertImage(imageSrc) {
-    const imgFile = new Image();
-
-    const newReader = new FileReader();
-
-    newReader.onload = function(e) {
-      imgFile.src = e.target.result;
-
-      imgFile.onload() {
-        console.log(imgFile.height);
-      }
-    }
-
     const img = document.createElement("img");
     img.src = imageSrc;
     img.style.maxHeight = "300px";
