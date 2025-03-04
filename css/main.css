@@ -1177,10 +1177,6 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   overflow: hidden;
 }
 
-.commenter-comment {
-  /* no styles yet */
-}
-
 .time-commented {
   font-weight: 300;
   opacity: .5;
@@ -1623,10 +1619,6 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
     max-width: 600px;
     padding: 10px 20px 10px 0;
     gap: var(--md2);
-  }
-
-  .post-col-1 {
-    /* no styles */
   }
 
   .post-col-2 {
