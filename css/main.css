@@ -1380,7 +1380,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 .utility .card.user-menu .edit-post {
   background: var(--primary);
   color: var(--light);
-  width: 100%;
+  width: fit-content;
   height: 30px;
   padding: 0 16px;
   border-radius: 10px;
