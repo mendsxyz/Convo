@@ -1614,7 +1614,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
     padding: 0 3% 0 15%;
     display: grid;
     align-content: start;
-    grid-template-columns: 70% 30%;
+    grid-template-columns: 70% 27%;
     gap: 3%;
   }
 
