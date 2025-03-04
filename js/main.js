@@ -677,7 +677,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                   function expandImg() {
                     img.classList.add("expanded");
-                    alert(img.dataset.height);
+                    // alert(img.dataset.height);
 
                     const closeExpandedImgViewHTML = document.createElement("div");
                     closeExpandedImgViewHTML.classList.add("close-expandedImgView");
