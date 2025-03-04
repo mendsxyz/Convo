@@ -782,26 +782,28 @@ main {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 0 100% 0;
+  grid-template-columns: 100%;
   gap: 0;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
 .auth-content .utility {
-  width: 0;
   display: none;
 }
 
 .auth-content .feed {
   width: 100%;
   height: fit-content;
+  padding: 0;
+  margin: 0;
   display: grid;
   grid-auto-flow: row;
   position: relative;
 }
 
 .auth-content .posts-container {
+  width: 100%;
   height: fit-content;
   padding: 0 5%;
   display: grid;
@@ -925,7 +927,8 @@ html:has(.posts-wrapper.saved-posts.active) .posts-container {
 
 .post-body img.expanded {
   max-height: fit-content!important;
-  object-fit: fill;
+  object-fit: unset;
+  object-position: unset;
   border: none!important;
   border-radius: 0!important;
   position: fixed;
@@ -1339,7 +1342,6 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 }
 
 .utility {
-  width: 100%;
   height: fit-content;
   padding: 50px 0;
   display: none;
@@ -1515,12 +1517,9 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
     height: 60px;
     padding: 0 10%;
   }
-
+  
   .auth-content.active {
     padding: 0 10%;
-    display: grid;
-    grid-template-columns: 0 100% 0;
-    gap: 0;
   }
 
   .posts-container {
@@ -1536,9 +1535,6 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 
   .auth-content.active {
     padding: 0 15%;
-    display: grid;
-    grid-template-columns: 0 100% 0;
-    gap: 0;
   }
 
   .posts-container {
@@ -1562,18 +1558,10 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   
   .auth-content.active {
     padding: 0 20%;
-    display: grid;
-    grid-template-columns: 0 100% 0;
-    gap: 0;
   }
   
   .posts-container {
     padding: 0 !important;
-  }
-
-  .post-body img.expanded {
-    object-fit: unset;
-    object-position: unset;
   }
 }
 
@@ -1676,11 +1664,6 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
 
   .post-col-2 {
     gap: 5px;
-  }
-
-  .post-body img.expanded {
-    object-fit: unset;
-    object-position: unset;
   }
 
   .post-comments-overlay.active .post-comments {
