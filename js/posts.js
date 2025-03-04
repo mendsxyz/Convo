@@ -82,9 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const height = imgFile.height;
 
       imageheight = height;
+      console.log(imageheight);
     }
-
-    console.log(imageheight);
 
     const img = document.createElement("img");
     img.src = imageSrc;
