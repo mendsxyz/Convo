@@ -1519,7 +1519,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 758px) {
   header {
     height: 60px;
     padding: 0 20%;
