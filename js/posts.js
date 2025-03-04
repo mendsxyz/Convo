@@ -68,8 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const reader = new FileReader();
     reader.onload = function(e) {
-      insertImage(e.target.result);
-
       imgFile.src = e.target.result;
 
       imgFile.onload = function() {
@@ -82,6 +80,8 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem("uploadedImgFileHeight", JSON.stringify(imgFile.height));
         }
       }
+
+      insertImage(e.target.result);
     };
     reader.readAsDataURL(file);
   });
