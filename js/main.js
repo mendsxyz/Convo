@@ -680,7 +680,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     if (img.dataset.height > 2000) {
                       console.log("image height greater than 2000");
-                      img.style.maxWidth = "600px";
+                      img.style.maxWidth = "400px";
                       img.style.height = "100%";
                     }
 
