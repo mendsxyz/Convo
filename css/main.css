@@ -1316,6 +1316,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   justify-content: center;
   font-size: var(--sm);
   font-weight: 400;
+  cursor: pointer;
 }
 
 .content-nav .cn-link.active {
@@ -1627,6 +1628,7 @@ html:has(.post-comments-overlay.active) *:not(.post-comments) {
   }
 
   .post {
+    max-width: 600px;
     padding: 10px 20px 10px 0;
     gap: var(--md2);
   }
